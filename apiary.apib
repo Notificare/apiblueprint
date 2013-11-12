@@ -1,47 +1,40 @@
-FORMAT: 1A
-HOST: http://www.google.com
+FORMAT: X-1A
 
-# Notes API
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+# Notificare Push API
+An API to send mobile messages to users and their devices
 
-# Group Notes
-Notes related resources of the **Notes API**
+# Group Notification
 
-## Notes Collection [/notes]
-### List all Notes [GET]
-+ Response 200 (application/json)
+## POST /notification/broadcast
+Send a message to *all* devices
 
-        [{
-          "id": 1, "title": "Jogging in park"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-office"
-        }]
-
-### Create a Note [POST]
 + Request (application/json)
 
-        { "title": "Buy cheese and bread for breakfast." }
+  {
+    “message”:”Hello world!”,
+    “type”:”re.notifica.notification.Alert”,
+    “ttl”:3600,
+    “sound”:”default”,
+    “content”: [
+      “type”:”re.notifica.content.Text”,
+      “data”:”Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification”
+    ],
+    “actions”:[
+      {
+        “type”:”re.notifica.action.Callback”,
+        “label”:”Please come in”
+      },
+      {
+        “type”:”re.notifica.action.Callback”,
+        “label”:”Go away”
+      }
+    ]
+  }
 
 + Response 201 (application/json)
 
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
-
-## Note [/notes/{id}]
-A single Note object with all its details
-
-+ Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
-
-### Retrieve a Note [GET]
-+ Response 200 (application/json)
-
-    + Header
-
-            X-My-Header: The Value
-
-    + Body
-
-            { "id": 2, "title": "Pick-up posters from post-office" }
-
-### Remove a Note [DELETE]
-+ Response 204
+        {
+            “notification”:{
+                “id”:”12345”
+            }
+        }
