@@ -10,31 +10,31 @@ Send a message to *all* devices
 
 + Request (application/json)
 
-  {
-    “message”:”Hello world!”,
-    “type”:”re.notifica.notification.Alert”,
-    “ttl”:3600,
-    “sound”:”default”,
-    “content”: [
-      “type”:”re.notifica.content.Text”,
-      “data”:”Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification”
-    ],
-    “actions”:[
-      {
-        “type”:”re.notifica.action.Callback”,
-        “label”:”Please come in”
-      },
-      {
-        “type”:”re.notifica.action.Callback”,
-        “label”:”Go away”
-      }
-    ]
-  }
+        {
+                “message”:”Hello world!”,
+                “type”:”re.notifica.notification.Alert”,
+                “ttl”:3600,
+                “sound”:”default”,
+                “content”: [
+                        “type”:”re.notifica.content.Text”,
+                        “data”:”Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification”
+                ],
+                “actions”:[
+                        {
+                                “type”:”re.notifica.action.Callback”,
+                                “label”:”Please come in”
+                        },
+                        {
+                                “type”:”re.notifica.action.Callback”,
+                                “label”:”Go away”
+                        }
+                ]
+        }
 
 + Response 201 (application/json)
 
         {
-            “notification”:{
-                “id”:”12345”
-            }
+                “notification”:{
+                        “id”:”12345”
+                }
         }
