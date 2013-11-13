@@ -42,12 +42,161 @@ Send a message to *all* devices
         }
         
 ## POST /notification/tags
-Send a message to devices with any of the specified tags
+Send a message to devices with any of the specified tags. The call accepts an array of tags. This call must be authenticated with the *applicationKey* and *masterSecret*
 
 + Request (application/json)
 
         {
                 "tags":["test1","test2"],
+                "message":"Hello world!",
+                "type":"re.notifica.notification.Alert",
+                "ttl":3600,
+                "sound":"default",
+                "content": [
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in"
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"12345",
+                "message":"notifications are queued"
+        }
+        
+## POST /notification/segments
+Send a message to users in one or more of the specified segments. The call accepts an array of IDs segments. This call must be authenticated with the *applicationKey* and *masterSecret*
+
++ Request (application/json)
+
+        {
+                "segments":["526f7a71dab9d70711000003","526f7a71dab9d70711000004"],
+                "message":"Hello world!",
+                "type":"re.notifica.notification.Alert",
+                "ttl":3600,
+                "sound":"default",
+                "content": [
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in"
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"12345",
+                "message":"notifications are queued"
+        }
+        
+## POST /notification/user/{user}
+Send a message to a user. The user ID is the one the client device registered with, e.g., the user's email address. This call must be authenticated with the *applicationKey* and *masterSecret*
+
++ Request (application/json)
+
+        {
+                "userID":"testuser@example.com",
+                "message":"Hello world!",
+                "type":"re.notifica.notification.Alert",
+                "ttl":3600,
+                "sound":"default",
+                "content": [
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in"
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"12345",
+                "message":"notifications are queued"
+        }
+        
+## POST /notification/device/{device}
+Send a message to a device. The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID. This call must be authenticated with the *applicationKey* and *masterSecret*
+
++ Request (application/json)
+
+        {
+                "deviceID":"bbff2ce9b547d2df4731bac277dc4360dcc4874309ece7950a8bd526b5af2218",
+                "message":"Hello world!",
+                "type":"re.notifica.notification.Alert",
+                "ttl":3600,
+                "sound":"default",
+                "content": [
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in"
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"12345",
+                "message":"notifications are queued"
+        }
+        
+## POST /notification/token/{token}
+Send a message to a user by using his token. The token can be found in the user object, e.g., from the Dashboard. It can also be reached by sending an email to <token>@pushmail.notifica.re. 
+The message will be delivered on the device with an *extra* parameter *qualifier*, which can be set as a part of the email address (*+qualifier*). If left out, it will be *email*. 
+Please distinguish these messages from normal ones in your app, as the token might have been exposed and as such can not be trusted as originating from you. This call is not authenticated.
+
++ Parameters
+
+        + token (required, string, `hasd77aqjdfuha77`
+
++ Request (application/json)
+
+        {
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
