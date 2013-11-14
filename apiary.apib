@@ -196,7 +196,7 @@ Send a message to a `device`. This call must be authenticated with the `applicat
 # Group Notification Test
 Methods to test notifications to specific audiences. The calls are basically the same as the ones in the previous section, only now, no actual notification is sent, they just return you the size of your audience. 
 
-## POST /test/notification/broadcast
+## POST /notification/test/broadcast
 Test a message to **all** devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
@@ -230,7 +230,7 @@ Test a message to **all** devices. This call must be authenticated with the `app
                 "count":"42"
         }
         
-## POST /test/notification/tags
+## POST /notification/test/tags
 Test a message to devices with any of the specified `tags`. The call accepts an array of tags. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Request (application/json)
@@ -265,7 +265,7 @@ Test a message to devices with any of the specified `tags`. The call accepts an 
                 "count":"42"
         }
         
-## POST /test/notification/segments
+## POST /notification/test/segments
 Send a message to users in one or more of the specified `segments`. The call accepts an array of IDs segments. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Request (application/json)
@@ -300,7 +300,7 @@ Send a message to users in one or more of the specified `segments`. The call acc
                 "count":"42"
         }
         
-## POST /test/notification/user/{user}
+## POST /notification/test/user/{user}
 Send a message to a `user`. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Parameters
@@ -338,7 +338,7 @@ Send a message to a `user`. This call must be authenticated with the `applicatio
                 "count":"42"
         }
         
-## POST /test/notification/device/{device}
+## POST /notification/test/device/{device}
 Send a message to a `device`. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Parameters
