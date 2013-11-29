@@ -8,7 +8,9 @@ An API to send mobile messages to users and their devices
 Methods to send notifications to specific audiences. 
 These calls are the same as the ones that are called from the Dashboard.
 
-## POST /notification/broadcast
+## /notification/broadcast
+
+### POST
 Send a message to **all** devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
@@ -44,7 +46,9 @@ Send a message to **all** devices. This call must be authenticated with the `app
         }
 
 
-## POST /notification/tags
+## /notification/tags
+
+### POST
 Send a message to devices with any of the specified `tags`. The call accepts an array of tags. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Request (application/json)
@@ -80,7 +84,9 @@ Send a message to devices with any of the specified `tags`. The call accepts an 
                 "message":"notifications are queued"
         }
         
-## POST /notification/segments
+## /notification/segments
+
+### POST
 Send a message to users in one or more of the specified `segments`. The call accepts an array of IDs segments. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Request (application/json)
@@ -116,7 +122,9 @@ Send a message to users in one or more of the specified `segments`. The call acc
                 "message":"notifications are queued"
         }
         
-## POST /notification/user/{user}
+## /notification/user/{user}
+
+### POST
 Send a message to a `user`. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Parameters
@@ -155,7 +163,9 @@ Send a message to a `user`. This call must be authenticated with the `applicatio
                 "message":"notifications are queued"
         }
         
-## POST /notification/device/{device}
+## /notification/device/{device}
+
+### POST
 Send a message to a `device`. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Parameters
@@ -197,7 +207,9 @@ Send a message to a `device`. This call must be authenticated with the `applicat
 # Group Notification Test
 Methods to test notifications to specific audiences. The calls are basically the same as the ones in the previous section, only now, no actual notification is sent, they just return you the size of your audience. 
 
-## POST /notification/test/broadcast
+## /notification/test/broadcast
+
+### POST
 Test a message to **all** devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
@@ -231,7 +243,9 @@ Test a message to **all** devices. This call must be authenticated with the `app
                 "count":"42"
         }
         
-## POST /notification/test/tags
+## /notification/test/tags
+
+### POST
 Test a message to devices with any of the specified `tags`. The call accepts an array of tags. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Request (application/json)
@@ -266,7 +280,9 @@ Test a message to devices with any of the specified `tags`. The call accepts an 
                 "count":"42"
         }
         
-## POST /notification/test/segments
+## /notification/test/segments
+
+### POST
 Send a message to users in one or more of the specified `segments`. The call accepts an array of IDs segments. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Request (application/json)
@@ -301,7 +317,9 @@ Send a message to users in one or more of the specified `segments`. The call acc
                 "count":"42"
         }
         
-## POST /notification/test/user/{user}
+## /notification/test/user/{user}
+
+### POST
 Send a message to a `user`. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Parameters
@@ -339,7 +357,9 @@ Send a message to a `user`. This call must be authenticated with the `applicatio
                 "count":"42"
         }
         
-## POST /notification/test/device/{device}
+## /notification/test/device/{device}
+
+### POST
 Send a message to a `device`. This call must be authenticated with the `applicationKey` and `masterSecret`
 
 + Parameters
@@ -380,7 +400,9 @@ Send a message to a `device`. This call must be authenticated with the `applicat
 # Group Segment
 These methods let you create, change and remove user segments
 
-## GET /segment{?limit,skip}
+## /segment{?limit,skip}
+
+### GET
 Retrieve a list of segments
 
 + Parameters
@@ -407,7 +429,9 @@ Retrieve a list of segments
                 "count": 2
         }
 
-## GET /segment/forname/{name?limit,skip}
+## /segment/forname/{name?limit,skip}
+
+### GET
 Retrieve a list of segments with a name (starting with) `name`
 
 + Parameters
@@ -431,7 +455,9 @@ Retrieve a list of segments with a name (starting with) `name`
                 "count": 1
         }
 
-## GET /segment/{segment}
+## /segment/{segment}
+
+### GET
 Retrieve a segment
 
 + Parameters
@@ -448,25 +474,7 @@ Retrieve a segment
                 }
         }
 
-## POST /segment
-Create a new user segment
-
-+ Request (application/json)
-
-        {
-                "name":"fans",
-                "description":"people who like our page on Facebook"
-        }
-
-+ Response 201 (application/json:charset=utf-8)
-
-        {
-                "userSegment": {
-                        "id":"12345"
-                }
-        }
-
-## PUT /segment/{segment}
+### PUT
 Change `name` and/or `description` of a user segment
 
 + Parameters
@@ -486,7 +494,7 @@ Change `name` and/or `description` of a user segment
                 "message": "user segment updated"
         }
 
-## DELETE /segment/{segment}
+### DELETE
 Remove a user segment
 
 + Parameters
@@ -499,10 +507,33 @@ Remove a user segment
                 "message": "user segment removed"
         }
 
+
+## /segment
+
+### POST
+Create a new user segment
+
++ Request (application/json)
+
+        {
+                "name":"fans",
+                "description":"people who like our page on Facebook"
+        }
+
++ Response 201 (application/json:charset=utf-8)
+
+        {
+                "userSegment": {
+                        "id":"12345"
+                }
+        }
+
 # Group User
 Methods for retrieving (groups of) users and adding / removing them from user segments
 
-## GET /user{?limit,skip}
+## /user{?limit,skip}
+
+### GET
 List all users for this app
 
 + Parameters
@@ -529,7 +560,9 @@ List all users for this app
                 "count": 1
         }
 
-## GET /user/forsegment/{segment?limit,skip}
+## /user/forsegment/{segment?limit,skip}
+
+### GET
 List users for a segment
 
 + Parameters
@@ -558,7 +591,9 @@ List users for a segment
                 "count": 1
         }
 
-## GET /user/search/{search?limit,skip}
+## /user/search/{search?limit,skip}
+
+### GET
 List all users whose userName starts with `search` or whose userID is equal to `search`
 
 + Parameters
@@ -588,8 +623,9 @@ List all users whose userName starts with `search` or whose userID is equal to `
         }
 
 
-## GET /user/{user}
-Get details for a user
+## /user/{user}
+
+### GET
 
 + Parameters
 
@@ -610,7 +646,19 @@ Get details for a user
                 }
         }
 
-## GET /user/foruserid/{userid}
+## DELETE
+Deactivate a user. The user will not receive any more notifications. 
+If the user registers again on one of his devices, he will be activated again.
+
++ Parameters
+
+    + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the user
+
++ Response 204
+
+## /user/foruserid/{userid}
+
+### GET
 Get details for a user
 
 + Parameters
@@ -632,7 +680,20 @@ Get details for a user
                 }
         }
 
-## PUT /user/{user}/add/{segment}
+### DELETE
+Deactivate a user. The user will not receive any more notifications. 
+If the user registers again on one of his devices, he will be activated again.
+
++ Parameters
+
+    + user (required, string, `12345`)...The app-specific userID of the user
+
++ Response 204
+
+
+## /user/{user}/add/{segment}
+
+### PUT
 Add user to segment
 
 + Parameters
@@ -646,7 +707,9 @@ Add user to segment
                 "message": "user added to segment"
         }
 
-## PUT /user/{user}/remove/{segment}
+## /user/{user}/remove/{segment}
+
+### PUT
 Remove user from segment
 
 + Parameters
@@ -659,23 +722,3 @@ Remove user from segment
         {
                 "message": "user removed from segment"
         }
-
-## DELETE /user/{user}
-Deactivate a user. The user will not receive any more notifications. 
-If the user registers again on one of his devices, he will be activated again.
-
-+ Parameters
-
-    + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the user
-
-+ Response 204 (application/json; charset=utf-8)
-
-## DELETE /user/foruserid/{userid}
-Deactivate a user. The user will not receive any more notifications. 
-If the user registers again on one of his devices, he will be activated again.
-
-+ Parameters
-
-    + user (required, string, `12345`)...The app-specific userID of the user
-
-+ Response 204 (application/json; charset=utf-8)
