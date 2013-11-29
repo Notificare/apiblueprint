@@ -488,7 +488,7 @@ Change `name` and/or `description` of a user segment
                 "description":"people who like our page on Facebook"
         }
 
-+ Response 200 (application/json:charset=utf-8)
++ Response 200 (application/json; charset=utf-8)
 
         {
                 "message": "user segment updated"
@@ -501,7 +501,7 @@ Remove a user segment
 
     + segment (required, string, `12345`)...The ID of the segment
 
-+ Response 200 (application/json:charset=utf-8)
++ Response 200 (application/json; charset=utf-8)
 
         {
                 "message": "user segment removed"
@@ -520,7 +520,7 @@ Create a new user segment
                 "description":"people who like our page on Facebook"
         }
 
-+ Response 201 (application/json:charset=utf-8)
++ Response 201 (application/json; charset=utf-8)
 
         {
                 "userSegment": {
