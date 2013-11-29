@@ -39,9 +39,10 @@ Send a message to **all** devices. This call must be authenticated with the `app
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "_id":"12345",
+                "\_id":"12345",
                 "message":"notifications are queued"
         }
+
 
 ## POST /notification/tags
 Send a message to devices with any of the specified `tags`. The call accepts an array of tags. This call must be authenticated with the `applicationKey` and `masterSecret`
@@ -75,7 +76,7 @@ Send a message to devices with any of the specified `tags`. The call accepts an 
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "_id":"12345",
+                "\_id":"12345",
                 "message":"notifications are queued"
         }
         
@@ -111,7 +112,7 @@ Send a message to users in one or more of the specified `segments`. The call acc
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "_id":"12345",
+                "\_id":"12345",
                 "message":"notifications are queued"
         }
         
@@ -150,7 +151,7 @@ Send a message to a `user`. This call must be authenticated with the `applicatio
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "_id":"12345",
+                "\_id":"12345",
                 "message":"notifications are queued"
         }
         
@@ -159,7 +160,7 @@ Send a message to a `device`. This call must be authenticated with the `applicat
 
 + Parameters
 
-    + device (required, string, `bbff2ce9b547d2df4731bac277dc4360dcc4874309ece7950a8bd526b5af2218`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
+    + device (required, string, `bbff2ce9b547d2df4731bac277...`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
 
 + Request (application/json)
 
@@ -189,7 +190,7 @@ Send a message to a `device`. This call must be authenticated with the `applicat
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "_id":"12345",
+                "\_id":"12345",
                 "message":"notifications are queued"
         }
 
@@ -343,7 +344,7 @@ Send a message to a `device`. This call must be authenticated with the `applicat
 
 + Parameters
 
-    + device (required, string, `bbff2ce9b547d2df4731bac277dc4360dcc4874309ece7950a8bd526b5af2218`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
+    + device (required, string, `bbff2ce9b547d2df4731bac277...`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
 
 + Request (application/json)
 
@@ -375,3 +376,306 @@ Send a message to a `device`. This call must be authenticated with the `applicat
         {
                 "count":"42"
         }
+
+# Group Segment
+These methods let you create, change and remove user segments
+
+## GET /segment{?limit,skip}
+Retrieve a list of segments
+
++ Parameters
+
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `10`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "userSegments": [
+                        {
+                                "_id": "12345",
+                                "name": "fans",
+                                "description": "people who like our page on Facebook"
+                        },
+                        {
+                                "_id": "54321",
+                                "name": "newbies",
+                                "description": "people who just joined"
+                        }
+                ],
+                "count": 2
+        }
+
+## GET /segment/forname/{name?limit,skip}
+Retrieve a list of segments with a name (starting with) `name`
+
++ Parameters
+
+    + name (required, string, `fans`)...The (start of the) name of the segment you are looking for
+
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `10`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "userSegments": [
+                        {
+                                "_id": "12345",
+                                "name": "fans",
+                                "description": "people who like our page on Facebook"
+                        }
+                ],
+                "count": 1
+        }
+
+## GET /segment/{segment}
+Retrieve a segment
+
++ Parameters
+
+    + segment (required, string, `12345`)...The ID of the segment
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "userSegment": {
+                        "_id": "12345",
+                        "name": "fans",
+                        "description": "people who like our page on Facebook"
+                }
+        }
+
+## POST /segment
+Create a new user segment
+
++ Request (application/json)
+
+        {
+                "name":"fans",
+                "description":"people who like our page on Facebook"
+        }
+
++ Response 201 (application/json:charset=utf-8)
+
+        {
+                "userSegment": {
+                        "id":"12345"
+                }
+        }
+
+## PUT /segment/{segment}
+Change `name` and/or `description` of a user segment
+
++ Parameters
+
+    + segment (required, string, `12345`)...The ID of the segment
+
++ Request (application/json)
+
+        {
+                "name":"fans",
+                "description":"people who like our page on Facebook"
+        }
+
++ Response 200 (application/json:charset=utf-8)
+
+        {
+                "message": "user segment updated"
+        }
+
+## DELETE /segment/{segment}
+Remove a user segment
+
++ Parameters
+
+    + segment (required, string, `12345`)...The ID of the segment
+
++ Response 200 (application/json:charset=utf-8)
+
+        {
+                "message": "user segment removed"
+        }
+
+# Group user
+Methods for retrieving (groups of) users and adding / removing them from user segments
+
+## GET /user{?limit,skip}
+List all users for this app
+
++ Parameters
+
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `10`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "users": [
+                        {
+                                "_id": "5245bc5b3e66a3b01f0024d4",
+                                "userID": "12345",
+                                "userName": "Massimo",
+                                "application": "12345",
+                                "account": "12345",
+                                "segments": [],
+                                "autoGenerated": false,
+                                "active": true
+                        }
+                ],
+                "count": 1
+        }
+
+## GET /user/forsegment/{segment?limit,skip}
+List users for a segment
+
++ Parameters
+
+    + segment (required, string, `12345`)...The ID of the segment
+
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `10`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "users": [
+                        {
+                                "_id": "5245bc5b3e66a3b01f0024d4",
+                                "userID": "12345",
+                                "userName": "Massimo",
+                                "application": "12345",
+                                "account": "12345",
+                                "segments": [],
+                                "autoGenerated": false,
+                                "active": true
+                        }
+                ],
+                "count": 1
+        }
+
+## GET /user/search/{search?limit,skip}
+List all users whose userName starts with `search` or whose userID is equal to `search`
+
++ Parameters
+
+    + search (required, string, `Mas`)...The search string
+
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `10`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "users": [
+                        {
+                                "_id": "5245bc5b3e66a3b01f0024d4",
+                                "userID": "12345",
+                                "userName": "Massimo",
+                                "application": "12345",
+                                "account": "12345",
+                                "segments": [],
+                                "autoGenerated": false,
+                                "active": true
+                        }
+                ],
+                "count": 1
+        }
+
+
+## GET /user/{user}
+Get details for a user
+
++ Parameters
+
+    + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the user
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "user:": {
+                        "_id": "5245bc5b3e66a3b01f0024d4",
+                        "userID": "12345",
+                        "userName": "Massimo",
+                        "application": "12345",
+                        "account": "12345",
+                        "segments": [],
+                        "autoGenerated": false,
+                        "active": true
+                }
+        }
+
+## GET /user/foruserid/{userid}
+Get details for a user
+
++ Parameters
+
+    + user (required, string, `12345`)...The app-specific userID of the user
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "user:": {
+                        "_id": "5245bc5b3e66a3b01f0024d4",
+                        "userID": "12345",
+                        "userName": "Massimo",
+                        "application": "12345",
+                        "account": "12345",
+                        "segments": [],
+                        "autoGenerated": false,
+                        "active": true
+                }
+        }
+
+## PUT /user/{user}/add/{segment}
+Add user to segment
+
++ Parameters
+
+    + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the user
+
+    + segment (required, string, `5245bc5b3e66a3b01f0024d4`)...The ID of the segment
+
++ Response 200 (application/json; charset=utf-8)
+        {
+                "message": "user added to segment"
+        }
+
+## PUT /user/{user}/remove/{segment}
+Remove user from segment
+
++ Parameters
+
+    + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the user
+
+    + segment (required, string, `5245bc5b3e66a3b01f0024d4`)...The ID of the segment
+
++ Response 200 (application/json; charset=utf-8)
+        {
+                "message": "user removed from segment"
+        }
+
+## DELETE /user/{user}
+Deactivate a user. The user will not receive any more notifications. 
+If the user registers again on one of his devices, he will be activated again.
+
++ Parameters
+
+    + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the user
+
++ Response 204 (application/json; charset=utf-8)
+
+## DELETE /user/foruserid/{userid}
+Deactivate a user. The user will not receive any more notifications. 
+If the user registers again on one of his devices, he will be activated again.
+
++ Parameters
+
+    + user (required, string, `12345`)...The app-specific userID of the user
+
++ Response 204 (application/json; charset=utf-8)
