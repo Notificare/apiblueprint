@@ -397,10 +397,10 @@ Send a message to a `device`. This call must be authenticated with the `applicat
                 "count":"42"
         }
 
-# Group Segment
+# Group User Segment
 These methods let you create, change and remove user segments
 
-## /segment{?limit,skip}
+## /usersegment{?limit,skip}
 
 ### GET
 Retrieve a list of segments
@@ -409,7 +409,7 @@ Retrieve a list of segments
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
 
-    + skip = `0` (optional, number, `10`)...The number of results to skip
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -429,7 +429,7 @@ Retrieve a list of segments
                 "count": 2
         }
 
-## /segment/forname/{name?limit,skip}
+## /usersegment/forname/{name?limit,skip}
 
 ### GET
 Retrieve a list of segments with a name (starting with) `name`
@@ -440,7 +440,7 @@ Retrieve a list of segments with a name (starting with) `name`
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
 
-    + skip = `0` (optional, number, `10`)...The number of results to skip
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -455,7 +455,7 @@ Retrieve a list of segments with a name (starting with) `name`
                 "count": 1
         }
 
-## /segment/{segment}
+## /usersegment/{segment}
 
 ### GET
 Retrieve a segment
@@ -508,7 +508,7 @@ Remove a user segment
         }
 
 
-## /segment
+## /usersegment
 
 ### POST
 Create a new user segment
@@ -540,7 +540,7 @@ List all users for this app
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
 
-    + skip = `0` (optional, number, `10`)...The number of results to skip
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -571,7 +571,7 @@ List users for a segment
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
 
-    + skip = `0` (optional, number, `10`)...The number of results to skip
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -602,7 +602,7 @@ List all users whose userName starts with `search` or whose userID is equal to `
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
 
-    + skip = `0` (optional, number, `10`)...The number of results to skip
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
