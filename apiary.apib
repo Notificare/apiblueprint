@@ -4,7 +4,8 @@ HOST: https://push.notifica.re/
 # Notificare REST API
 Unified remote push notifications and location services for iOS, Android and HTML5 apps. 
 Create user profiles, categorize your users and devices, create/schedule any content-rich and actionable notification. 
-Use Geo-Targeting, Geo-Fencing or iBeacon technology to provide the ultimate messaging experience. Sign up for free here: https://dashboard.notifica.re/#/sign-up
+Use Geo-Targeting, Geo-Fencing or iBeacon technology to provide the ultimate messaging experience. Sign up for free here: https://dashboard.notifica.re/#/sign-up.
+For more information about this API, please go to https://notificare.atlassian.net/wiki/display/notificare/Restful+API.
 
 # Group Account
 Method to retrieve your account object. 
@@ -361,7 +362,8 @@ This request is authenticated with the `applicationKey` and  `applicationSecret`
 ## /beacon/{beacon}
 
 ### DELETE
-Destroy a beacon. This operation can not be undone. This request must be authenticated with the `token`.
+Destroy a beacon. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
 
 + Parameters
 
@@ -378,7 +380,7 @@ Destroy a beacon. This operation can not be undone. This request must be authent
 
 # Group Device
 Methods to manage devices. 
-Use this method to retrieve information about devices for an application, for a specific user, for specific tags or in a specific location.
+Use these methods to retrieve information about devices for an application, for a specific user, for a specific tag or in a specific location.
 Management of devices is exclusively made by our SDK libraries therefore you only get access to read operations.
 
 ## /device
@@ -657,10 +659,167 @@ This request is authenticated with the `applicationKey` and  `applicationSecret`
         }
 
 
+# Group Region
+Methods to manage your regions. Regions are geo-fences that can eventually have Triggers and/or Beacons. 
+When none are created your region will just gather the session data as users enter and leave that area or are in the range of your beacons.
+You can have a combination of Triggers and Beacons or just one of them. Note that iBeacon technology requires users to turn on Bluetooth to work.
+
+
+## /region
+
+### GET
+Get all regions for an application.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+    
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "regions":[
+                            {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "name": "My Region",
+                                  "geometry": {
+                                               "type": "Point",
+                                               "coordinates": [4.2345,5.6789]
+                                  },
+                                  "major": "123456",
+                                  "timezone": "Europe/Amsterdam"
+                            }
+                ]
+        }
+
+
+
+
+## /region
+
+### POST
+Create a new region. To retrieve a timezone from the coordinates you can use https://developers.google.com/maps/documentation/timezone/.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Request (application/json)
+
+        {
+                "name": "My Region",
+                "geometry": {
+                             "type": "Point",
+                             "coordinates": [4.2345,5.6789]
+                },
+                "major": "123456",
+                "timezone": "Europe/Amsterdam"
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "region":{
+                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                         }
+        }
+
+
+
+
+
+## /region/{region}
+
+### GET
+Get a region object.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The region id of an active region.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "regions":{
+                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "name": "My Region",
+                                  "geometry": {
+                                               "type": "Point",
+                                               "coordinates": [4.2345,5.6789]
+                                  },
+                                  "major": "123456",
+                                  "timezone": "Europe/Amsterdam"
+                            }
+        }
+
+
+
+
+
+## /region/{region}
+
+### PUT
+Modify a region.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The region id of an active region.
+
++ Request (application/json)
+
+        {
+                "name": "My Region",
+                "geometry": {
+                             "type": "Point",
+                             "coordinates": [4.2345,5.6789]
+                },
+                "major": "123456",
+                "timezone": "Europe/Amsterdam"
+        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"region updated"
+        }
+
+
+
+## /region/{region}
+
+### DELETE
+Destroy a region. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The region id of an active region.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"region deleted"
+        }
+
+
+
+
 
 # Group Notification
 Methods to create, send and schedule notifications to a specific target audience, user or device.
 Combines User, Segments, Tags and the location of the devices to provide you a powerful device selection query for your campaigns.
+The 3 most important things to have in consideration when creating a new message is that `message` is always mandatory, the property `type` defines which type of content should be presented to the user and the combination of `message`, `extra`, `sound`, `badge` should be no bigger than 200 bytes.
+You can send several types of content in your message. The array `content` should contain one or more objects according to the `type` of message. 
+You can also add an array `actions` to your notifications by simply providing one or more objects. 
+Please refer to https://notificare.atlassian.net/wiki/display/notificare/Notifications for more information about the Notification object.
+
 
 ## /notification/broadcast
 
@@ -707,7 +866,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 ### POST
 Send a message to devices with any of the specified `tags`. 
 You can also schedule this message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
-The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`
+The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
 
@@ -748,7 +907,7 @@ The request accepts an array of tags. This request must be authenticated with th
 ### POST
 Send a message to users in one or more of the specified `segments`. 
 You can also schedule this messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
-The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`
+The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
 
@@ -789,7 +948,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
 ### POST
 Send a message to a `user`. 
 You can also schedule a private message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
-This request must be authenticated with the `applicationKey` and `masterSecret`
+This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
@@ -833,7 +992,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`
 ### POST
 Send a message to a `device`. 
 You can also schedule this type of messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
-This request must be authenticated with the `applicationKey` and `masterSecret`
+This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
@@ -878,7 +1037,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`
 ### POST
 Create a message that will be not be sent by a Region/Trigger or Region/Beacon. 
 You can not schedule a triggered message.
-This request must be authenticated with the `applicationKey` and `masterSecret`
+This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
 
@@ -919,7 +1078,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`
 Start a schedule task for a previously created message.
 The property `local` determines if message should be sent on the device's local time or UTC.
 If `local` is true make sure the `time` is at least 14 hours from now to make sure the message will arrive in all timezones.
-This request must be authenticated with the `applicationKey` and `masterSecret`
+This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
 
@@ -980,7 +1139,8 @@ Test a message to **all** devices. This call must be authenticated with the `app
 ## /notification/test/tags
 
 ### POST
-Test a message to devices with any of the specified `tags`. The call accepts an array of tags. This call must be authenticated with the `applicationKey` and `masterSecret`
+Test a message to devices with any of the specified `tags`. The call accepts an array of tags. 
+This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
 
@@ -1017,7 +1177,8 @@ Test a message to devices with any of the specified `tags`. The call accepts an 
 ## /notification/test/segments
 
 ### POST
-Send a message to users in one or more of the specified `segments`. The call accepts an array of IDs segments. This call must be authenticated with the `applicationKey` and `masterSecret`
+Send a message to users in one or more of the specified `segments`. The request accepts an array of IDs segments. 
+This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
 
@@ -1054,7 +1215,8 @@ Send a message to users in one or more of the specified `segments`. The call acc
 ## /notification/test/user/{user}
 
 ### POST
-Send a message to a `user`. This call must be authenticated with the `applicationKey` and `masterSecret`
+Send a message to a `user`. 
+This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
@@ -1094,7 +1256,8 @@ Send a message to a `user`. This call must be authenticated with the `applicatio
 ## /notification/test/device/{device}
 
 ### POST
-Send a message to a `device`. This call must be authenticated with the `applicationKey` and `masterSecret`
+Send a message to a `device`. 
+This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
