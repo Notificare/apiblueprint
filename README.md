@@ -1,4 +1,4 @@
-apiblueprint
+Notificare Push API Blueprint
 ============
 
-API Blueprint
+Hosted apiary documentation at http
