@@ -26,7 +26,7 @@ Retrieve an account object based on credentials. This request must be authentica
 
         {
                 "account":{
-                            "\_id":"xxxxxxxxxxxxxxxxxxx"
+                            "\_id":"5245bc5b3e66a3b01f0024d4"
                             "email":"john@doe.com",
                             "name":"John Doe",
                             "subscriptionId":"",
@@ -80,8 +80,8 @@ Get your active applications. This request must be authenticated with the `token
         {
                 "applications":[
                                  {
-                                   "\_id":"12345",
-                                   "account": "xxxxxxxxxxx",
+                                   "\_id":"5245bc5b3e66a3b01f0024d4",
+                                   "account": "5245bc5b3e66a3b01f0024d4",
                                    "applicationKey": "xxxxxxxxxxxxx",
                                    "applicationSecret": "xxxxxxxxxxxx",
                                    "authProviders": [
@@ -147,7 +147,7 @@ Create a new application. This request must be authenticated with the `token`.
 
         {
                 "application":{
-                                  "\_id":"12345"
+                                  "\_id":"5245bc5b3e66a3b01f0024d4"
                               }
         }
 
@@ -169,7 +169,7 @@ Get an application object. This request must be authenticated with the `token`.
 
         {
                 "application":{
-                                   "\_id":"12345",
+                                   "\_id":"5245bc5b3e66a3b01f0024d4",
                                    "account": "xxxxxxxxxxx",
                                    "applicationKey": "xxxxxxxxxxxxx",
                                    "applicationSecret": "xxxxxxxxxxxx",
@@ -266,14 +266,408 @@ Destroy an application. This operation can not be undone. This request must be a
 
 
 
+
+# Group Beacon
+Methods to manage your beacons. Be sure to add the `regionConfig.proximityUUID` in your Application and create a Region first.
+Also beacons require that you create a triggered message previously.
+
+
+
+## /beacon
+
+### POST
+Create a new beacon for a region. To complete this request you must create a triggered Notification first. 
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Request (application/json)
+
+        {
+                "notification":"5245bc5b3e66a3b01f0024d4",
+                "name": "My Beacon",
+                "major": "654321",
+                "minor": "123456",
+                "proximity": "immediate"
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "beacon":{
+                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                              }
+        }
+
+
+
+
+
+## /beacon/{beacon}
+
+### GET
+Get a beacon object.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + beacon (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "application":{
+                                   "\_id":"5245bc5b3e66a3b01f0024d4",
+                                   "notification":"6245bc5b3e66a3b01f0024d5",
+                                   "name": "My Beacon",
+                                   "major": "654321",
+                                   "minor": "123456",
+                                   "proximity": "immediate"
+        }
+
+
+
+
+
+## /beacon/{beacon}
+
+### PUT
+Modify a beacon.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + beacon (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
+
++ Request (application/json)
+
+        {
+                "notification":"12345",
+                "name": "My Beacon",
+                "major": "654321",
+                "minor": "123456",
+                "proximity": "immediate"
+        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"beacon updated"
+        }
+
+
+
+## /beacon/{beacon}
+
+### DELETE
+Destroy a beacon. This operation can not be undone. This request must be authenticated with the `token`.
+
++ Parameters
+
+    + beacon (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"beacon deleted"
+        }
+
+
+
+# Group Device
+Methods to manage devices. 
+Use this method to retrieve information about devices for an application, for a specific user, for specific tags or in a specific location.
+Management of devices is exclusively made by our SDK libraries therefore you only get access to read operations.
+
+## /device
+
+### GET
+Get all the devices for a specific application.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "devices":[
+                              {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                                  "app_version":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "os_string":"Mac OS X 10.9.2",
+                                  "os_version":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdk_version":"0.0.1",
+                                  "transport":"Websocket",
+                                  "user_id":"info@notifica.re",
+                                  "time_zone_offset":-5,
+                                  "last_active":
+                                  "2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "device_string":"MacIntel
+                              },
+                               {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "app_version":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "os_string":"Mac OS X 10.9.2",
+                                  "os_version":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdk_version":"0.0.1",
+                                  "transport":"Websocket",
+                                  "user_id":"info@notifica.re",
+                                  "time_zone_offset":-5,"last_active":
+                                  "2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "device_string":"MacIntel
+                              }
+                ],
+                "count": 2
+                          
+        }
+
+
+
+## /device/foruser/{user}
+
+### GET
+Get all the devices for a specific user.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + user (required, string, `testuser@example.com`)...The user ID is the one the client device registered with, e.g., the user's email address. 
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "devices":[
+                              {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                                  "app_version":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "os_string":"Mac OS X 10.9.2",
+                                  "os_version":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdk_version":"0.0.1",
+                                  "transport":"Websocket",
+                                  "user_id":"info@notifica.re",
+                                  "time_zone_offset":-5,
+                                  "last_active":
+                                  "2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "device_string":"MacIntel
+                              },
+                               {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "app_version":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "os_string":"Mac OS X 10.9.2",
+                                  "os_version":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdk_version":"0.0.1",
+                                  "transport":"Websocket",
+                                  "user_id":"info@notifica.re",
+                                  "time_zone_offset":-5,"last_active":
+                                  "2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "device_string":"MacIntel
+                              }
+                ],
+                "count": 2
+                          
+        }
+
+
+## /device/fortag/{tag}
+
+### GET
+Get all the devices for a specific tag.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + tag (required, string, `toys`)...The tag the device is associated with
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "devices":[
+                              {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                                  "app_version":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "os_string":"Mac OS X 10.9.2",
+                                  "os_version":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdk_version":"0.0.1",
+                                  "transport":"Websocket",
+                                  "user_id":"info@notifica.re",
+                                  "time_zone_offset":-5,
+                                  "last_active":
+                                  "2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "device_string":"MacIntel
+                              },
+                               {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "app_version":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "os_string":"Mac OS X 10.9.2",
+                                  "os_version":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdk_version":"0.0.1",
+                                  "transport":"Websocket",
+                                  "user_id":"info@notifica.re",
+                                  "time_zone_offset":-5,
+                                  "last_active":
+                                  "2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "device_string":"MacIntel
+                              }
+                ],
+                "count": 2
+                          
+        }
+
+
+## /device/bylocation/{latitude}/{longitude}/{distance}
+
+### GET
+Get all the devices in a specific location.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
+
+
++ Parameters
+
+    + latitude (required, float, `4.2345`)...The desired latitude
+    + longitude (required, float, `5.6789`)...The desired longitude
+    + distance (required, float, `63.76`)...The distance in meters of your search area relative to the latitude and longitude
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "devices":[
+                              {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                                  "app_version":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "os_string":"Mac OS X 10.9.2",
+                                  "os_version":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdk_version":"0.0.1",
+                                  "transport":"Websocket",
+                                  "user_id":"info@notifica.re",
+                                  "time_zone_offset":-5,
+                                  "last_active":
+                                  "2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "device_string":"MacIntel
+                              },
+                               {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "app_version":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "os_string":"Mac OS X 10.9.2",
+                                  "os_version":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdk_version":"0.0.1",
+                                  "transport":"Websocket",
+                                  "user_id":"info@notifica.re",
+                                  "time_zone_offset":-5,
+                                  "last_active":
+                                  "2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "device_string":"MacIntel
+                              }
+                ],
+                "count": 2
+                          
+        }
+
+
+
 # Group Notification
-Methods to send notifications to a specific target audience. 
+Methods to create, send and schedule notifications to a specific target audience, user or device.
 Combines User, Segments, Tags and the location of the devices to provide you a powerful device selection query for your campaigns.
 
 ## /notification/broadcast
 
 ### POST
-Send a message to **all** devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
+Send a message to **all** devices. 
+You can also schedule a broadcast, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
 
@@ -282,6 +676,7 @@ Send a message to **all** devices. This call must be authenticated with the `app
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
                 "sound":"default",
+                "schedule" true,
                 "content": [
                         {
                                 "type":"re.notifica.content.Text",
@@ -302,7 +697,7 @@ Send a message to **all** devices. This call must be authenticated with the `app
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"12345",
+                "\_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
 
@@ -310,7 +705,9 @@ Send a message to **all** devices. This call must be authenticated with the `app
 ## /notification/tags
 
 ### POST
-Send a message to devices with any of the specified `tags`. The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`
+Send a message to devices with any of the specified `tags`. 
+You can also schedule this message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`
 
 + Request (application/json)
 
@@ -320,6 +717,7 @@ Send a message to devices with any of the specified `tags`. The request accepts 
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
                 "sound":"default",
+                "schedule" false,
                 "content": [
                         {
                                 "type":"re.notifica.content.Text",
@@ -341,14 +739,16 @@ Send a message to devices with any of the specified `tags`. The request accepts 
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"12345",
+                "\_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
         
 ## /notification/segments
 
 ### POST
-Send a message to users in one or more of the specified `segments`. The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`
+Send a message to users in one or more of the specified `segments`. 
+You can also schedule this messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`
 
 + Request (application/json)
 
@@ -358,6 +758,7 @@ Send a message to users in one or more of the specified `segments`. The request 
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
                 "sound":"default",
+                "schedule" true,
                 "content": [
                         {
                                 "type":"re.notifica.content.Text",
@@ -379,14 +780,16 @@ Send a message to users in one or more of the specified `segments`. The request 
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"12345",
+                "\_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
         
 ## /notification/user/{user}
 
 ### POST
-Send a message to a `user`. This call must be authenticated with the `applicationKey` and `masterSecret`
+Send a message to a `user`. 
+You can also schedule a private message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+This request must be authenticated with the `applicationKey` and `masterSecret`
 
 + Parameters
 
@@ -399,6 +802,7 @@ Send a message to a `user`. This call must be authenticated with the `applicatio
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
                 "sound":"default",
+                "schedule" false,
                 "content": [
                         {
                                 "type":"re.notifica.content.Text",
@@ -420,14 +824,16 @@ Send a message to a `user`. This call must be authenticated with the `applicatio
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"12345",
+                "\_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
         
 ## /notification/device/{device}
 
 ### POST
-Send a message to a `device`. This call must be authenticated with the `applicationKey` and `masterSecret`
+Send a message to a `device`. 
+You can also schedule this type of messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+This request must be authenticated with the `applicationKey` and `masterSecret`
 
 + Parameters
 
@@ -439,6 +845,48 @@ Send a message to a `device`. This call must be authenticated with the `applicat
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
+                "sound":"default",
+                "schedule" true,
+                "content": [
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in"
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "\_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+        
+
+## /notification/triggered
+
+### POST
+Create a message that will be not be sent by a Region/Trigger or Region/Beacon. 
+You can not schedule a triggered message.
+This request must be authenticated with the `applicationKey` and `masterSecret`
+
++ Request (application/json)
+
+        {
+                "message":"Hello world!",
+                "type":"re.notifica.notification.Alert",
+                "ttl":3600,
+                "triggered":true,
                 "sound":"default",
                 "content": [
                         {
@@ -461,8 +909,32 @@ Send a message to a `device`. This call must be authenticated with the `applicat
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"12345",
+                "\_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
+        }
+        
+## /notification/schedule
+
+### POST
+Start a schedule task for a previously created message.
+The property `local` determines if message should be sent on the device's local time or UTC.
+If `local` is true make sure the `time` is at least 14 hours from now to make sure the message will arrive in all timezones.
+This request must be authenticated with the `applicationKey` and `masterSecret`
+
++ Request (application/json)
+
+        {
+                "notification":"5245bc5b3e66a3b01f0024d4",
+                "time":"2014-12-25T10:00:00",
+                "local":true
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "schedule":{
+                             "\_id":"5245bc5b3e66a3b01f0024d4"
+                           }
         }
 
 # Group Notification Test
@@ -862,8 +1334,8 @@ List users for a segment
                                 "_id": "5245bc5b3e66a3b01f0024d4",
                                 "userID": "12345",
                                 "userName": "Massimo",
-                                "application": "12345",
-                                "account": "12345",
+                                "application": "5245bc5b3e66a3b01f0024d4",
+                                "account": "5245bc5b3e66a3b01f0024d4",
                                 "segments": [],
                                 "autoGenerated": false,
                                 "active": true
@@ -893,8 +1365,8 @@ List all users whose userName starts with `search` or whose userID is equal to `
                                 "_id": "5245bc5b3e66a3b01f0024d4",
                                 "userID": "12345",
                                 "userName": "Massimo",
-                                "application": "12345",
-                                "account": "12345",
+                                "application": "5245bc5b3e66a3b01f0024d4",
+                                "account": "5245bc5b3e66a3b01f0024d4",
                                 "segments": [],
                                 "autoGenerated": false,
                                 "active": true
@@ -919,8 +1391,8 @@ List all users whose userName starts with `search` or whose userID is equal to `
                         "_id": "5245bc5b3e66a3b01f0024d4",
                         "userID": "12345",
                         "userName": "Massimo",
-                        "application": "12345",
-                        "account": "12345",
+                        "application": "5245bc5b3e66a3b01f0024d4",
+                        "account": "5245bc5b3e66a3b01f0024d4",
                         "segments": [],
                         "autoGenerated": false,
                         "active": true
@@ -953,8 +1425,8 @@ Get details for a user
                         "_id": "5245bc5b3e66a3b01f0024d4",
                         "userID": "12345",
                         "userName": "Massimo",
-                        "application": "12345",
-                        "account": "12345",
+                        "application": "5245bc5b3e66a3b01f0024d4",
+                        "account": "5245bc5b3e66a3b01f0024d4",
                         "segments": [],
                         "autoGenerated": false,
                         "active": true
