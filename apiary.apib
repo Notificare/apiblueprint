@@ -22,7 +22,7 @@ Includes the `token` that will be required to create and manage applications and
 
 ### GET
 Retrieve an account object based on credentials. This request must be authenticated with the `email` and `password`.
-
+***
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -680,7 +680,6 @@ Combines User, Segments, Tags and the location of the devices to provide you a p
 The 3 most important things to have in consideration when creating a new message is that `message` is always mandatory, the property `type` defines which type of content should be presented to the user and the combination of `message`, `extra`, `sound`, `badge` should be no bigger than 200 bytes.
 You can send several types of content in your message. The array `content` should contain one or more objects according to the `type` of message. 
 You can also add an array `actions` to your notifications by simply providing one or more objects. 
-Please refer to https://notificare.atlassian.net/wiki/display/notificare/Notifications for more information about the Notification object.
 
 
 ## /notification/broadcast
@@ -1360,7 +1359,7 @@ Methods to retrieve aggregated data of key performance resources in the API.
 These requests must be authenticated with the `token`.
 
 ## Device
-Retrieve aggregations based on registered device properties.
+Retrieve aggregations based on registered device's properties.
 
 List of available dimensions:
 
@@ -1373,6 +1372,21 @@ List of available dimensions:
 *    deviceString
 
 
+## Event
+Retrieve aggregations based on registered events.
+
+List of available types:
+
+*    re.notifica.event.application.Install
+*    re.notifica.event.application.Open
+*    re.notifica.event.application.Close
+*    re.notifica.event.notification.Influenced
+*    re.notifica.event.notification.Open
+*    re.notifica.event.notification.Close
+*    re.notifica.event.region.Session
+*    re.notifica.event.beacon.Session
+
+
 ## /stats/device/{dimensions}/forapplication/{application}/lastmonth
 
 ### GET
@@ -1380,7 +1394,7 @@ Retrieve device data of the last 30 days for a specific application based on a s
 
 + Parameters
 
-    + dimensions (required, string, `osVersion`)...The notification id of an active notification.
+    + dimensions (required, string, `osVersion`)...The desired dimensions.
     + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
 
 + Response 200 (application/json; charset=utf-8)
@@ -1402,6 +1416,126 @@ Retrieve device data of the last 30 days for a specific application based on a s
         }
 
 
+
+## /stats/device/{dimensions}/forapplication/{application}/{year}
+
+### GET
+Retrieve device data of the specified year for a specific application based on a specific dimension.
+
++ Parameters
+
+    + dimensions (required, string, `osVersion`)...The desired dimensions.
+    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
+    + year (required, string, `2014`)...The year you desire to get stats from.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "count":2,
+                            "date":"2014-02-27T00:00:00.000Z",
+                            "value":"2.3.6"
+                          },
+                          {
+                            "count":2,
+                            "date":"2014-02-26T00:00:00.000Z",
+                            "value":"2.3.6"
+                          }
+                          ...
+                ]
+        }
+
+
+## /stats/device/{dimensions}/forapplication/{application}/{year}/{month}
+
+### GET
+Retrieve device data of the specified month for a specific application based on a specific dimension.
+
++ Parameters
+
+    + dimensions (required, string, `osVersion`)...The desired dimensions.
+    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
+    
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "count":2,
+                            "date":"2014-02-27T00:00:00.000Z",
+                            "value":"2.3.6"
+                          },
+                          {
+                            "count":2,
+                            "date":"2014-02-26T00:00:00.000Z",
+                            "value":"2.3.6"
+                          }
+                          ...
+                ]
+        }
+
+
+
+## /stats/device/{dimensions}/forapplication/{application}/{year}/{month}/{day}
+
+### GET
+Retrieve device data of the specified day for a specific application based on a specific dimension.
+
++ Parameters
+
+    + dimensions (required, string, `osVersion`)...The desired dimensions.
+    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
+    + year (required, string, `01`)...The day you desire to get stats from.
+        
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "count":2,
+                            "date":"2014-02-27T00:00:00.000Z",
+                            "value":"2.3.6"
+                          },
+                          {
+                            "count":2,
+                            "date":"2014-02-26T00:00:00.000Z",
+                            "value":"2.3.6"
+                          }
+                          ...
+                ]
+        }
+
+
+## /stats/event/{type}/forapplication/{application}/lastmonth
+
+### GET
+Retrieve event data of the last month for a specific application based on a specific type.
+
++ Parameters
+
+    + type (required, string, `re.notifica.event.application.Install`)...The event type.
+    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
+        
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "count":2,
+                            "date":"2014-02-27T00:00:00.000Z"
+                          },
+                          {
+                            "count":2,
+                            "date":"2014-02-26T00:00:00.000Z"
+                          }
+                          ...
+                ]
+        }
 
 
 
