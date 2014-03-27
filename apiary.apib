@@ -1494,7 +1494,33 @@ This request is authenticated with the `applicationKey` and  `applicationSecret`
         }
 
 
+# Group Upload
+These methods let you manage files.
+All the files you upload to Notificare can be used as content of your notifications.
 
+## /upload
+
+### POST
+Upload a file to Notificare.
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "filename": "https://s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9f.."
+        }
+
+## /upload/{url}
+
+### DELETE
+Delete file from Notificare storage. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + url (required, string, `https://s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9f..`)...The url of the file to delete
+
+
++ Response 204
 
 
 # Group User Segment
@@ -1826,3 +1852,7 @@ Remove user from segment
         {
                 "message": "user removed from segment"
         }
+        
+        
+
+
