@@ -4,8 +4,9 @@ HOST: https://push.notifica.re/
 # Notificare REST API
 Unified remote push notifications and location services for iOS, Android and HTML5 apps. 
 Create user profiles, categorize your users and devices, create/schedule any content-rich and actionable notification. 
-Use Geo-Targeting, Geo-Fencing or iBeacon technology to provide the ultimate messaging experience. Sign up for free here: https://dashboard.notifica.re/#/sign-up.
-For more information about this API, please go to https://notificare.atlassian.net/wiki/display/notificare/Restful+API.
+Use Geo-Targeting, Geo-Fencing or iBeacon technology to provide the ultimate messaging experience. Sign up for free [here](https://dashboard.notifica.re/#/sign-up).
+For more information about this API, please [contact us](http://notifica.re/contact).
+
 
 # Group Account
 Retrieve your account object. 
@@ -61,6 +62,17 @@ Retrieve an account object based on credentials. This request must be authentica
         }
 
 
++ Response 404 (application/json; charset=utf-8)
+
+        {
+                "error":"account not found"
+        }
+        
++ Response 403 (application/json; charset=utf-8)
+
+        {
+                "error":"account inactive"
+        }
 
 # Group Application
 Methods to manage your applications.
@@ -1293,6 +1305,100 @@ This request is authenticated with the `applicationKey` and  `applicationSecret`
 
         {
                 "message":"region deleted"
+        }
+
+
+# Group Reply
+A Reply object is what Notificare creates when users interact with notifications with actions. 
+These objects hold every single interaction and data your users send you.
+
+
+## /reply/fornotification/{notification}{?limit,skip}
+
+### GET
+Get all replies for a specific notification.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + notification (required, string, `5245bc5b3e66a3b01f0024d4`)...The notification id of an active notification.
+
+    + limit = `1000` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+
+        {
+                "replies":[
+                            {
+                              "notification":"53317011f90827d27c6e9c94",
+                              "userID":"testuser@example.com",
+                              "deviceID":"APA91bHWwt97wwvZ1-P8UQT1zCgczK7utZEZiqu7N4Awg",
+                              "label":"yes",
+                              "_id":"5331703332c17e3077d5a765",
+                              "time":"2014-03-25T12:01:55.713Z" 
+                            },
+                            {
+                              "notification":"53317011f90827d27c6e9c94",
+                              "userID":"testuser@example.com",
+                              "deviceID":"APA91bHWwt97wwvZ1-P8UQT1zCgczK7utZEZiqu7N4Awg",
+                              "label":"yes",
+                              "_id":"5331703332c17e3077d5a765",
+                              "time":"2014-03-25T12:01:55.713Z" 
+                            }
+                ],
+                "count": 2
+        }
+
+
+
+# Group Stats
+Methods to retrieve aggregated data of key performance resources in the API. 
+These requests must be authenticated with the `token`.
+
+## Device
+Retrieve aggregations based on registered device properties.
+
+List of available dimensions:
+
+*    osVersion
+*    appVersion
+*    language
+*    sdkVersion
+*    platform
+*    osString
+*    deviceString
+
+
+## /stats/device/{dimensions}/forapplication/{application}/lastmonth
+
+### GET
+Retrieve device data of the last 30 days for a specific application based on a specific dimension.
+
++ Parameters
+
+    + dimensions (required, string, `osVersion`)...The notification id of an active notification.
+    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "count":2,
+                            "date":"2014-02-27T00:00:00.000Z",
+                            "value":"2.3.6"
+                          },
+                          {
+                            "count":2,
+                            "date":"2014-02-26T00:00:00.000Z",
+                            "value":"2.3.6"
+                          }
+                          ...
+                ]
         }
 
 
