@@ -8,7 +8,7 @@ Use Geo-Targeting, Geo-Fencing or iBeacon technology to provide the ultimate mes
 For more information about this API, please go to https://notificare.atlassian.net/wiki/display/notificare/Restful+API.
 
 # Group Account
-Method to retrieve your account object. 
+Retrieve your account object. 
 Includes the `token` that will be required to create and manage applications and get global stats about your account.
 
 
@@ -659,156 +659,6 @@ This request is authenticated with the `applicationKey` and  `applicationSecret`
         }
 
 
-# Group Region
-Methods to manage your regions. Regions are geo-fences that can eventually have Triggers and/or Beacons. 
-When none are created your region will just gather the session data as users enter and leave that area or are in the range of your beacons.
-You can have a combination of Triggers and Beacons or just one of them. Note that iBeacon technology requires users to turn on Bluetooth to work.
-
-
-## /region
-
-### GET
-Get all regions for an application.
-This request is authenticated with the `applicationKey` and  `applicationSecret`.
-
-
-+ Parameters
-
-    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
-
-    + skip = `0` (optional, number, `0`)...The number of results to skip
-    
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "regions":[
-                            {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4",
-                                  "name": "My Region",
-                                  "geometry": {
-                                               "type": "Point",
-                                               "coordinates": [4.2345,5.6789]
-                                  },
-                                  "major": "123456",
-                                  "timezone": "Europe/Amsterdam"
-                            }
-                ]
-        }
-
-
-
-
-## /region
-
-### POST
-Create a new region. To retrieve a timezone from the coordinates you can use https://developers.google.com/maps/documentation/timezone/.
-This request is authenticated with the `applicationKey` and  `applicationSecret`.
-
-+ Request (application/json)
-
-        {
-                "name": "My Region",
-                "geometry": {
-                             "type": "Point",
-                             "coordinates": [4.2345,5.6789]
-                },
-                "major": "123456",
-                "timezone": "Europe/Amsterdam"
-        }
-
-
-+ Response 201 (application/json; charset=utf-8)
-
-        {
-                "region":{
-                                  "\_id":"5245bc5b3e66a3b01f0024d4"
-                         }
-        }
-
-
-
-
-
-## /region/{region}
-
-### GET
-Get a region object.
-This request is authenticated with the `applicationKey` and  `applicationSecret`.
-
-+ Parameters
-
-    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The region id of an active region.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "regions":{
-                                  "\_id":"5245bc5b3e66a3b01f0024d4",
-                                  "name": "My Region",
-                                  "geometry": {
-                                               "type": "Point",
-                                               "coordinates": [4.2345,5.6789]
-                                  },
-                                  "major": "123456",
-                                  "timezone": "Europe/Amsterdam"
-                            }
-        }
-
-
-
-
-
-## /region/{region}
-
-### PUT
-Modify a region.
-This request is authenticated with the `applicationKey` and  `applicationSecret`.
-
-+ Parameters
-
-    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The region id of an active region.
-
-+ Request (application/json)
-
-        {
-                "name": "My Region",
-                "geometry": {
-                             "type": "Point",
-                             "coordinates": [4.2345,5.6789]
-                },
-                "major": "123456",
-                "timezone": "Europe/Amsterdam"
-        }
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "message":"region updated"
-        }
-
-
-
-## /region/{region}
-
-### DELETE
-Destroy a region. This operation can not be undone.
-This request is authenticated with the `applicationKey` and  `applicationSecret`.
-
-+ Parameters
-
-    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The region id of an active region.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "message":"region deleted"
-        }
-
-
 
 
 
@@ -1296,6 +1146,159 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
 
+# Group Region
+Methods to manage your regions. Regions are geo-fences that can eventually have Triggers and/or Beacons. 
+When none are created your region will just gather the session data as users enter and leave that area or are in the range of your beacons.
+You can have a combination of Triggers and Beacons or just one of them. Note that iBeacon technology requires users to turn on Bluetooth to work.
+
+
+## /region{?limit,skip}
+
+### GET
+Get all regions for an application.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+    
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "regions":[
+                            {
+                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "name": "My Region",
+                                  "geometry": {
+                                               "type": "Point",
+                                               "coordinates": [4.2345,5.6789]
+                                  },
+                                  "major": "123456",
+                                  "timezone": "Europe/Amsterdam"
+                            }
+                ]
+        }
+
+
+
+
+## /region
+
+### POST
+Create a new region. To retrieve a timezone from the coordinates you can use https://developers.google.com/maps/documentation/timezone/.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Request (application/json)
+
+        {
+                "name": "My Region",
+                "geometry": {
+                             "type": "Point",
+                             "coordinates": [4.2345,5.6789]
+                },
+                "major": "123456",
+                "timezone": "Europe/Amsterdam"
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "region":{
+                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                         }
+        }
+
+
+
+
+
+## /region/{region}
+
+### GET
+Get a region object.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The region id of an active region.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "regions":{
+                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "name": "My Region",
+                                  "geometry": {
+                                               "type": "Point",
+                                               "coordinates": [4.2345,5.6789]
+                                  },
+                                  "major": "123456",
+                                  "timezone": "Europe/Amsterdam"
+                            }
+        }
+
+
+
+
+
+## /region/{region}
+
+### PUT
+Modify a region.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The region id of an active region.
+
++ Request (application/json)
+
+        {
+                "name": "My Region",
+                "geometry": {
+                             "type": "Point",
+                             "coordinates": [4.2345,5.6789]
+                },
+                "major": "123456",
+                "timezone": "Europe/Amsterdam"
+        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"region updated"
+        }
+
+
+
+## /region/{region}
+
+### DELETE
+Destroy a region. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The region id of an active region.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"region deleted"
+        }
+
+
+
+
+
 # Group Status
 Public methods to retrieve information about the status and health of the API 
 
@@ -1310,6 +1313,187 @@ Get the current availability of the API
         {
                 "status":"ok"
         }
+
+
+
+
+# Group Trigger
+Methods to manage your triggers. Triggers are used to send messages when some event occurs.
+There are two types of triggers, Geo-Triggers and In-App triggers. Geo-Triggers are used by regions and beacons to send notifications whenever a device enters/exits a Region or is in the proximity range of a Beacon.
+In-App triggers basically are a free form of triggers that you can use to send a notification on any in-app event. 
+
+## /trigger{?limit,skip}
+
+### GET
+Get all triggers for an application.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
+
++ Parameters
+
+    + limit = `250` (optional, number, `100`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+    
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "triggers":[
+                            {
+                                  "name": "One Time Welcome",
+                                  "type": "re.notifica.trigger.region.Enter",
+                                  "frequency": "once",
+                                  "interval": 8600,
+                                  "notBefore": "",
+                                  "notAfter": "",
+                                  "dayEnd": "",
+                                  "dayStart": "",
+                                  "notification": "5245bc5b3e66a3b01f0024d4",
+                                  "source": "5245bc5b3e66a3b01f0024d4",
+                                  "active": false
+                            },
+                            {
+                                  "name": "On Store exit",
+                                  "type": "re.notifica.trigger.region.Exit",
+                                  "frequency": "always",
+                                  "interval": 8600,
+                                  "notBefore": "2012-11-28T15:31:54",
+                                  "notAfter": "2014-11-28T15:31:54",
+                                  "dayEnd": "08:00:00",
+                                  "dayStart": "19:00:00",
+                                  "notification": "5245bc5b3e66a3b01f0024d4",
+                                  "source": "5245bc5b3e66a3b01f0024d4",
+                                  "active": true
+                            }
+                ],
+                "count": 2
+        }
+
+
+
+
+## /trigger
+
+### POST
+Create a new trigger. This request expects at least `name`, `type`, `frequency` and `notification`.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Request (application/json)
+
+        {
+                "name": "My Trigger",
+                "type": "re.notifica.trigger.region.Enter",
+                "frequency": "always",
+                "interval": 8600,
+                "notBefore": "2012-11-28T15:31:54",
+                "notAfter": "2014-11-28T15:31:54",
+                "dayEnd": "08:00:00",
+                "dayStart": "19:00:00",
+                "notification": "5245bc5b3e66a3b01f0024d4",
+                "source": "5245bc5b3e66a3b01f0024d4",
+                "active": false
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "trigger":{
+                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                         }
+        }
+
+
+
+
+
+## /trigger/{trigger}
+
+### GET
+Get a trigger object.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + trigger (required, string, `5245bc5b3e66a3b01f0024d4`)...The trigger id
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "trigger":{
+                                  "name": "On Store exit",
+                                  "type": "re.notifica.trigger.region.Exit",
+                                  "frequency": "always",
+                                  "interval": 8600,
+                                  "notBefore": "2012-11-28T15:31:54",
+                                  "notAfter": "2014-11-28T15:31:54",
+                                  "dayEnd": "08:00:00",
+                                  "dayStart": "19:00:00",
+                                  "notification": "5245bc5b3e66a3b01f0024d4",
+                                  "source": "5245bc5b3e66a3b01f0024d4",
+                                  "active": true
+                            }
+        }
+
+
+
+
+
+## /trigger/{trigger}
+
+### PUT
+Modify a region.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + trigger (required, string, `5245bc5b3e66a3b01f0024d4`)...The trigger id
+
++ Request (application/json)
+
+        {
+                "name": "My Trigger",
+                "type": "re.notifica.trigger.region.Enter",
+                "frequency": "always",
+                "interval": 8600,
+                "notBefore": "2012-11-28T15:31:54",
+                "notAfter": "2014-11-28T15:31:54",
+                "dayEnd": "08:00:00",
+                "dayStart": "19:00:00",
+                "notification": "5245bc5b3e66a3b01f0024d4",
+                "source": "5245bc5b3e66a3b01f0024d4",
+                "active": false
+        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"trigger updated"
+        }
+
+
+
+## /trigger/{trigger}
+
+### DELETE
+Destroy a trigger. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `applicationSecret`.
+
++ Parameters
+
+    + trigger (required, string, `5245bc5b3e66a3b01f0024d4`)...The trigger id
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"trigger deleted"
+        }
+
+
 
 
 
@@ -1579,7 +1763,7 @@ Get details for a user
 
 + Parameters
 
-    + user (required, string, `12345`)...The app-specific userID of the user
+    + userid (required, string, `12345`)...The app-specific userID of the user
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -1595,6 +1779,8 @@ Get details for a user
                         "active": true
                 }
         }
+
+
 
 ### DELETE
 Deactivate a user. The user will not receive any more notifications. 
