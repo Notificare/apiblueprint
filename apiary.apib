@@ -695,12 +695,23 @@ You can also add an array `actions` to your notifications by simply providing on
 ## Content Objects:
 | type | data | 
 |:---------:|-------------|
-| re.notifica.content.Text | A string of any size. (eg.: Hello World!) |
-| re.notifica.content.HTML | A string containing HTML. (eg.: \<h1>Hello World!\</h1>) |
-| re.notifica.content.URL | A valid URL. (eg.: http: //notifica.re) |
-| re.notifica.content.Image | A string containing the URL to a previously updloaded image. (eg.: https: //s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9fd.../6ccd..) |
-| re.notifica.content.Marker | An object containing title, description, latitude and longitude. (eg.: {"title":"Some Place", "description":"Some description about that place", "latitude": 4.098765, "longitude": 5.08875}) |
+| re.notifica.content.Text | string (eg.: Hello World!) |
+| re.notifica.content.HTML | string (eg.: \<h1>Hello World!\</h1>) |
+| re.notifica.content.URL | string (eg.: http: //notifica.re) |
+| re.notifica.content.Image | string (eg.: https: //s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9fd.../6ccd..) |
+| re.notifica.content.Marker | object (eg.: {"title":"Some Place", "description":"Some description about that place", "latitude": 4.098765, "longitude": 5.08875}) |
 
+
+## Action Objects:
+| type | label | target | keyboard | camera |
+|:---------:|:---------:|:---------:|:---------:|:---------:|
+| re.notifica.action.Callback | string (eg.: open cam) | string (eg.: http: //api.notifica.re/register?action=xpto&var=xyz) | boolean | boolean |
+| re.notifica.action.Telephone | string (eg.: make a call) | string (eg.: 0500666858) | n/a | n/a |
+| re.notifica.action.SMS | string (eg.: send sms) | string (eg.: 0500666858,0500666858) | n/a | n/a |
+| re.notifica.action.Mail | string | string (eg.: me @company.com,you @company.com) | n/a | n/a |
+| re.notifica.action.Browser | string (eg.: open notifica.re) | string (eg.: http: //notifica.re) | n/a | n/a |
+| re.notifica.action.App | string (open facebook) | string (eg.: fb: //) | n/a | n/a |
+| re.notifica.action.Custom | string (eg.: open tab) | string (eg.: openTabInMyCode) | n/a | n/a |
 
 ## /notification/broadcast
 
@@ -713,15 +724,15 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 | property | type | description | required | default |
 |----------|:------:|-------------|:----------:|:---------:|
-| type     | string | Types of notifications are represented in namespaces used. Notification types should be represented as re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
+| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
 | message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
 | content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
-| location | object |              | No | null |
-| actions  | array |              | No | null |
-| sound    | string |              | No | null |
-| badge    | number |              | No | null |
-| schedule | boolean |              | No | false |
-| extra  | mixed |              | Yes | null |
+| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
+| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
+| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
+| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
+| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
+| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
 
 
 
@@ -765,6 +776,21 @@ Send a message to devices with any of the specified `tags`.
 You can also schedule this message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
+## Expected properties
+
+| property | type | description | required | default |
+|----------|:------:|-------------|:----------:|:---------:|
+| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
+| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
+| tags  | array | An array of strings. Defines which devices should receive the notification. Only devices registered with these tags will receive the notification. | Yes | null |
+| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
+| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
+| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
+| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
+| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
+| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
+| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
+
 + Request (application/json)
 
         {
@@ -806,6 +832,20 @@ Send a message to users in one or more of the specified `segments`.
 You can also schedule this messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
+| property | type | description | required | default |
+|----------|:------:|-------------|:----------:|:---------:|
+| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
+| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
+| segments  | array | An array of strings. Defines which devices should receive the notification. Only devices belonging to users in these segments will receive the notification. | Yes | null |
+| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
+| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
+| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
+| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
+| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
+| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
+| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
+
+
 + Request (application/json)
 
         {
@@ -846,6 +886,19 @@ The request accepts an array of Segment Ids. This request must be authenticated 
 Send a message to a `user`. 
 You can also schedule a private message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
+
+| property | type | description | required | default |
+|----------|:------:|-------------|:----------:|:---------:|
+| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
+| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
+| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
+| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
+| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
+| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
+| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
+| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
+| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
+
 
 + Parameters
 
@@ -891,6 +944,19 @@ Send a message to a `device`.
 You can also schedule this type of messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
+| property | type | description | required | default |
+|----------|:------:|-------------|:----------:|:---------:|
+| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
+| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
+| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
+| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
+| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
+| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
+| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
+| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
+| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
+
+
 + Parameters
 
     + device (required, string, `bbff2ce9b547d2df4731bac277...`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
@@ -935,6 +1001,19 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 Create a message that will be not be sent by a Region/Trigger or Region/Beacon. 
 You can not schedule a triggered message.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
+
+| property | type | description | required | default |
+|----------|:------:|-------------|:----------:|:---------:|
+| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
+| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
+| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
+| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
+| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
+| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
+| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
+| triggered | boolean | When true will prevent the message from being sent. A triggered notification can be used in any Region, Beacon or In-App triggers. | Yes | true |
+| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
+
 
 + Request (application/json)
 
