@@ -892,7 +892,6 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 | type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
 | message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
 | content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
-| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
 | actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
 | sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
 | badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
@@ -949,7 +948,6 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 | type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
 | message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
 | content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
-| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
 | actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
 | sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
 | badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
