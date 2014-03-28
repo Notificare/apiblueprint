@@ -1,4 +1,4 @@
 Notificare Push API Blueprint
 ============
 
-Hosted apiary documentation at http
+Hosted Apiary.io documentation at http://docs.notificare.apiary.io

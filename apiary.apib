@@ -681,13 +681,49 @@ The 3 most important things to have in consideration when creating a new message
 You can send several types of content in your message. The array `content` should contain one or more objects according to the `type` of message. 
 You can also add an array `actions` to your notifications by simply providing one or more objects. 
 
+## Notification Types:
+| type | description | 
+|:---------:|-------------|
+| re.notifica.notification.Alert | The simplest form of notifications, it will display the message in a dialog/alert window. It does not require a content object. You can although add Action objects to it, actions will be added to the window as buttons. |
+| re.notifica.notification.WebView | This type allows you to show any piece of HTML in a native WebView. It requires a Content object of type `re.notifica.content.HTML`. You can additionally add Action objects to this type of Notification. |
+| re.notifica.notification.URL | Use this type to open any URL in a native WebView. It requires a Content object of type `re.notifica.content.URL`. You can additionally add Action objects to this type of Notification. |
+| re.notifica.notification.Image | Add one or more images to your notifications. It requires one or more Content objects of types `re.notifica.content.JPEG`, `re.notifica.content.PNG` or `re.notifica.content.GIF`. You can additionally add Action objects to this type of Notification. |
+| re.notifica.notification.Map | This type of notifications will use the device's native maps to display one or more locations. It requires one or more Content objects of type `re.notifica.content.Marker`. You can additionally add Action objects to this type of Notification. |
+| re.notifica.notification.Rate | This type is used exclusively to send a dialog window with three Action objects included. The user can then choose to rate the app in App Store/Google Play, to be remembered later to rate or to not rate at all. This type of Notification does not require any Content object. Also you can not add any more Action objects to this type of Notification. |
+
+
+## Content Objects:
+| type | data | 
+|:---------:|-------------|
+| re.notifica.content.Text | A string of any size. (eg.: Hello World!) |
+| re.notifica.content.HTML | A string containing HTML. (eg.: \<h1>Hello World!\</h1>) |
+| re.notifica.content.URL | A valid URL. (eg.: http: //notifica.re) |
+| re.notifica.content.Image | A string containing the URL to a previously updloaded image. (eg.: https: //s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9fd.../6ccd..) |
+| re.notifica.content.Marker | An object containing title, description, latitude and longitude. (eg.: {"title":"Some Place", "description":"Some description about that place", "latitude": 4.098765, "longitude": 5.08875}) |
+
 
 ## /notification/broadcast
 
 ### POST
 Send a message to **all** devices. 
-You can also schedule a broadcast, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+You can also schedule a broadcast, if `schedule` is true you should immediately use /notification/schedule to create the schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
+
+## Expected properties
+
+| property | type | description | required | default |
+|----------|:------:|-------------|:----------:|:---------:|
+| type     | string | Types of notifications are represented in namespaces used. Notification types should be represented as re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
+| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
+| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
+| location | object |              | No | null |
+| actions  | array |              | No | null |
+| sound    | string |              | No | null |
+| badge    | number |              | No | null |
+| schedule | boolean |              | No | false |
+| extra  | mixed |              | Yes | null |
+
+
 
 + Request (application/json)
 
