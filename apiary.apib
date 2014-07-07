@@ -75,11 +75,13 @@ Retrieve an account object based on credentials. This request must be authentica
         }
 
 # Group Application
-Methods to manage your applications.
+Your account can create as many applications as you want. 
+Applications must provide a name, a category and the environment it should use. When you create an application three access keys will be automatically created for you. 
+These keys will be used in by both your apps and this API to access your applications. Make sure you never share these keys publicly online. 
 
-## /application{?limit,skip}
+## Application Collection [/application{?limit,skip}]
 
-### GET
+### Get all applications [GET]
 Get your active applications. This request must be authenticated with the `token`.
 
 + Parameters
@@ -93,7 +95,7 @@ Get your active applications. This request must be authenticated with the `token
         {
                 "applications":[
                                  {
-                                   "\_id":"5245bc5b3e66a3b01f0024d4",
+                                   "_id":"5245bc5b3e66a3b01f0024d4",
                                    "account": "5245bc5b3e66a3b01f0024d4",
                                    "applicationKey": "xxxxxxxxxxxxx",
                                    "applicationSecret": "xxxxxxxxxxxx",
@@ -141,10 +143,8 @@ Get your active applications. This request must be authenticated with the `token
         }
         
 
-
-## /application
-
-### POST
+## New Application [/application]
+### Create an application [POST]
 Create a new application. This request must be authenticated with the `token`.
 
 + Request (application/json)
@@ -164,13 +164,8 @@ Create a new application. This request must be authenticated with the `token`.
                               }
         }
 
-
-
-
-
-## /application/{application}
-
-### GET
+## Application [/application/{application}]
+### Get a specific application [GET]
 Get an application object. This request must be authenticated with the `token`.
 
 + Parameters
@@ -230,11 +225,7 @@ Get an application object. This request must be authenticated with the `token`.
         }
 
 
-
-
-
-
-### PUT
+### Modify a specific application [PUT]
 Modify an application. This request must be authenticated with the `token`.
 
 + Parameters
@@ -260,7 +251,7 @@ Modify an application. This request must be authenticated with the `token`.
 
 
 
-### DELETE
+### Detele a specific application [DELETE]
 Destroy an application. This operation can not be undone. This request must be authenticated with the `token`.
 
 + Parameters
@@ -283,10 +274,40 @@ Methods to manage your beacons. Be sure to add the `regionConfig.proximityUUID` 
 Also beacons require that you create a triggered message previously.
 
 
+## Beacons Collection [/beacon/forregion/{region}]
+### Get all beacons for a certain region [GET]
+Get all beacons for a certain region.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
 
-## /beacon
++ Parameters
 
-### POST
+    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active region.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "beacons":[{
+                                   "\_id":"5245bc5b3e66a3b01f0024d4",
+                                   "notification":"6245bc5b3e66a3b01f0024d5",
+                                   "name": "My Beacon",
+                                   "major": "654321",
+                                   "minor": "123456",
+                                   "proximity": "immediate"
+        },
+        {
+                                   "\_id":"5245bc5b3e66a3b01f0024d4",
+                                   "notification":"6245bc5b3e66a3b01f0024d5",
+                                   "name": "My Beacon",
+                                   "major": "654321",
+                                   "minor": "123456",
+                                   "proximity": "immediate"
+        }]
+
+
+## New Beacon [/beacon]
+
+### Create a new beacon for a region [POST]
 Create a new beacon for a region. To complete this request you must create a triggered Notification first. 
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -309,13 +330,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               }
         }
 
-
-
-
-
-## /beacon/{beacon}
-
-### GET
+## Beacon [/beacon/{id}]
+### Get a beacon object [GET]
 Get a beacon object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -327,7 +343,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Response 200 (application/json; charset=utf-8)
 
         {
-                "application":{
+                "beacons":{
                                    "\_id":"5245bc5b3e66a3b01f0024d4",
                                    "notification":"6245bc5b3e66a3b01f0024d5",
                                    "name": "My Beacon",
@@ -337,12 +353,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-
-
-
-## /beacon/{beacon}
-
-### PUT
+### Modify a beacon [PUT]
 Modify a beacon.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -368,11 +379,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-
-## /beacon/{beacon}
-
-### DELETE
-Destroy a beacon. This operation can not be undone.
+### Delete a beacon [DELETE]
+Delete a beacon. This operation can not be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -393,9 +401,9 @@ Methods to manage devices.
 Use these methods to retrieve information about devices for an application, for a specific user, for a specific tag or in a specific location.
 Management of devices is exclusively made by our SDK libraries therefore you only get access to read operations.
 
-## /device
+## Device Collection [/device]
 
-### GET
+### Get all the devices for a specific application [GET]
 Get all the devices for a specific application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -457,9 +465,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## /device/foruser/{user}
+## Filter by User [/device/foruser/{user}]
 
-### GET
+### Get all the devices for a specific user [GET]
 Get all the devices for a specific user.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -523,9 +531,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## /device/fortag/{tag}
+## Filter by tag [/device/fortag/{tag}]
 
-### GET
+### Get all the devices for a specific tag [GET]
 Get all the devices for a specific tag.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -594,9 +602,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## /device/bylocation/{latitude}/{longitude}/{distance}
+## Filter by location [/device/bylocation/{latitude}/{longitude}/{distance}]
 
-### GET
+### Get all the devices in a specific location [GET]
 Get all the devices in a specific location.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -713,9 +721,9 @@ You can also add an array `actions` to your notifications by simply providing on
 | re.notifica.action.App | string (open facebook) | string (eg.: fb: //) | n/a | n/a |
 | re.notifica.action.Custom | string (eg.: open tab) | string (eg.: openTabInMyCode) | n/a | n/a |
 
-## /notification/broadcast
+## Send to all [/notification/broadcast]
 
-### POST
+### Send a message to all devices [POST]
 Send a message to **all** devices. 
 You can also schedule a broadcast, if `schedule` is true you should immediately use /notification/schedule to create the schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -769,9 +777,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## /notification/tags
+## Send to one or more tags [/notification/tags]
 
-### POST
+### Send a message to devices with any of the specified tags [POST]
+
 Send a message to devices with any of the specified `tags`. 
 You can also schedule this message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -825,9 +834,9 @@ The request accepts an array of tags. This request must be authenticated with th
                 "message":"notifications are queued"
         }
         
-## /notification/segments
+## Send to one or more segments [/notification/segments]
 
-### POST
+### Send a message to users in one or more of the specified segments [POST]
 Send a message to users in one or more of the specified `segments`. 
 You can also schedule this messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -880,10 +889,10 @@ The request accepts an array of Segment Ids. This request must be authenticated 
                 "message":"notifications are queued"
         }
         
-## /notification/user/{user}
+## Send to a specific User [/notification/user/{user}]
 
-### POST
-Send a message to a `user`. 
+### Send a message to one single user [POST]
+Send a message to one single `user`. 
 You can also schedule a private message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -936,9 +945,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "message":"notifications are queued"
         }
         
-## /notification/device/{device}
+## Send to a specific device [/notification/device/{device}]
 
-### POST
+### Send a message to one single device [POST]
 Send a message to a `device`. 
 You can also schedule this type of messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -993,10 +1002,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
         
 
-## /notification/triggered
+## Create a triggered message [/notification/triggered]
 
-### POST
-Create a message that will be not be sent by a Region/Trigger or Region/Beacon. 
+### Create a triggered message [POST]
+Create a message that will not generate any notification. These kind of messages can be used by when creating a `Trigger` or `Beacon`. 
 You can not schedule a triggered message.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -1046,9 +1055,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "message":"notifications are queued"
         }
         
-## /notification/schedule
+## Schedule a message [/notification/schedule]
 
-### POST
+### Start a schedule task for a previously created message [POST]
 Start a schedule task for a previously created message.
 The property `local` determines if message should be sent on the device's local time or UTC.
 If `local` is true make sure the `time` is at least 14 hours from now to make sure the message will arrive in all timezones.
@@ -1074,9 +1083,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 Methods to test audience selection. Retrieves current devices based on the specified selection. It does not send any notification.
 Combines User, Segments, Tags and the location of the devices the same way Notification does.
 
-## /notification/test/broadcast
+## Test a message to all [/notification/test/broadcast]
 
-### POST
+### Test a message to all devices [POST]
 Test a message to **all** devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Request (application/json)
@@ -1085,23 +1094,8 @@ Test a message to **all** devices. This call must be authenticated with the `app
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
-                "sound":"default",
-                "content": [
-                        {
-                                "type":"re.notifica.content.Text",
-                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
-                        }
-                ],
-                "actions":[
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
-                        },
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Go away"
-                        }
-                ]
+                "sound":"default"
+                "extras" : {"prod": 123}
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1110,9 +1104,9 @@ Test a message to **all** devices. This call must be authenticated with the `app
                 "count":"42"
         }
         
-## /notification/test/tags
+## Test a message to one or more tags [/notification/test/tags]
 
-### POST
+### Test a message to devices with any of the specified tags [POST]
 Test a message to devices with any of the specified `tags`. The call accepts an array of tags. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -1148,9 +1142,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count":"42"
         }
         
-## /notification/test/segments
+## Test a message to one or more segments [/notification/test/segments]
 
-### POST
+### Test a message to users in one or more of the specified tags [POST]
 Send a message to users in one or more of the specified `segments`. The request accepts an array of IDs segments. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -1186,10 +1180,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count":"42"
         }
         
-## /notification/test/user/{user}
+## Test a message for a specific user [/notification/test/user/{user}]
 
-### POST
-Send a message to a `user`. 
+### Test a message to a user [POST]
+Test a message to a `user`. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -1227,10 +1221,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count":"42"
         }
         
-## /notification/test/device/{device}
+## Test a message to a specific device [/notification/test/device/{device}]
 
-### POST
-Send a message to a `device`. 
+### Test a message to a device [POST]
+Test a message to a `device`. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -1276,9 +1270,9 @@ When none are created your region will just gather the session data as users ent
 You can have a combination of Triggers and Beacons or just one of them. Note that iBeacon technology requires users to turn on Bluetooth to work.
 
 
-## /region{?limit,skip}
+## Region Collection [/region{?limit,skip}]
 
-### GET
+### Get all regions for an application [GET]
 Get all regions for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1310,9 +1304,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## /region
+## New Region [/region]
 
-### POST
+### Create a new region [POST]
 Create a new region. To retrieve a timezone from the coordinates you can use https://developers.google.com/maps/documentation/timezone/.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1341,9 +1335,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## /region/{region}
+## Region [/region/{region}]
 
-### GET
+### Get a region object [GET]
 Get a region object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1368,12 +1362,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-
-
-
-## /region/{region}
-
-### PUT
+### Modify a region [PUT]
 Modify a region.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1401,11 +1390,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-
-## /region/{region}
-
-### DELETE
-Destroy a region. This operation can not be undone.
+### Delete a region [DELETE]
+Delete a region. This operation can not be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -1425,9 +1411,9 @@ A Reply object is what Notificare creates when users interact with notifications
 These objects hold every single interaction and data your users send you.
 
 
-## /reply/fornotification/{notification}{?limit,skip}
+## Reply Collection [/reply/fornotification/{notification}{?limit,skip}]
 
-### GET
+### Get all replies for a specific notification [GET]
 Get all replies for a specific notification.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1472,9 +1458,9 @@ Methods to retrieve usage reports of all resources in the API.
 These requests must be authenticated with the `token`.
 
 
-## /stats/device/{dimension}/forapplication/{application}/lastmonth
+## Last month stats based on specific dimensions [/stats/device/{dimension}/forapplication/{application}/lastmonth]
 
-### GET
+### Retrieve last 30 days devices by dimension [GET]
 Retrieve the number of devices of a certain dimension for the last 30 days for a specific application.
 
 ### Dimensions:
@@ -1520,9 +1506,9 @@ deviceString
 
 
 
-## /stats/device/{dimension}/forapplication/{application}/{year}
+## Retrieve one single year of device stats by dimension [/stats/device/{dimension}/forapplication/{application}/{year}]
 
-### GET
+### Retrieve one single year of device stats by dimension [GET]
 Retrieve the number of devices of a certain dimension in a specific year for a specific application.
 
 ### Dimensions:
@@ -1568,9 +1554,9 @@ deviceString
         }
 
 
-## /stats/device/{dimension}/forapplication/{application}/{year}/{month}
+## Retrieve one single month of device stats by dimension [/stats/device/{dimension}/forapplication/{application}/{year}/{month}]
 
-### GET
+### Retrieve one single month of device stats by dimension [GET]
 Retrieve the number of devices of a certain dimension in a specific month for a specific application.
 
 ### Dimensions:
@@ -1618,9 +1604,9 @@ deviceString
 
 
 
-## /stats/device/{dimension}/forapplication/{application}/{year}/{month}/{day}
+## Retrieve one single day of device stats by dimension [/stats/device/{dimension}/forapplication/{application}/{year}/{month}/{day}]
 
-### GET
+### Retrieve one single day of device stats by dimension [GET]
 Retrieve the number of devices of a certain dimension in a specific day for a specific application.
 
 ### Dimensions:
@@ -1668,9 +1654,9 @@ deviceString
         }
 
 
-## /stats/event/{type}/forapplication/{application}/lastmonth
+## Retrieve last month events of a certain type [/stats/event/{type}/forapplication/{application}/lastmonth]
 
-### GET
+### Retrieve last month event stats of a certain type [GET]
 Retrieve the number of events of a certain type for the last 30 days and for a specific application.
 
 
@@ -1717,9 +1703,9 @@ re.notifica.event.beacon.Session
         }
 
 
-## /stats/event/{type}/forapplication/{application}/{year}
+## Retrieve one single year event stats of a certain type [/stats/event/{type}/forapplication/{application}/{year}]
 
-### GET
+### Retrieve one single year event stats of a certain type [GET]
 Retrieve the number of events of a certain type for a specific year and for a specific application.
 
 ### Events
@@ -1766,9 +1752,9 @@ re.notifica.event.beacon.Session
         }
 
 
-## /stats/event/{type}/forapplication/{application}/{year}/{month}
+## Retrieve one single month event stats of a certain type [/stats/event/{type}/forapplication/{application}/{year}/{month}]
 
-### GET
+### Retrieve one single month event stats of a certain type [GET]
 Retrieve the number of events of a certain type for a specific month and for a specific application.
 
 
@@ -1817,11 +1803,10 @@ re.notifica.event.beacon.Session
         }
 
 
-## /stats/event/{type}/forapplication/{application}/{year}/{month}/{day}
+## Retrieve one single year event stats of a certain type [/stats/event/{type}/forapplication/{application}/{year}/{month}/{day}]
 
-### GET
+### Retrieve one single year event stats of a certain type [GET]
 Retrieve the number of events of a certain type for a specific day and for a specific application.
-
 
 ### Events
 ***
@@ -1867,9 +1852,9 @@ re.notifica.event.beacon.Session
                 ]
         }
 
-## /stats/notification/lastmonth
+## Retrieve last month notification stats [/stats/notification/lastmonth]
 
-### GET
+### Retrieve last month notification stats [GET]
 Retrieve the number of notifications sent on the last 30 days.
 
     
@@ -1901,9 +1886,9 @@ Retrieve the number of notifications sent on the last 30 days.
 # Group Status
 Public methods to retrieve information about the status and health of the API 
 
-## /status
+## Check API Status [/status]
 
-### GET
+### Get the current availability of the API [GET]
 Get the current availability of the API
 
 
@@ -1921,9 +1906,9 @@ Methods to manage your triggers. Triggers are used to send messages when some ev
 There are two types of triggers, Geo-Triggers and In-App triggers. Geo-Triggers are used by regions and beacons to send notifications whenever a device enters/exits a Region or is in the proximity range of a Beacon.
 In-App triggers basically are a free form of triggers that you can use to send a notification on any in-app event. 
 
-## /trigger{?limit,skip}
+## Trigger Collection [/trigger{?limit,skip}]
 
-### GET
+### Get all triggers for an application [GET]
 Get all triggers for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1972,9 +1957,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## /trigger
+## New Trigger [/trigger]
 
-### POST
+### Create a new trigger [POST]
 Create a new trigger. This request expects at least `name`, `type`, `frequency` and `notification`.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2005,11 +1990,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
+## Trigger [/trigger/{trigger}]
 
-
-## /trigger/{trigger}
-
-### GET
+### Get a trigger object [GET]
 Get a trigger object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2038,12 +2021,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-
-
-## /trigger/{trigger}
-
-### PUT
-Modify a region.
+### Modify a trigger [PUT]
+Modify a trigger.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -2075,10 +2054,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## /trigger/{trigger}
-
-### DELETE
-Destroy a trigger. This operation can not be undone.
+### Delete Trigger [DELETE]
+Delete a trigger. This operation can not be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -2097,9 +2074,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 These methods let you manage files.
 All the files you upload to Notificare can be used as content of your notifications.
 
-## /upload
+## New File [/upload]
 
-### POST
+### Upload a file [POST]
 Upload a file to Notificare.
 
 + Response 201 (application/json; charset=utf-8)
@@ -2108,9 +2085,9 @@ Upload a file to Notificare.
                 "filename": "https://s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9f.."
         }
 
-## /upload/{url}
+## Delete a file [/upload/{url}]
 
-### DELETE
+### Delete a file [DELETE]
 Delete file from Notificare storage. This operation can not be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2125,9 +2102,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 # Group User Segment
 These methods let you create, change and remove user segments
 
-## /usersegment{?limit,skip}
+## User Segments Collection [/usersegment{?limit,skip}]
 
-### GET
+### Retrieve a list of segments [GET]
 Retrieve a list of segments
 
 + Parameters
@@ -2154,9 +2131,9 @@ Retrieve a list of segments
                 "count": 2
         }
 
-## /usersegment/forname/{name}{?limit,skip}
+## Retrieve a list of segments by name [/usersegment/forname/{name}{?limit,skip}]
 
-### GET
+### Retrieve a list of segments by name [GET]
 Retrieve a list of segments with a name (starting with) `name`
 
 + Parameters
@@ -2180,9 +2157,31 @@ Retrieve a list of segments with a name (starting with) `name`
                 "count": 1
         }
 
-## /usersegment/{segment}
+## New Segment [/usersegment]
 
-### GET
+### Create a new user segment [POST]
+Create a new user segment
+
++ Request (application/json)
+
+        {
+                "name":"fans",
+                "description":"people who like our page on Facebook"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "userSegment": {
+                        "id":"12345"
+                }
+        }
+
+
+
+## Segment [/usersegment/{segment}]
+
+### Retrieve a segment [GET]
 Retrieve a segment
 
 + Parameters
@@ -2199,7 +2198,7 @@ Retrieve a segment
                 }
         }
 
-### PUT
+### Modify a segment [PUT]
 Change `name` and/or `description` of a user segment
 
 + Parameters
@@ -2219,8 +2218,8 @@ Change `name` and/or `description` of a user segment
                 "message": "user segment updated"
         }
 
-### DELETE
-Remove a user segment
+### Delete a segment [DELETE]
+Delete a user segment
 
 + Parameters
 
@@ -2233,32 +2232,13 @@ Remove a user segment
         }
 
 
-## /usersegment
-
-### POST
-Create a new user segment
-
-+ Request (application/json)
-
-        {
-                "name":"fans",
-                "description":"people who like our page on Facebook"
-        }
-
-+ Response 201 (application/json; charset=utf-8)
-
-        {
-                "userSegment": {
-                        "id":"12345"
-                }
-        }
 
 # Group User
 Methods for retrieving (groups of) users and adding / removing them from user segments
 
-## /user{?limit,skip}
+## User Collection [/user{?limit,skip}]
 
-### GET
+### List all users for this app [GET]
 List all users for this app
 
 + Parameters
@@ -2285,10 +2265,10 @@ List all users for this app
                 "count": 1
         }
 
-## /user/forsegment/{segment}{?limit,skip}
+## Retrieve users for a segment [/user/forsegment/{segment}{?limit,skip}]
 
-### GET
-List users for a segment
+### Retrieve users for a segment [GET]
+Retrieve users for a segment
 
 + Parameters
 
@@ -2316,10 +2296,10 @@ List users for a segment
                 "count": 1
         }
 
-## /user/search/{search}{?limit,skip}
+## Search users [/user/search/{search}{?limit,skip}]
 
-### GET
-List all users whose userName starts with `search` or whose userID is equal to `search`
+### Search users [GET]
+Search users by `userName` and `userID`
 
 + Parameters
 
@@ -2348,9 +2328,10 @@ List all users whose userName starts with `search` or whose userID is equal to `
         }
 
 
-## /user/{user}
+## User [/user/{user}]
 
-### GET
+### Retrieve a user object [GET]
+Retrieve a user object.
 
 + Parameters
 
@@ -2371,7 +2352,8 @@ List all users whose userName starts with `search` or whose userID is equal to `
                 }
         }
 
-## DELETE
+
+## Delete a user [DELETE]
 Deactivate a user. The user will not receive any more notifications. 
 If the user registers again on one of his devices, he will be activated again.
 
@@ -2381,10 +2363,11 @@ If the user registers again on one of his devices, he will be activated again.
 
 + Response 204
 
-## /user/foruserid/{userid}
 
-### GET
-Get details for a user
+## Retrieve a user object by userID [/user/foruserid/{userid}]
+
+### Retrieve a user object by userID [GET]
+Retrieve a user object by custom `userID`.
 
 + Parameters
 
@@ -2407,20 +2390,9 @@ Get details for a user
 
 
 
-### DELETE
-Deactivate a user. The user will not receive any more notifications. 
-If the user registers again on one of his devices, he will be activated again.
+## Add user to segment [/user/{user}/add/{segment}]
 
-+ Parameters
-
-    + user (required, string, `12345`)...The app-specific userID of the user
-
-+ Response 204
-
-
-## /user/{user}/add/{segment}
-
-### PUT
+### Add user to segment [PUT]
 Add user to segment
 
 + Parameters
@@ -2435,9 +2407,9 @@ Add user to segment
                 "message": "user added to segment"
         }
 
-## /user/{user}/remove/{segment}
+## Remove user from segment [/user/{user}/remove/{segment}]
 
-### PUT
+### Remove user from segment [PUT]
 Remove user from segment
 
 + Parameters
