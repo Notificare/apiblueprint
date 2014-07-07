@@ -274,7 +274,7 @@ Methods to manage your beacons. Be sure to add the `regionConfig.proximityUUID` 
 Also beacons require that you create a triggered message previously.
 
 
-## Beacons Collection [/beacon/forregion/{region}]
+## Beacon Collection [/beacon/forregion/{region}]
 ### Get all beacons for a certain region [GET]
 Get all beacons for a certain region.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -1883,6 +1883,98 @@ Retrieve the number of notifications sent on the last 30 days.
         }
 
 
+## Retrieve one single year notification stats [/stats/notification/{year}]
+
+### Retrieve one single year of notification stats [GET]
+Retrieve the number of notifications sent on a specific year.
+
+    
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "month":2,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single month notification stats [/stats/notification/{year}/{month}]
+
+### Retrieve one single month of notification stats [GET]
+Retrieve the number of notifications sent on a specific month.
+
+    
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "day":2,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single day notification stats [/stats/notification/{year}/{month}/{day}]
+
+### Retrieve one single day of notification stats [GET]
+Retrieve the number of notifications sent on a specific day.
+
+    
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "hour": 0,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-01-01T01:00:00.000Z",
+                            "hour":1,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+
+
 # Group Status
 Public methods to retrieve information about the status and health of the API 
 
@@ -2102,7 +2194,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 # Group User Segment
 These methods let you create, change and remove user segments
 
-## User Segments Collection [/usersegment{?limit,skip}]
+## User Segment Collection [/usersegment{?limit,skip}]
 
 ### Retrieve a list of segments [GET]
 Retrieve a list of segments
