@@ -5,6 +5,24 @@ HOST: https://push.notifica.re/
 Unified remote push notifications and location services for iOS, Android and HTML5 apps. 
 Create user profiles, categorize your users and devices, create/schedule any content-rich and actionable notification. 
 Use Geo-Targeting, Geo-Fencing or iBeacon technology to provide the ultimate messaging experience. Sign up for free [here](https://dashboard.notifica.re/#/sign-up).
+
+The API calls below are all authenticated. There are 4 types of authentication credentials:
+
+- email / password
+Used for signing in to your account and retrieving an access token
+
+- token
+Used for all calls that need account-wide access, such as stats, lists of applications, etc.
+
+- applicationKey / applicationSecret
+Only used for calls that originate from the device, e.g., registration, tags.
+
+- applicationKey / masterSecret
+Used for calls that are related to a specific application and originate from your backend system, e.g., push, user segments, user lists, device lists, regions.
+
+All 4 types use normal Basic HTTP Authentication (username + password), in case of token, the password is ignored, so can be anything, e.g. "xxx"
+
+
 For more information about this API, please [contact us](http://notifica.re/contact).
 
 
