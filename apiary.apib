@@ -615,6 +615,28 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                           
         }
 
+## Search tags [/device/tag/{tag}]
+
+### Search tags that match partially or totally a specific tag [GET]
+Get all the tags that match match partially or totally a specific tag.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + tag (required, string, `toys`)... The string to search for
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "tags":[
+                              'toys',
+                              'kitchen'
+                ],
+                "count": 2
+
+        }
+
 
 ## Filter by location [/device/bylocation/{latitude}/{longitude}/{distance}]
 
