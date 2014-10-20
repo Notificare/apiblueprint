@@ -713,6 +713,54 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
+# Group Event
+Get all the Events stored for a specific application.
+
+## Event Types:
+| type | description |
+|:---------:|----------------------------------|
+| re.notifica.event.application.Install | Stored whenever a new device installs the app. |
+| re.notifica.event.application.Open | Stored whenever the application becomes active. |
+| re.notifica.event.application.Close | Stored whenever the application goes to background. |
+| re.notifica.event.notification.Influenced | Stored whenever a notification when app is not active. |
+| re.notifica.event.notification.Received | Stored whenever a notification arrives. |
+| re.notifica.event.notification.Open | Stored whenever a notification is open. |
+| re.notifica.event.notification.Close | Stored whenever a notification is closed. |
+| re.notifica.event.region.Session | Stored whenever a user enters and leaves a region. |
+| re.notifica.event.beacon.Session | Stored whenever a user is on the proximity of a beacon. |
+
+## Event Collection [/event/forapplication/{application}/{type}]
+
+### Get all the events for a specific application [GET]
+Get all the Events types stored for a specific application.
+This request is authenticated with `token`.
+
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "events":[
+                              {
+                                "_id":"542f1868d341d51284b",
+                                "application":"5354f3545a544452ff4c7c0",
+                                "userID":null,
+                                "sessionID":"5SX4tAmO345juHL",
+                                "time":"2014-10-03T21:43:04.231Z",
+                                "type":"re.notifica.event.application.Install"
+                              },
+                              {
+                                "_id":"542f153401d51284b",
+                                "application":"5354f3545a544452ff4c7c0",
+                                "userID":null,
+                                "sessionID":"5SX4tAsd534MjuHL",
+                                "time":"2014-10-03T21:43:04.231Z",
+                                "type":"re.notifica.event.application.Install"
+                              },
+                ]
+
+        }
+
 
 
 
