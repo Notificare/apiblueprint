@@ -1115,6 +1115,35 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                            }
         }
 
+
+## Notification Info [/notification/{id}/info]
+
+### Get information about message performance [GET]
+Retrieve information about your message performance.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "info":{
+                             "application": "5354f0bb3fff5452ff4c7c0"
+                             "devices": 3
+                             "duration": 749
+                             "fails": 0
+                             "id": "543d90d0f4e6e1we3ad6576"
+                             "notification": "543d90d0wew6e10309ad6575"
+                             "opened": 0
+                             "queued": 3
+                             "replied": 0
+                             "sent": 3
+                             "status": "finished"
+                             "users": 0
+                        }
+        }
+
+
+
 # Group Notification Test
 Methods to test audience selection. Retrieves current devices based on the specified selection. It does not send any notification.
 Combines User, Segments, Tags and the location of the devices the same way Notification does.
