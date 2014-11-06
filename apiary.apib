@@ -43,8 +43,8 @@ Retrieve an account object based on credentials. This request must be authentica
         {
                 "account":{
                             "\_id":"5245bc5b3e66a3b01f0024d4"
-                            "email":"john@doe.com",
-                            "name":"John Doe",
+                            "email":"massimo@notifica.re",
+                            "name":"Massimo Gondoliere",
                             "subscriptionId":"",
                             "token":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                             "firstTime":true,
@@ -58,10 +58,10 @@ Retrieve an account object based on credentials. This request must be authentica
                             "blocked":false,
                             "active":true,
                             "billingInfo":{
-                                            "company":"Notificare BV",
-                                             "firstName":"John",
-                                             "lastName":"Doe",
-                                             "address1":"Overhoekslein 2",
+                                             "company":"Notificare BV",
+                                             "firstName":"Massimo",
+                                             "lastName":"Gondoliere",
+                                             "address1":"Overhoeksplein 2",
                                              "address2":"",
                                              "city":"Amsterdam",
                                              "state":"Zuid-Holland",
@@ -2279,18 +2279,35 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 These methods let you manage files.
 All the files you upload to Notificare can be used as content of your notifications.
 
-## New File [/upload]
+## New File [/upload/{type}]
 
 ### Upload a file [POST]
-Upload a file to Notificare.
+Upload a file to Notificare. The resulting filename is a path inside the notificare storage. This can be used as a reference to the file in further processing or deleting.
+The contents of the file should be in the body of the request and with the correct mime-type. So, e.g. an import should be of type `text/csv`, an image to go with a notification `image/png`, etc.  
+This request is authenticated with the `applicationKey` and  `masterSecret`.
 
+### Uploads
+***
+notification
+***
+import
+***
+
++ Parameters
+
+    + type (required, string, `import`)...The type of the file to upload
+
++ Request (text/csv)
+        userID,userName
+        "test@example.com","Test User"
+    
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "filename": "https://s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9f.."
+                "filename": "/imports/9f.."
         }
 
-## Delete a file [/upload/{url}]
+## Delete a file [/upload/{filename}]
 
 ### Delete a file [DELETE]
 Delete file from Notificare storage. This operation can not be undone.
@@ -2298,7 +2315,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + url (required, string, `https://s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9f..`)...The url of the file to delete
+    + filename (required, string, `/notifications/9f..`)...The url of the file to delete
 
 
 + Response 204
@@ -2632,4 +2649,43 @@ Remove user from segment
         
         
 
+# Group Import
+Methods for importing collections of items. Files are assumed to be uploaded to Notificare Storage before
+
+## New Import [/import/{type}]
+
+### New Import [POST]
+Create a new import for this app
+
+### Import types
+
+***
+re.notifica.import.User (default)
+***
+re.notifica.import.Device
+***
+re.notifica.import.UserSegment
+***
+
+
++ Parameters
+
+    + type (required, string, `re.notifica.import.UserSegments`)...The import type
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "path":"/imports/647431c4dc3798f2a5ae147411a787e8d52447e365d7972ec4d8535/dfeba0ade92ad65ec8619d4464333facc95f5c2feb55df98a92a78",
+                "data":{
+                        "clear": true
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "importJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
 
