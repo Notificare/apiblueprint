@@ -42,7 +42,7 @@ Retrieve an account object based on credentials. This request must be authentica
 
         {
                 "account":{
-                            "\_id":"5245bc5b3e66a3b01f0024d4"
+                            "_id":"5245bc5b3e66a3b01f0024d4"
                             "email":"massimo@notifica.re",
                             "name":"Massimo Gondoliere",
                             "subscriptionId":"",
@@ -174,7 +174,7 @@ Create a new application. This request must be authenticated with the `token`.
 
         {
                 "application":{
-                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
                               }
         }
 
@@ -191,7 +191,7 @@ Get an application object. This request must be authenticated with the `token`.
 
         {
                 "application":{
-                                   "\_id":"5245bc5b3e66a3b01f0024d4",
+                                   "_id":"5245bc5b3e66a3b01f0024d4",
                                    "account": "xxxxxxxxxxx",
                                    "applicationKey": "xxxxxxxxxxxxx",
                                    "applicationSecret": "xxxxxxxxxxxx",
@@ -302,7 +302,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "beacons":[{
-                                   "\_id":"5245bc5b3e66a3b01f0024d4",
+                                   "_id":"5245bc5b3e66a3b01f0024d4",
                                    "notification":"6245bc5b3e66a3b01f0024d5",
                                    "name": "My Beacon",
                                    "major": "654321",
@@ -310,7 +310,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                    "proximity": "immediate"
         },
         {
-                                   "\_id":"5245bc5b3e66a3b01f0024d4",
+                                   "_id":"5245bc5b3e66a3b01f0024d4",
                                    "notification":"6245bc5b3e66a3b01f0024d5",
                                    "name": "My Beacon",
                                    "major": "654321",
@@ -340,7 +340,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "beacon":{
-                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
                               }
         }
 
@@ -358,7 +358,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "beacons":{
-                                   "\_id":"5245bc5b3e66a3b01f0024d4",
+                                   "_id":"5245bc5b3e66a3b01f0024d4",
                                    "notification":"6245bc5b3e66a3b01f0024d5",
                                    "name": "My Beacon",
                                    "major": "654321",
@@ -428,19 +428,18 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4"
-                                  "app_version":"1.0",
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
-                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
-                                  "os_string":"Mac OS X 10.9.2",
-                                  "os_version":"10.9.2",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
                                   "platform":"Mac OS X",
-                                  "sdk_version":"0.0.1",
+                                  "sdkVersion":"0.0.1",
                                   "transport":"Websocket",
-                                  "user_id":"info@notifica.re",
-                                  "time_zone_offset":-5,
-                                  "last_active":
-                                  "2014-03-11T16:20:55.084Z",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[],
                                   "location":{
@@ -448,21 +447,20 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "device_string":"MacIntel
+                                  "deviceString":"MacIntel"
                               },
                                {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4",
-                                  "app_version":"1.0",
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
-                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
-                                  "os_string":"Mac OS X 10.9.2",
-                                  "os_version":"10.9.2",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
                                   "platform":"Mac OS X",
-                                  "sdk_version":"0.0.1",
+                                  "sdkVersion":"0.0.1",
                                   "transport":"Websocket",
-                                  "user_id":"info@notifica.re",
-                                  "time_zone_offset":-5,"last_active":
-                                  "2014-03-11T16:20:55.084Z",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,"last_active":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[],
                                   "location":{
@@ -470,7 +468,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "device_string":"MacIntel
+                                  "deviceString":"MacIntel"
                               }
                 ],
                 "count": 2
@@ -495,19 +493,18 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4"
-                                  "app_version":"1.0",
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
-                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
-                                  "os_string":"Mac OS X 10.9.2",
-                                  "os_version":"10.9.2",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
                                   "platform":"Mac OS X",
-                                  "sdk_version":"0.0.1",
+                                  "sdkVersion":"0.0.1",
                                   "transport":"Websocket",
-                                  "user_id":"info@notifica.re",
-                                  "time_zone_offset":-5,
-                                  "last_active":
-                                  "2014-03-11T16:20:55.084Z",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[],
                                   "location":{
@@ -515,21 +512,21 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "device_string":"MacIntel
+                                  "deviceString":"MacIntel"
                               },
                                {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4",
-                                  "app_version":"1.0",
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
-                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
-                                  "os_string":"Mac OS X 10.9.2",
-                                  "os_version":"10.9.2",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
                                   "platform":"Mac OS X",
-                                  "sdk_version":"0.0.1",
+                                  "sdkVersion":"0.0.1",
                                   "transport":"Websocket",
-                                  "user_id":"info@notifica.re",
-                                  "time_zone_offset":-5,"last_active":
-                                  "2014-03-11T16:20:55.084Z",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[],
                                   "location":{
@@ -537,7 +534,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "device_string":"MacIntel
+                                  "deviceString":"MacIntel"
                               }
                 ],
                 "count": 2
@@ -561,19 +558,18 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4"
-                                  "app_version":"1.0",
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
-                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
-                                  "os_string":"Mac OS X 10.9.2",
-                                  "os_version":"10.9.2",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
                                   "platform":"Mac OS X",
-                                  "sdk_version":"0.0.1",
+                                  "sdkVersion":"0.0.1",
                                   "transport":"Websocket",
-                                  "user_id":"info@notifica.re",
-                                  "time_zone_offset":-5,
-                                  "last_active":
-                                  "2014-03-11T16:20:55.084Z",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
                                           toys
@@ -583,22 +579,21 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "device_string":"MacIntel
+                                  "deviceString":"MacIntel
                               },
                                {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4",
-                                  "app_version":"1.0",
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
-                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
-                                  "os_string":"Mac OS X 10.9.2",
-                                  "os_version":"10.9.2",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
                                   "platform":"Mac OS X",
-                                  "sdk_version":"0.0.1",
+                                  "sdkVersion":"0.0.1",
                                   "transport":"Websocket",
-                                  "user_id":"info@notifica.re",
-                                  "time_zone_offset":-5,
-                                  "last_active":
-                                  "2014-03-11T16:20:55.084Z",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
                                           toys
@@ -608,7 +603,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "device_string":"MacIntel
+                                  "deviceString":"MacIntel
                               }
                 ],
                 "count": 2
@@ -658,19 +653,18 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4"
-                                  "app_version":"1.0",
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
-                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
-                                  "os_string":"Mac OS X 10.9.2",
-                                  "os_version":"10.9.2",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
                                   "platform":"Mac OS X",
-                                  "sdk_version":"0.0.1",
+                                  "sdkVersion":"0.0.1",
                                   "transport":"Websocket",
-                                  "user_id":"info@notifica.re",
-                                  "time_zone_offset":-5,
-                                  "last_active":
-                                  "2014-03-11T16:20:55.084Z",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
                                           toys
@@ -680,22 +674,21 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "device_string":"MacIntel
+                                  "deviceString":"MacIntel"
                               },
                                {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4",
-                                  "app_version":"1.0",
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
-                                  "device_id":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
-                                  "os_string":"Mac OS X 10.9.2",
-                                  "os_version":"10.9.2",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
                                   "platform":"Mac OS X",
-                                  "sdk_version":"0.0.1",
+                                  "sdkVersion":"0.0.1",
                                   "transport":"Websocket",
-                                  "user_id":"info@notifica.re",
-                                  "time_zone_offset":-5,
-                                  "last_active":
-                                  "2014-03-11T16:20:55.084Z",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
                                           toys
@@ -705,7 +698,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "device_string":"MacIntel
+                                  "deviceString":"MacIntel"
                               }
                 ],
                 "count": 2
@@ -856,7 +849,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"5245bc5b3e66a3b01f0024d4",
+                "_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
 
@@ -914,7 +907,7 @@ The request accepts an array of tags. This request must be authenticated with th
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"5245bc5b3e66a3b01f0024d4",
+                "_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
         
@@ -969,7 +962,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"5245bc5b3e66a3b01f0024d4",
+                "_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
         
@@ -1025,7 +1018,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"5245bc5b3e66a3b01f0024d4",
+                "_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
         
@@ -1081,7 +1074,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"5245bc5b3e66a3b01f0024d4",
+                "_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
         
@@ -1135,7 +1128,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "\_id":"5245bc5b3e66a3b01f0024d4",
+                "_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
         
@@ -1402,7 +1395,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "regions":[
                             {
-                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "name": "My Region",
                                   "geometry": {
                                                "type": "Point",
@@ -1440,7 +1433,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "region":{
-                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
                          }
         }
 
@@ -1463,7 +1456,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "regions":{
-                                  "\_id":"5245bc5b3e66a3b01f0024d4",
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "name": "My Region",
                                   "geometry": {
                                                "type": "Point",
@@ -2666,6 +2659,38 @@ Used to import a list of users. Every row in the referenced CSV should include a
 Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform`. 
 The latter three can also be defaulted to whatever you put in the `data` field in the request. See the example, where `appVersion`, `platform` and `language` have default values.
 There is one option in this import type, which is `overwrite`, defaults to `false`.
+
+Recognized columns are:
+
++ deviceID (APNS device token or Android registration id)
+
++ osVersion
+
++ appVersion
+
++ sdkVersion 
+
++ platform (iOS, Android)
+
++ osString (defaults to platform + osVersion)
+
++ deviceString (defaults to 'unknown')
+
++ lastActive (ISO Date, defaults to current date/time)
+
++ longitude 
+
++ latitude
+
++ locationLastUpdated (ISO Date, defaults to lastActive)
+
++ timeZoneOffset
+
++ userID (If the userID doesn't exist yet, a new user will be created. If omitted, an anonymous user will be generated.)
+
++ userName (only used when userID is present. Defaults to 'anonymous')
+
+
 
 #### re.notifica.import.UserSegment
 Used to import a list of users into a segment. Every row in the referenced CSV should contain a `userID`. 
