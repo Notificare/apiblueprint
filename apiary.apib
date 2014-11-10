@@ -754,7 +754,175 @@ This request is authenticated with `token`.
 
         }
 
+# Group Import
+Methods for importing collections of items. Files are assumed to be uploaded to Notificare Storage before they can be used in a new import. Use this [endpoint](http://docs.notificare.apiary.io/#upload) to upload a file.
 
+## New Import [/import/{type}]
+
+### New Import [POST]
+Create a new import job for an application. This job might take some time to finish, depending on the size of the file you uploaded. You can retrieve the status of all the jobs by using the other endpoints below.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+### Import types
+
+#### re.notifica.import.User (default)
+Used to import a list of users. Every row in the referenced CSV should include at least a `userID`. userName is optional and defaults to `anonymous`. This import type has no extra settings.
+
+#### re.notifica.import.Device
+Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform`.
+The latter three can also be defaulted to whatever you put in the `data` field in the request. See the example, where `appVersion`, `platform` and `language` have default values.
+There is one option in this import type, which is `overwrite`, defaults to `false`.
+
+Recognized columns are:
+
++ deviceID (APNS device token or Android registration id)
+
++ osVersion
+
++ appVersion
+
++ sdkVersion
+
++ platform (iOS, Android)
+
++ osString (defaults to platform + osVersion)
+
++ deviceString (defaults to 'unknown')
+
++ lastActive (ISO Date, defaults to current date/time)
+
++ longitude
+
++ latitude
+
++ locationLastUpdated (ISO Date, defaults to lastActive)
+
++ timeZoneOffset
+
++ userID (If the userID doesn't exist yet, a new user will be created. If omitted, an anonymous user will be generated.)
+
++ userName (only used when userID is present. Defaults to 'anonymous')
+
+
+
+#### re.notifica.import.UserSegment
+Used to import a list of users into a segment. Every row in the referenced CSV should contain a `userID`.
+The user segment to import into should be set as the `userSegment` property of `data`.
+There is one option in this import type, which is `clear`. If set, it clears the segment before importing users, otherwise it just adds users. It defaults to `false`.
+
+
++ Parameters
+
+    + type (required, string, `re.notifica.import.Device`)...The import type
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "path":"/imports/647431c4dc3798f2a5ae147411a787e8d52447e365d7972ec4d8535/dfeba0ade92ad65ec8619d4464333facc95f5c2feb55df98a92a78",
+                "data":{
+                        "appVersion": "1.0",
+                        "platform": "iOS",
+                        "language": "pt",
+                        "overwrite": true
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "importJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Import Collection [/import]
+### Get all the import objects [GET]
+Get all the import objects.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+
+
+        }
+                "importJobs":[{
+                                   "_id":"545cc517ff584870b89fb98",
+                                   "account":"50d771ff87e53afff2600001c",
+                                   "application":"5354f0bbdddd4452ff4c7c0",
+                                   "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
+                                   "data":{
+                                            "user_segment":"53a0a047fff17d3215a94f6",
+                                            "clear":false
+                                          },
+                                   "result":"imported 0 records, skipped 3 records",
+                                   "date":"2014-11-07T13:11:51.316Z",
+                                   "status":"success",
+                                   "type":"re.notifica.import.UserSegment"
+                              }]
+        }
+
+## Retrieve all import objects by type [/import/{type}]
+### Get all the import objects by type [GET]
+Get all the import objects by type.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+
+
+        }
+                "importJobs":[{
+                                   "_id":"545cc517ff584870b89fb98",
+                                   "account":"50d771ff87e53afff2600001c",
+                                   "application":"5354f0bbdddd4452ff4c7c0",
+                                   "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
+                                   "data":{
+                                            "user_segment":"53a0a047fff17d3215a94f6",
+                                            "clear":false
+                                          },
+                                   "result":"imported 0 records, skipped 3 records",
+                                   "date":"2014-11-07T13:11:51.316Z",
+                                   "status":"success",
+                                   "type":"re.notifica.import.UserSegment"
+                              }]
+        }
+
+## Import [/import/{type}/{import}]
+### Get an import object [GET]
+Get an import object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
+    + import (required, string, `5245bc5b3e66a3b01f0024d4`)...The import id of a previously created job.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "importJob":{
+                                "_id":"545cc517ff584870b89fb98",
+                                "account":"50d771ff87e53afff2600001c",
+                                "application":"5354f0bbdddd4452ff4c7c0",
+                                "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
+                                "data":{
+                                      "user_segment":"53a0a047fff17d3215a94f6",
+                                      "clear":false
+                                },
+                                "result":"imported 0 records, skipped 3 records",
+                                "date":"2014-11-07T13:11:51.316Z",
+                                "status":"success",
+                                "type":"re.notifica.import.UserSegment"
+                          }
+        }
 
 
 # Group Notification
@@ -2639,86 +2807,5 @@ Remove user from segment
         {
                 "message": "user removed from segment"
         }
-        
-        
 
-# Group Import
-Methods for importing collections of items. Files are assumed to be uploaded to Notificare Storage before
-
-## New Import [/import/{type}]
-
-### New Import [POST]
-Create a new import for this app
-
-### Import types
-
-#### re.notifica.import.User (default)
-Used to import a list of users. Every row in the referenced CSV should include at least a `userID`. userName is optional and defaults to `anonymous`. This import type has no extra settings.
-
-#### re.notifica.import.Device
-Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform`. 
-The latter three can also be defaulted to whatever you put in the `data` field in the request. See the example, where `appVersion`, `platform` and `language` have default values.
-There is one option in this import type, which is `overwrite`, defaults to `false`.
-
-Recognized columns are:
-
-+ deviceID (APNS device token or Android registration id)
-
-+ osVersion
-
-+ appVersion
-
-+ sdkVersion 
-
-+ platform (iOS, Android)
-
-+ osString (defaults to platform + osVersion)
-
-+ deviceString (defaults to 'unknown')
-
-+ lastActive (ISO Date, defaults to current date/time)
-
-+ longitude 
-
-+ latitude
-
-+ locationLastUpdated (ISO Date, defaults to lastActive)
-
-+ timeZoneOffset
-
-+ userID (If the userID doesn't exist yet, a new user will be created. If omitted, an anonymous user will be generated.)
-
-+ userName (only used when userID is present. Defaults to 'anonymous')
-
-
-
-#### re.notifica.import.UserSegment
-Used to import a list of users into a segment. Every row in the referenced CSV should contain a `userID`. 
-The user segment to import into should be set as the `userSegment` property of `data`.
-There is one option in this import type, which is `clear`. If set, it clears the segment before importing users, otherwise it just adds users. It defaults to `false`.
-
-
-+ Parameters
-
-    + type (required, string, `re.notifica.import.Device`)...The import type
-
-+ Request (application/json; charset=utf-8)
-
-        {
-                "path":"/imports/647431c4dc3798f2a5ae147411a787e8d52447e365d7972ec4d8535/dfeba0ade92ad65ec8619d4464333facc95f5c2feb55df98a92a78",
-                "data":{
-                        "appVersion": "1.0",
-                        "platform": "iOS",
-                        "language": "pt",
-                        "overwrite": true
-                }
-        }
-
-+ Response 201 (application/json; charset=utf-8)
-
-        {
-                "importJob": {
-                        "id": "5245bc5b3e66a3b01f0024d4"
-                }
-        }
 
