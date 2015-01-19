@@ -541,6 +541,31 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                           
         }
 
+## Get all tags [/device/tags{?limit,skip}]
+
+### Get the list of all tags for this application [GET]
+Get the list of all tags for this application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "tags":[
+                        {"tag":"toys", "deviceCount": 2},
+                        {"tag":"kitchen", "deviceCount": 5}
+                ],
+                "count": 2
+
+        }
+
 
 ## Filter by tag [/device/fortag/{tag}]
 
@@ -625,12 +650,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "tags":[
-                              'toys',
-                              'kitchen'
+                        {"tag":"toys", "deviceCount": 2},
+                        {"tag":"kitchen", "deviceCount": 5}
                 ],
                 "count": 2
 
         }
+
 
 
 ## Filter by location [/device/bylocation/{latitude}/{longitude}/{distance}]
@@ -1006,11 +1032,13 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": []
                         }
         }
 
@@ -1063,11 +1091,13 @@ The request accepts an array of tags. This request must be authenticated with th
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": [],
                         }
                 ]
         }
@@ -1118,11 +1148,13 @@ The request accepts an array of Segment Ids. This request must be authenticated 
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
                         }
                 ]
         }
@@ -1174,11 +1206,13 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
                         }
                 ]
         }
@@ -1230,11 +1264,13 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": []
                         }
                 ]
         }
@@ -1284,11 +1320,13 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
                         }
                 ]
         }
@@ -2300,6 +2338,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "dayEnd": "",
                                   "dayStart": "",
                                   "notification": "5245bc5b3e66a3b01f0024d4",
+                                  "rules": [],
                                   "source": "5245bc5b3e66a3b01f0024d4",
                                   "active": false
                             },
@@ -2313,6 +2352,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "dayEnd": "08:00:00",
                                   "dayStart": "19:00:00",
                                   "notification": "5245bc5b3e66a3b01f0024d4",
+                                  "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}],
                                   "source": "5245bc5b3e66a3b01f0024d4",
                                   "active": true
                             }
@@ -2341,6 +2381,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "dayEnd": "08:00",
                 "dayStart": "19:00",
                 "notification": "5245bc5b3e66a3b01f0024d4",
+                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}],
                 "source": "5245bc5b3e66a3b01f0024d4",
                 "active": false
         }
@@ -2380,6 +2421,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "dayEnd": "08:00:00",
                                   "dayStart": "19:00:00",
                                   "notification": "5245bc5b3e66a3b01f0024d4",
+                                  "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}],
                                   "source": "5245bc5b3e66a3b01f0024d4",
                                   "active": true
                             }
@@ -2407,6 +2449,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "dayEnd": "08:00",
                 "dayStart": "19:00",
                 "notification": "5245bc5b3e66a3b01f0024d4",
+                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}],
                 "source": "5245bc5b3e66a3b01f0024d4",
                 "active": false
         }
