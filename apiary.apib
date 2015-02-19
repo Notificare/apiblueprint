@@ -146,6 +146,18 @@ Get your active applications. This request must be authenticated with the `token
                                     "regionConfig": {
                                                       "proximityUUID": "f7826da6-4fa2-4e98-8024-bc5b71e0893e"
                                                     },
+                                    "actionCategories": [{
+                                            "name": "MyTemplate",
+                                            "type": "re.notifica.notification.Alert",
+                                            "actions": [{
+                                                "label": "follow",
+                                                "type": "re.notifica.action.Callback",
+                                                "target": "",
+                                                "camera": false,
+                                                "keyboard": false,
+                                                "destructive": false
+                                            }]
+                                        }],
                                     "locationTtl": 7,
                                     "production": false,
                                     "active": true,
@@ -166,6 +178,7 @@ Create a new application. This request must be authenticated with the `token`.
     + name (required, string, `My Amazing App`)...Your application's name.
     + production (required, `boolean`)...If your application is set to production or not.
     + category (required, string, `Business`)...Your application's category.
+    + actionCategories (optional, array, `[{"name:"My Template", type:"re.notifica.notification.Alert", actions: [{label:"Reply", type:"re.notifica.action.Callback", target:"", camera:false, keyboard:false, destructive:false}"}]`)...An array of objects that can be used as templates for messages.
 
 + Request (application/json)
 
@@ -234,6 +247,18 @@ Get an application object. This request must be authenticated with the `token`.
                                     "regionConfig": {
                                                       "proximityUUID": "f7826da6-4fa2-4e98-8024-bc5b71e0893e"
                                                     },
+                                    "actionCategories": [{
+                                                                                "name": "MyTemplate",
+                                                                                "type": "re.notifica.notification.Alert",
+                                                                                "actions": [{
+                                                                                    "label": "follow",
+                                                                                    "type": "re.notifica.action.Callback",
+                                                                                    "target": "",
+                                                                                    "camera": false,
+                                                                                    "keyboard": false,
+                                                                                    "destructive": false
+                                                                                }]
+                                                                            }],
                                     "locationTtl": 7,
                                     "production": false,
                                     "active": true,
@@ -1081,6 +1106,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
     + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
     + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
     + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
@@ -1483,14 +1509,26 @@ Combines User, Segments, Tags and the location of the devices the same way Notif
 ### Test a message to all devices [POST]
 Test a message to **all** devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
 
++ Parameters
+
+    + type (optional, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
+
+
 + Request (application/json)
 
         {
                 "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default"
-                "extras" : {"prod": 123}
+                "type":"re.notifica.notification.Alert"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1505,30 +1543,27 @@ Test a message to **all** devices. This call must be authenticated with the `app
 Test a message to devices with any of the specified `tags`. The call accepts an array of tags. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
++ Parameters
+
+    + type (optional, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
+
+
 + Request (application/json)
 
         {
                 "tags":["test1","test2"],
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default",
-                "content": [
-                        {
-                                "type":"re.notifica.content.Text",
-                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
-                        }
-                ],
-                "actions":[
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
-                        },
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Go away"
-                        }
-                ]
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1548,25 +1583,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         {
                 "segments":["526f7a71dab9d70711000003","526f7a71dab9d70711000004"],
                 "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default",
-                "content": [
-                        {
-                                "type":"re.notifica.content.Text",
-                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
-                        }
-                ],
-                "actions":[
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
-                        },
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Go away"
-                        }
-                ]
+                "type":"re.notifica.notification.Alert"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1589,25 +1606,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
         {
                 "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default",
-                "content": [
-                        {
-                                "type":"re.notifica.content.Text",
-                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
-                        }
-                ],
-                "actions":[
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
-                        },
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Go away"
-                        }
-                ]
+                "type":"re.notifica.notification.Alert"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1630,25 +1629,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
         {
                 "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default",
-                "content": [
-                        {
-                                "type":"re.notifica.content.Text",
-                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
-                        }
-                ],
-                "actions":[
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
-                        },
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Go away"
-                        }
-                ]
+                "type":"re.notifica.notification.Alert"
         }
 
 + Response 201 (application/json; charset=utf-8)
