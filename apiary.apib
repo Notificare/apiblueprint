@@ -872,6 +872,146 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
+# Group Export
+Methods for exporting users and devices.
+
+## Export Collection [/export]
+
+### Get all export jobs for an application [GET]
+Get all export jobs for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "exportJobs":[
+                                {
+                                   "_id":"54fec699beb5cb2f6f9839ed",
+                                   "application":"5354f08474adc4183214c143",
+                                   "data":null,
+                                   "result":"created export file export-user-1425983129369.csv (919 bytes)",
+                                   "date":"2015-03-10T10:25:29.340Z",
+                                   "status":"success",
+                                   "type":"re.notifica.export.User"
+                                }
+                             ]
+
+        }
+
+
+## New Export [/export/{type}]
+
+### New Export [POST]
+Create a new export job for an application. This job might take some time to finish, depending on the number of users your application has.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+### Export types
+
+#### re.notifica.export.User (default)
+Used to export the list of users for an application.
+
+#### re.notifica.export.Device
+Used to export the list of devices for an application.
+
++ Parameters
+
+    + type (required, string, `re.notifica.export.User`)...The export type
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export [/export/{export}]
+
+### Get an export job object [POST]
+Get a specific export job object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + id (required, string, `542f1868d341d51284b`)...The export job Id.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "exportJob":{
+                                                               "_id":"54fec699beb5cb2f6f9839ed",
+                                                               "application":"5354f08474adc4183214c143",
+                                                               "data":null,
+                                                               "result":"created export file export-user-1425983129369.csv (919 bytes)",
+                                                               "date":"2015-03-10T10:25:29.340Z",
+                                                               "status":"success",
+                                                               "type":"re.notifica.export.User"
+                                                            }
+
+        }
+
+### Delete an export job [DELETE]
+Delete an export job. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + export (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an export job.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"export job deleted"
+        }
+
+
+## Export [/export/fortype/{type}]
+
+### Get all export jobs of a specific type [GET]
+Get all export jobs of a specific type.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + type (required, string, `re.notifica.export.User`)...The export type
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "exportJobs":[
+                                {
+                                   "_id":"54fec699beb5cb2f6f9839ed",
+                                   "application":"5354f08474adc4183214c143",
+                                   "data":null,
+                                   "result":"created export file export-user-1425983129369.csv (919 bytes)",
+                                   "date":"2015-03-10T10:25:29.340Z",
+                                   "status":"success",
+                                   "type":"re.notifica.export.User"
+                                }
+                             ]
+
+        }
+
+## Export Result [/export/result/{export}]
+
+### Get a specific export job result [GET]
+Get a specific export job result. This endpoint will only be available for export jobs with a status equal to success.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + export (required, string, `54fec699beb5cb2f6f9839ed`)...The id of a export job
+
+
+
 # Group Import
 Methods for importing collections of items. Files are assumed to be uploaded to Notificare Storage before they can be used in a new import. Use this [endpoint](http://docs.notificare.apiary.io/#upload) to upload a file.
 
@@ -1644,6 +1784,1023 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
+# Group Pass
+Methods to manage your passes. Before creating passes you must create passbook templates. To create, edit and delete templates see the [Passbook](http://docs.notificare.apiary.io/#passbook) endpoints.
+
+
+## Pass Collection [/pass{?limit,skip}]
+
+### Get all passes for an application [GET]
+Get all passes for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+             "passes":[
+                             {
+                               "_id":"5501894253058ca5269a9928",
+                               "application":"5354f0bb3fa544452ff4c7c0",
+                               "passbook":"54e135049c2cad772e7c0de0",
+                               "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                               "data":{
+                                        "backgroundColor":"rgb(0,0,0)",
+                                        "foregroundColor":"rgb(255,255,255)",
+                                        "suppressStripShine":false,
+                                        "labelColor":"rgb(255,255,255)",
+                                        "logoText":"My Company",
+                                        "description":"coupon example",
+                                        "auxiliaryFields":[],
+                                        "headerFields":[],
+                                        "primaryFields":[
+                                                          {
+                                                             "string":true,
+                                                             "key":"discount",
+                                                             "label":"discount",
+                                                             "textAlignment": "PKTextAlignmentLeft",
+                                                             "value": "20% off"
+                                                           }
+                                                          ],
+                                        "secondaryFields":[
+                                                            {
+                                                              "string":true,
+                                                              "key":"expires",
+                                                              "label":"expires",
+                                                              "textAlignment":"PKTextAlignmentLeft",
+                                                              "value":"31-12-2015"
+                                                            }
+                                                          ],
+                                        "backFields":[],
+                                        "transitType":null,
+                                        "barcode":{
+                                                     "format":"PKBarcodeFormatQR",
+                                                     "messageEncoding":"iso-8859-1"
+                                                  },
+                                        "background":null,
+                                        "thumbnail":null,
+                                        "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                                        "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                                        "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                                        "footer":null
+
+                               }
+                             }
+                          ],
+                          "count":2
+        }
+
+
+
+
+## New Pass [/pass]
+
+### Create a new pass [POST]
+Create a new pass.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Request (application/json)
+
+        {
+             "_id":"5501894253058ca5269a9928",
+             "application":"5354f0bb3fa544452ff4c7c0",
+             "passbook":"54e135049c2cad772e7c0de0",
+             "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+             "data":{
+                       "backgroundColor":"rgb(0,0,0)",
+                       "foregroundColor":"rgb(255,255,255)",
+                       "suppressStripShine":false,
+                       "labelColor":"rgb(255,255,255)",
+                       "logoText":"lebkov",
+                       "description":"coupon example",
+                       "auxiliaryFields":[],
+                       "headerFields":[],
+                       "primaryFields":[
+                                         {
+                                            "string":true,
+                                            "key":"discount",
+                                            "label":"discount",
+                                            "textAlignment": "PKTextAlignmentLeft",
+                                            "value": "20% off"
+                                         }
+                                       ],
+                       "secondaryFields":[
+                                           {
+                                              "string":true,
+                                              "key":"expires",
+                                              "label":"expires",
+                                              "textAlignment":"PKTextAlignmentLeft",
+                                              "value": "31-12-2015"
+                                           }
+                                         ],
+                       "backFields":[],
+                       "transitType":null,
+                       "barcode":{
+                                   "format":"PKBarcodeFormatQR",
+                                   "messageEncoding":"iso-8859-1"
+                                 },
+                       "background":null,
+                       "thumbnail":null,
+                       "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                       "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                       "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                       "footer":null
+             }
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "pass":{
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                         }
+        }
+
+
+
+
+
+## Pass [/pass/{pass}]
+
+### Get a pass object [GET]
+Get a pass object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of pass.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                     "_id":"5501894253058ca5269a9928",
+                     "application":"5354f0bb3fa544452ff4c7c0",
+                     "passbook":"54e135049c2cad772e7c0de0",
+                     "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                     "data":{
+                               "backgroundColor":"rgb(0,0,0)",
+                               "foregroundColor":"rgb(255,255,255)",
+                               "suppressStripShine":false,
+                               "labelColor":"rgb(255,255,255)",
+                               "logoText":"lebkov",
+                               "description":"coupon example",
+                               "auxiliaryFields":[],
+                               "headerFields":[],
+                               "primaryFields":[
+                                                 {
+                                                    "string":true,
+                                                    "key":"discount",
+                                                    "label":"discount",
+                                                    "textAlignment": "PKTextAlignmentLeft",
+                                                    "value": "20% off"
+                                                 }
+                                               ],
+                               "secondaryFields":[
+                                                   {
+                                                      "string":true,
+                                                      "key":"expires",
+                                                      "label":"expires",
+                                                      "textAlignment":"PKTextAlignmentLeft",
+                                                      "value": "31-12-2015"
+                                                   }
+                                                 ],
+                               "backFields":[],
+                               "transitType":null,
+                               "barcode":{
+                                           "format":"PKBarcodeFormatQR",
+                                           "messageEncoding":"iso-8859-1"
+                                         },
+                               "background":null,
+                               "thumbnail":null,
+                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "footer":null
+                     }
+                }
+
+### Modify a pass [PUT]
+Modify a pass.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active pass.
+
++ Request (application/json)
+
+        {
+                             "_id":"5501894253058ca5269a9928",
+                             "application":"5354f0bb3fa544452ff4c7c0",
+                             "passbook":"54e135049c2cad772e7c0de0",
+                             "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                             "data":{
+                                       "backgroundColor":"rgb(0,0,0)",
+                                       "foregroundColor":"rgb(255,255,255)",
+                                       "suppressStripShine":false,
+                                       "labelColor":"rgb(255,255,255)",
+                                       "logoText":"lebkov",
+                                       "description":"coupon example",
+                                       "auxiliaryFields":[],
+                                       "headerFields":[],
+                                       "primaryFields":[
+                                                         {
+                                                            "string":true,
+                                                            "key":"discount",
+                                                            "label":"discount",
+                                                            "textAlignment": "PKTextAlignmentLeft",
+                                                            "value": "20% off"
+                                                         }
+                                                       ],
+                                       "secondaryFields":[
+                                                           {
+                                                              "string":true,
+                                                              "key":"expires",
+                                                              "label":"expires",
+                                                              "textAlignment":"PKTextAlignmentLeft",
+                                                              "value": "31-12-2015"
+                                                           }
+                                                         ],
+                                       "backFields":[],
+                                       "transitType":null,
+                                       "barcode":{
+                                                   "format":"PKBarcodeFormatQR",
+                                                   "messageEncoding":"iso-8859-1"
+                                                 },
+                                       "background":null,
+                                       "thumbnail":null,
+                                       "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                                       "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                                       "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                                       "footer":null
+                             }
+                        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"pass updated"
+        }
+
+
+
+
+### Delete a pass [DELETE]
+Delete a pass. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active pass.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"pass deleted"
+        }
+
+
+# Pass [/pass/forserial/{serial}]
+
+### Get a pass object using the serial number [GET]
+Get a pass object using the serial number.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of pass.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                     "_id":"5501894253058ca5269a9928",
+                     "application":"5354f0bb3fa544452ff4c7c0",
+                     "passbook":"54e135049c2cad772e7c0de0",
+                     "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                     "data":{
+                               "backgroundColor":"rgb(0,0,0)",
+                               "foregroundColor":"rgb(255,255,255)",
+                               "suppressStripShine":false,
+                               "labelColor":"rgb(255,255,255)",
+                               "logoText":"lebkov",
+                               "description":"coupon example",
+                               "auxiliaryFields":[],
+                               "headerFields":[],
+                               "primaryFields":[
+                                                 {
+                                                    "string":true,
+                                                    "key":"discount",
+                                                    "label":"discount",
+                                                    "textAlignment": "PKTextAlignmentLeft",
+                                                    "value": "20% off"
+                                                 }
+                                               ],
+                               "secondaryFields":[
+                                                   {
+                                                      "string":true,
+                                                      "key":"expires",
+                                                      "label":"expires",
+                                                      "textAlignment":"PKTextAlignmentLeft",
+                                                      "value": "31-12-2015"
+                                                   }
+                                                 ],
+                               "backFields":[],
+                               "transitType":null,
+                               "barcode":{
+                                           "format":"PKBarcodeFormatQR",
+                                           "messageEncoding":"iso-8859-1"
+                                         },
+                               "background":null,
+                               "thumbnail":null,
+                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "footer":null
+                     }
+                }
+
+
+## Redeem Pass [/pass/redeem/{serial}]
+
+### Redeem a pass [PUT]
+Redeem a pass.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"pass redeemed"
+        }
+
+
+## Download Pass [/pass/pkpass/{serial}]
+
+### Download Pass [GET]
+Download a pass.
+This request does not require authentication.
+
++ Parameters
+
+    + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
+
+
+
+
+
+# Group Passbook
+Methods to manage your passbook templates. These templates should be created before you can start creating passes.
+They will help you pre-define the template styles your application needs and accelerate pass creation. To create and redeem passes see also the [Pass](http://docs.notificare.apiary.io/#pass) endpoints.
+
+
+## Passbook Collection [/passbook{?limit,skip}]
+
+### Get all passbook templates for an application [GET]
+Get all passbook templates for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+             "passbooks":[
+                             {
+                               "_id":"5501894253058ca5269a9928",
+                               "application":"5354f0bb3fa544452ff4c7c0",
+                               "passStyle":"coupon",
+                               "data":{
+                                        "backgroundColor":"rgb(0,0,0)",
+                                        "foregroundColor":"rgb(255,255,255)",
+                                        "suppressStripShine":false,
+                                        "labelColor":"rgb(255,255,255)",
+                                        "logoText":"lebkov",
+                                        "description":"coupon example",
+                                        "auxiliaryFields":[],
+                                        "headerFields":[],
+                                        "primaryFields":[
+                                                          {
+                                                             "string":true,
+                                                             "key":"discount",
+                                                             "label":"discount",
+                                                             "textAlignment":
+                                                             "PKTextAlignmentLeft"
+                                                           }
+                                                          ],
+                                        "secondaryFields":[
+                                                            {
+                                                              "string":true,
+                                                              "key":"expires",
+                                                              "label":"expires",
+                                                              "textAlignment":"PKTextAlignmentLeft"
+                                                            }
+                                                          ],
+                                        "backFields":[],
+                                        "transitType":null,
+                                        "barcode":{
+                                                     "format":"PKBarcodeFormatQR",
+                                                     "messageEncoding":"iso-8859-1"
+                                                  },
+                                        "background":null,
+                                        "thumbnail":null,
+                                        "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                                        "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                                        "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                                        "footer":null
+
+                               },
+                               "name":"coupon example",
+                               "__v":0,
+                               "active":false
+                             }
+                          ],
+                          "count":2
+        }
+
+
+
+
+## New Passbook Template [/passbook]
+
+### Create a new passbook template [POST]
+Create a new passbook template.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Request (application/json)
+
+        {
+             "_id":"5501894253058ca5269a9928",
+             "application":"5354f0bb3fa544452ff4c7c0",
+             "passStyle":"coupon",
+             "data":{
+                       "backgroundColor":"rgb(0,0,0)",
+                       "foregroundColor":"rgb(255,255,255)",
+                       "suppressStripShine":false,
+                       "labelColor":"rgb(255,255,255)",
+                       "logoText":"lebkov",
+                       "description":"coupon example",
+                       "auxiliaryFields":[],
+                       "headerFields":[],
+                       "primaryFields":[
+                                         {
+                                            "string":true,
+                                            "key":"discount",
+                                            "label":"discount",
+                                            "textAlignment":
+                                            "PKTextAlignmentLeft"
+                                         }
+                                       ],
+                       "secondaryFields":[
+                                           {
+                                              "string":true,
+                                              "key":"expires",
+                                              "label":"expires",
+                                              "textAlignment":"PKTextAlignmentLeft"
+                                           }
+                                         ],
+                       "backFields":[],
+                       "transitType":null,
+                       "barcode":{
+                                   "format":"PKBarcodeFormatQR",
+                                   "messageEncoding":"iso-8859-1"
+                                 },
+                       "background":null,
+                       "thumbnail":null,
+                       "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                       "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                       "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                       "footer":null
+             },
+             "name":"coupon example"
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "passbook":{
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                         }
+        }
+
+
+
+
+
+## Passbook Template [/passbook/{passbook}]
+
+### Get a passbook template object [GET]
+Get a passbook template object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + passbook (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active passbook template.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                     "_id":"5501894253058ca5269a9928",
+                     "application":"5354f0bb3fa544452ff4c7c0",
+                     "passStyle":"coupon",
+                     "data":{
+                               "backgroundColor":"rgb(0,0,0)",
+                               "foregroundColor":"rgb(255,255,255)",
+                               "suppressStripShine":false,
+                               "labelColor":"rgb(255,255,255)",
+                               "logoText":"lebkov",
+                               "description":"coupon example",
+                               "auxiliaryFields":[],
+                               "headerFields":[],
+                               "primaryFields":[
+                                                 {
+                                                    "string":true,
+                                                    "key":"discount",
+                                                    "label":"discount",
+                                                    "textAlignment":
+                                                    "PKTextAlignmentLeft"
+                                                 }
+                                               ],
+                               "secondaryFields":[
+                                                   {
+                                                      "string":true,
+                                                      "key":"expires",
+                                                      "label":"expires",
+                                                      "textAlignment":"PKTextAlignmentLeft"
+                                                   }
+                                                 ],
+                               "backFields":[],
+                               "transitType":null,
+                               "barcode":{
+                                           "format":"PKBarcodeFormatQR",
+                                           "messageEncoding":"iso-8859-1"
+                                         },
+                               "background":null,
+                               "thumbnail":null,
+                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "footer":null
+                     },
+                     "name":"coupon example"
+        }
+
+
+### Modify a passbook template [PUT]
+Modify a passbook template.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + passbook (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active passbook template.
+
++ Request (application/json)
+
+        {
+                     "_id":"5501894253058ca5269a9928",
+                     "application":"5354f0bb3fa544452ff4c7c0",
+                     "passStyle":"coupon",
+                     "data":{
+                               "backgroundColor":"rgb(0,0,0)",
+                               "foregroundColor":"rgb(255,255,255)",
+                               "suppressStripShine":false,
+                               "labelColor":"rgb(255,255,255)",
+                               "logoText":"lebkov",
+                               "description":"coupon example",
+                               "auxiliaryFields":[],
+                               "headerFields":[],
+                               "primaryFields":[
+                                                 {
+                                                    "string":true,
+                                                    "key":"discount",
+                                                    "label":"discount",
+                                                    "textAlignment":
+                                                    "PKTextAlignmentLeft"
+                                                 }
+                                               ],
+                               "secondaryFields":[
+                                                   {
+                                                      "string":true,
+                                                      "key":"expires",
+                                                      "label":"expires",
+                                                      "textAlignment":"PKTextAlignmentLeft"
+                                                   }
+                                                 ],
+                               "backFields":[],
+                               "transitType":null,
+                               "barcode":{
+                                           "format":"PKBarcodeFormatQR",
+                                           "messageEncoding":"iso-8859-1"
+                                         },
+                               "background":null,
+                               "thumbnail":null,
+                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "footer":null
+                     },
+                     "name":"coupon example"
+        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"passbook updated"
+        }
+
+
+### Delete a passbook template [DELETE]
+Delete a passbook template. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + passbook (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active passbook template.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"passbook deleted"
+        }
+
+
+# Group Product
+Methods to manage your virtual products. Products can be purchased inside your application through both the App Store and Google Play.
+
+
+## Product Collection [/product{?limit,skip}]
+
+### Get all products for an application [GET]
+Get all products for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+            "products":[
+                           {
+                              "_id":"542f479660a365ad5a47a794",
+                              "application":"5354f0bb3fa544452ff4c7c0",
+                              "identifier":"re.notifica.office.nonconsumable",
+                              "type":"onetime",
+                              "name":"Non-Consumable",
+                              "stores":["AppStore","GooglePlay"],
+                              "active":true
+                           },
+                           {
+                              "_id":"5442c0927f8ec974633ed40c",
+                              "application":"5354f0bb3fa544452ff4c7c0",
+                              "identifier":"re.notifica.office.prod2",
+                              "type":"onetime",
+                              "name":"Prod2",
+                              "stores":["AppStore","GooglePlay"],
+                              "active":true
+                           },
+                           {
+                              "_id":"544788ed9a6050cd6f008b8d",
+                              "application":"5354f0bb3fa544452ff4c7c0",
+                              "identifier":"re.notifica.office.consumable",
+                              "type":"consumable",
+                              "name":"Consumable",
+                              "stores":["AppStore","GooglePlay"],
+                              "active":true
+                           }
+                       ],
+            "count":3
+        }
+
+
+
+
+## New Product [/product]
+
+### Create a new product [POST]
+Create a new product.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Request (application/json)
+
+        {
+             "identifier":"re.notifica.office.consumable",
+             "type":"consumable",
+             "name":"Consumable",
+             "stores":["AppStore","GooglePlay"],
+             "active":true
+
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "product":{
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                         }
+        }
+
+
+
+
+
+## Product [/product/{product}]
+
+### Get a product object [GET]
+Get a product object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + product (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active product.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                      "_id":"544788ed9a6050cd6f008b8d",
+                                      "application":"5354f0bb3fa544452ff4c7c0",
+                                      "identifier":"re.notifica.office.consumable",
+                                      "type":"consumable",
+                                      "name":"Consumable",
+                                      "stores":["AppStore","GooglePlay"],
+                                      "active":true
+                                   }
+
+
+### Modify a product [PUT]
+Modify a product.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + product (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active product.
+
++ Request (application/json)
+
+        {
+                     "identifier":"re.notifica.office.consumable",
+                     "type":"consumable",
+                     "name":"Consumable",
+                     "stores":["AppStore","GooglePlay"],
+                     "active":true
+
+                }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"product updated"
+        }
+
+
+### Delete a product [DELETE]
+Delete a product. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + product (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active product.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"product deleted"
+        }
+
+
+## Product [/product/foridentifier/{sku}]
+
+### Get a product object using the SKU [GET]
+Get a product object using SKU.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + sku (required, string, `re.notifica.office.consumable`)...The SKU (identifier) of an active product.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                      "_id":"544788ed9a6050cd6f008b8d",
+                                      "application":"5354f0bb3fa544452ff4c7c0",
+                                      "identifier":"re.notifica.office.consumable",
+                                      "type":"consumable",
+                                      "name":"Consumable",
+                                      "stores":["AppStore","GooglePlay"],
+                                      "active":true
+                                   }
+
+
+# Group Purchase
+
+## Purchase [/purchase{?limit,skip}]
+
+### Get all purchases for an application [GET]
+Get all purchases for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                    "products":[
+                                   {
+                                      "_id":"5477c86387c552350c886d2f",
+                                      "data":{
+                                                "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                "purchase_date_ms":"1417136222704",
+                                                "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
+                                                "original_transaction_id":"1000000133399653",
+                                                "bvrs":"1.0.36",
+                                                "transaction_id":"1000000133399653",
+                                                "quantity":"1",
+                                                "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
+                                                "item_id":"944702328",
+                                                "product_id":"re.notifica.office.consumable",
+                                                "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                "bid":"re.notifica.office",
+                                                "original_purchase_date_ms":"1417136222704"
+                                             },
+                                      "date":"2014-11-28T00:57:02.704Z",
+                                      "identifier":"re.notifica.office.consumable",
+                                      "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
+                                      "userID":"joel@notifica.re",
+                                      "price":0.89,
+                                      "application":"5354f0bb3fa544452ff4c7c0",
+                                      "transactionIdentifier":"1000000133399653",
+                                      "currency":"EUR"
+                                   }
+                               ],
+                               "count":1
+                }
+
+
+## Purchase [/purchase/{purchase}]
+
+### Get a specific purchase [GET]
+Get a specific purchase.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + purchase (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of a purchase.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                              "_id":"5477c86387c552350c886d2f",
+                                              "data":{
+                                                        "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "purchase_date_ms":"1417136222704",
+                                                        "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
+                                                        "original_transaction_id":"1000000133399653",
+                                                        "bvrs":"1.0.36",
+                                                        "transaction_id":"1000000133399653",
+                                                        "quantity":"1",
+                                                        "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
+                                                        "item_id":"944702328",
+                                                        "product_id":"re.notifica.office.consumable",
+                                                        "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "bid":"re.notifica.office",
+                                                        "original_purchase_date_ms":"1417136222704"
+                                                     },
+                                              "date":"2014-11-28T00:57:02.704Z",
+                                              "identifier":"re.notifica.office.consumable",
+                                              "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
+                                              "userID":"joel@notifica.re",
+                                              "price":0.89,
+                                              "application":"5354f0bb3fa544452ff4c7c0",
+                                              "transactionIdentifier":"1000000133399653",
+                                              "currency":"EUR"
+                                           }
+
+## Purchase [/purchase/bytransaction/{transaction}]
+
+### Get a specific purchase using the transaction [GET]
+Get a specific purchase using the transaction.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + transaction (required, string, `1000000133399653`)...The transaction id of a purchase.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                              "_id":"5477c86387c552350c886d2f",
+                                              "data":{
+                                                        "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "purchase_date_ms":"1417136222704",
+                                                        "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
+                                                        "original_transaction_id":"1000000133399653",
+                                                        "bvrs":"1.0.36",
+                                                        "transaction_id":"1000000133399653",
+                                                        "quantity":"1",
+                                                        "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
+                                                        "item_id":"944702328",
+                                                        "product_id":"re.notifica.office.consumable",
+                                                        "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "bid":"re.notifica.office",
+                                                        "original_purchase_date_ms":"1417136222704"
+                                                     },
+                                              "date":"2014-11-28T00:57:02.704Z",
+                                              "identifier":"re.notifica.office.consumable",
+                                              "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
+                                              "userID":"joel@notifica.re",
+                                              "price":0.89,
+                                              "application":"5354f0bb3fa544452ff4c7c0",
+                                              "transactionIdentifier":"1000000133399653",
+                                              "currency":"EUR"
+                                           }
+
+
+## Purchase [/purchase/byidentifier/{identifier}]
+
+### Get a specific purchase using the SKU [GET]
+Get a specific purchase using the SKU.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + identifier (required, string, `re.notifica.office.consumable`)...The SKU (identifier) of a purchase.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                              "_id":"5477c86387c552350c886d2f",
+                                              "data":{
+                                                        "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "purchase_date_ms":"1417136222704",
+                                                        "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
+                                                        "original_transaction_id":"1000000133399653",
+                                                        "bvrs":"1.0.36",
+                                                        "transaction_id":"1000000133399653",
+                                                        "quantity":"1",
+                                                        "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
+                                                        "item_id":"944702328",
+                                                        "product_id":"re.notifica.office.consumable",
+                                                        "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "bid":"re.notifica.office",
+                                                        "original_purchase_date_ms":"1417136222704"
+                                                     },
+                                              "date":"2014-11-28T00:57:02.704Z",
+                                              "identifier":"re.notifica.office.consumable",
+                                              "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
+                                              "userID":"joel@notifica.re",
+                                              "price":0.89,
+                                              "application":"5354f0bb3fa544452ff4c7c0",
+                                              "transactionIdentifier":"1000000133399653",
+                                              "currency":"EUR"
+                                           }
+
 
 # Group Region
 Methods to manage your regions. Regions are geo-fences that can eventually have Triggers and/or Beacons. 
@@ -1792,7 +2949,7 @@ A Reply object is what Notificare creates when users interact with notifications
 These objects hold every single interaction and data your users send you.
 
 
-## Reply Collection [/reply/fornotification/{notification}{?limit,skip}]
+## Reply List [/reply/fornotification/{notification}{?limit,skip}]
 
 ### Get all replies for a specific notification [GET]
 Get all replies for a specific notification.
@@ -1830,6 +2987,31 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                             }
                 ],
                 "count": 2
+        }
+
+## Reply Collection [/reply/{reply}]
+
+### Get a specific reply object [GET]
+Get a specific reply object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + reply (required, string, `5245bc5b3e66a3b01f0024d4`)...The id for this reply.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+
+        {
+                "reply":{
+                              "notification":"53317011f90827d27c6e9c94",
+                              "userID":"testuser@example.com",
+                              "deviceID":"APA91bHWwt97wwvZ1-P8UQT1zCgczK7utZEZiqu7N4Awg",
+                              "label":"yes",
+                              "_id":"5331703332c17e3077d5a765",
+                              "time":"2014-03-25T12:01:55.713Z"
+                            }
         }
 
 
