@@ -146,6 +146,18 @@ Get your active applications. This request must be authenticated with the `token
                                     "regionConfig": {
                                                       "proximityUUID": "f7826da6-4fa2-4e98-8024-bc5b71e0893e"
                                                     },
+                                    "actionCategories": [{
+                                            "name": "MyTemplate",
+                                            "type": "re.notifica.notification.Alert",
+                                            "actions": [{
+                                                "label": "follow",
+                                                "type": "re.notifica.action.Callback",
+                                                "target": "",
+                                                "camera": false,
+                                                "keyboard": false,
+                                                "destructive": false
+                                            }]
+                                        }],
                                     "locationTtl": 7,
                                     "production": false,
                                     "active": true,
@@ -160,6 +172,13 @@ Get your active applications. This request must be authenticated with the `token
 ## New Application [/application]
 ### Create an application [POST]
 Create a new application. This request must be authenticated with the `token`.
+
++ Parameters
+
+    + name (required, string, `My Amazing App`)...Your application's name.
+    + production (required, `boolean`)...If your application is set to production or not.
+    + category (required, string, `Business`)...Your application's category.
+    + actionCategories (optional, array, `[{"name:"My Template", type:"re.notifica.notification.Alert", actions: [{label:"Reply", type:"re.notifica.action.Callback", target:"", camera:false, keyboard:false, destructive:false}"}]`)...An array of objects that can be used as templates for messages.
 
 + Request (application/json)
 
@@ -228,6 +247,18 @@ Get an application object. This request must be authenticated with the `token`.
                                     "regionConfig": {
                                                       "proximityUUID": "f7826da6-4fa2-4e98-8024-bc5b71e0893e"
                                                     },
+                                    "actionCategories": [{
+                                                                                "name": "MyTemplate",
+                                                                                "type": "re.notifica.notification.Alert",
+                                                                                "actions": [{
+                                                                                    "label": "follow",
+                                                                                    "type": "re.notifica.action.Callback",
+                                                                                    "target": "",
+                                                                                    "camera": false,
+                                                                                    "keyboard": false,
+                                                                                    "destructive": false
+                                                                                }]
+                                                                            }],
                                     "locationTtl": 7,
                                     "production": false,
                                     "active": true,
@@ -325,6 +356,23 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 Create a new beacon for a region. To complete this request you must create a triggered Notification first. 
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
++ Parameters
+
+    + name (required, string, `My Beacon`)...Your beacon's name
+    + major (required, number, `654321`)...Your beacon's major identifier (must match a previously created identifier of a region)
+    + minor (required, number, `123456`)...Your beacon's minor identifier (must be unique per major)
+    + proximity (optional, string, `immediate`)...Your notification proximity. Accepts one of these: 'immediate', 'near' and 'far'. (deprecated)
+    + notification (optional, string, `5245bc5b3e66a3b01f0024d4`)...An Id of a previously created notification. (deprecated)
+    + proximityNotifications (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + batteryLevel (optional, number, `10`)...An object representing the battery level of this beacon.
+    + purpose (optional, string, `general`)...An object representing the purpose of the beacon. Accepts one of these: 'general', 'pay', 'info', 'staff', 'admin'.
+    + latitude (optional, number, `5.435`)...An integer representing the beacon's latitude.
+    + longitude (optional, number, `3.435`)...An integer representing the beacon's longitude.
+    + data (optional, mixed, `{"mykey":"myvalue"}`)...A free form object that can be assigned to a beacon.
+    + triggers (optional, `boolean`)...Set to true if this beacon can be used in triggers. Max. number of beacons that can use triggers is limited to 10.
+
+
+
 + Request (application/json)
 
         {
@@ -371,9 +419,23 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 Modify a beacon.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
+
 + Parameters
 
     + beacon (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
+    + name (required, string, `My Beacon`)...Your beacon's name
+    + major (required, number, `654321`)...Your beacon's major identifier (must match a previously created identifier of a region)
+    + minor (required, number, `123456`)...Your beacon's minor identifier (must be unique per major)
+    + proximity (optional, string, `immediate`)...Your notification proximity. Accepts one of these: 'immediate', 'near' and 'far'. (deprecated)
+    + notification (optional, string, `5245bc5b3e66a3b01f0024d4`)...An Id of a previously created notification. (deprecated)
+    + proximityNotifications (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + batteryLevel (optional, number, `10`)...An object representing the battery level of this beacon.
+    + purpose (optional, string, `general`)...An object representing the purpose of the beacon. Accepts one of these: 'general', 'pay', 'info', 'staff', 'admin'.
+    + latitude (optional, number, `5.435`)...An integer representing the beacon's latitude.
+    + longitude (optional, number, `3.435`)...An integer representing the beacon's longitude.
+    + data (optional, mixed, `{"mykey":"myvalue"}`)...A free form object that can be assigned to a beacon.
+    + triggers (optional, `boolean`)...Set to true if this beacon can be used in triggers. Max. number of beacons that can use triggers is limited to 10.
+
 
 + Request (application/json)
 
@@ -541,6 +603,31 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                           
         }
 
+## Get all tags [/device/tags{?limit,skip}]
+
+### Get the list of all tags for this application [GET]
+Get the list of all tags for this application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "tags":[
+                        {"tag":"toys", "deviceCount": 2},
+                        {"tag":"kitchen", "deviceCount": 5}
+                ],
+                "count": 2
+
+        }
+
 
 ## Filter by tag [/device/fortag/{tag}]
 
@@ -625,12 +712,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "tags":[
-                              'toys',
-                              'kitchen'
+                        {"tag":"toys", "deviceCount": 2},
+                        {"tag":"kitchen", "deviceCount": 5}
                 ],
                 "count": 2
 
         }
+
 
 
 ## Filter by location [/device/bylocation/{latitude}/{longitude}/{distance}]
@@ -728,6 +816,10 @@ Get all the Events stored for a specific application.
 Get all the Events types stored for a specific application.
 This request is authenticated with `token`.
 
++ Parameters
+
+    + application (required, string, `542f1868d341d51284b`)...The application's Id which the event belongs to.
+    + type (required, string, `re.notifica.event.application.Install`)...The type of event.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -754,7 +846,342 @@ This request is authenticated with `token`.
 
         }
 
+## Event [/event/{id}]
 
+### Get an event object [GET]
+Get a specific event object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + id (required, string, `542f1868d341d51284b`)...The event's Id.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "event":{
+                             "_id":"542f153401d51284b",
+                             "application":"5354f3545a544452ff4c7c0",
+                             "userID":null,
+                             "sessionID":"5SX4tAsd534MjuHL",
+                             "time":"2014-10-03T21:43:04.231Z",
+                             "type":"re.notifica.event.application.Install"
+                           }
+
+        }
+
+
+# Group Export
+Methods for exporting users and devices.
+
+## Export Collection [/export]
+
+### Get all export jobs for an application [GET]
+Get all export jobs for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "exportJobs":[
+                                {
+                                   "_id":"54fec699beb5cb2f6f9839ed",
+                                   "application":"5354f08474adc4183214c143",
+                                   "data":null,
+                                   "result":"created export file export-user-1425983129369.csv (919 bytes)",
+                                   "date":"2015-03-10T10:25:29.340Z",
+                                   "status":"success",
+                                   "type":"re.notifica.export.User"
+                                }
+                             ]
+
+        }
+
+
+## New Export [/export/{type}]
+
+### New Export [POST]
+Create a new export job for an application. This job might take some time to finish, depending on the number of users your application has.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+### Export types
+
+#### re.notifica.export.User (default)
+Used to export the list of users for an application.
+
+#### re.notifica.export.Device
+Used to export the list of devices for an application.
+
++ Parameters
+
+    + type (required, string, `re.notifica.export.User`)...The export type
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export [/export/{export}]
+
+### Get an export job object [POST]
+Get a specific export job object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + id (required, string, `542f1868d341d51284b`)...The export job Id.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "exportJob":{
+                                                               "_id":"54fec699beb5cb2f6f9839ed",
+                                                               "application":"5354f08474adc4183214c143",
+                                                               "data":null,
+                                                               "result":"created export file export-user-1425983129369.csv (919 bytes)",
+                                                               "date":"2015-03-10T10:25:29.340Z",
+                                                               "status":"success",
+                                                               "type":"re.notifica.export.User"
+                                                            }
+
+        }
+
+### Delete an export job [DELETE]
+Delete an export job. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + export (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an export job.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"export job deleted"
+        }
+
+
+## Export [/export/fortype/{type}]
+
+### Get all export jobs of a specific type [GET]
+Get all export jobs of a specific type.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + type (required, string, `re.notifica.export.User`)...The export type
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "exportJobs":[
+                                {
+                                   "_id":"54fec699beb5cb2f6f9839ed",
+                                   "application":"5354f08474adc4183214c143",
+                                   "data":null,
+                                   "result":"created export file export-user-1425983129369.csv (919 bytes)",
+                                   "date":"2015-03-10T10:25:29.340Z",
+                                   "status":"success",
+                                   "type":"re.notifica.export.User"
+                                }
+                             ]
+
+        }
+
+## Export Result [/export/result/{export}]
+
+### Get a specific export job result [GET]
+Get a specific export job result. This endpoint will only be available for export jobs with a status equal to success.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + export (required, string, `54fec699beb5cb2f6f9839ed`)...The id of a export job
+
+
+
+# Group Import
+Methods for importing collections of items. Files are assumed to be uploaded to Notificare Storage before they can be used in a new import. Use this [endpoint](http://docs.notificare.apiary.io/#upload) to upload a file.
+
+## New Import [/import/{type}]
+
+### New Import [POST]
+Create a new import job for an application. This job might take some time to finish, depending on the size of the file you uploaded. You can retrieve the status of all the jobs by using the other endpoints below.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
+### Import types
+
+#### re.notifica.import.User (default)
+Used to import a list of users. Every row in the referenced CSV should include at least a `userID`. userName is optional and defaults to `anonymous`. This import type has no extra settings.
+
+#### re.notifica.import.Device
+Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform`.
+The latter three can also be defaulted to whatever you put in the `data` field in the request. See the example, where `appVersion`, `platform` and `language` have default values.
+There is one option in this import type, which is `overwrite`, defaults to `false`.
+
+Recognized columns are:
+
++ deviceID (APNS device token or Android registration id)
+
++ osVersion
+
++ appVersion
+
++ sdkVersion
+
++ platform (iOS, Android)
+
++ osString (defaults to platform + osVersion)
+
++ deviceString (defaults to 'unknown')
+
++ lastActive (ISO Date, defaults to current date/time)
+
++ longitude
+
++ latitude
+
++ locationLastUpdated (ISO Date, defaults to lastActive)
+
++ timeZoneOffset
+
++ userID (If the userID doesn't exist yet, a new user will be created. If omitted, an anonymous user will be generated.)
+
++ userName (only used when userID is present. Defaults to 'anonymous')
+
+
+
+#### re.notifica.import.UserSegment
+Used to import a list of users into a segment. Every row in the referenced CSV should contain a `userID`.
+The user segment to import into should be set as the `userSegment` property of `data`.
+There is one option in this import type, which is `clear`. If set, it clears the segment before importing users, otherwise it just adds users. It defaults to `false`.
+
+
++ Parameters
+
+    + type (required, string, `re.notifica.import.Device`)...The import type
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "path":"/imports/647431c4dc3798f2a5ae147411a787e8d52447e365d7972ec4d8535/dfeba0ade92ad65ec8619d4464333facc95f5c2feb55df98a92a78",
+                "data":{
+                        "appVersion": "1.0",
+                        "platform": "iOS",
+                        "language": "pt",
+                        "overwrite": true
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "importJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Import Collection [/import]
+### Get all the import objects [GET]
+Get all the import objects.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+
+
+        }
+                "importJobs":[{
+                                   "_id":"545cc517ff584870b89fb98",
+                                   "account":"50d771ff87e53afff2600001c",
+                                   "application":"5354f0bbdddd4452ff4c7c0",
+                                   "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
+                                   "data":{
+                                            "user_segment":"53a0a047fff17d3215a94f6",
+                                            "clear":false
+                                          },
+                                   "result":"imported 0 records, skipped 3 records",
+                                   "date":"2014-11-07T13:11:51.316Z",
+                                   "status":"success",
+                                   "type":"re.notifica.import.UserSegment"
+                              }]
+        }
+
+## Retrieve all import objects by type [/import/{type}]
+### Get all the import objects by type [GET]
+Get all the import objects by type.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+
+
+        }
+                "importJobs":[{
+                                   "_id":"545cc517ff584870b89fb98",
+                                   "account":"50d771ff87e53afff2600001c",
+                                   "application":"5354f0bbdddd4452ff4c7c0",
+                                   "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
+                                   "data":{
+                                            "user_segment":"53a0a047fff17d3215a94f6",
+                                            "clear":false
+                                          },
+                                   "result":"imported 0 records, skipped 3 records",
+                                   "date":"2014-11-07T13:11:51.316Z",
+                                   "status":"success",
+                                   "type":"re.notifica.import.UserSegment"
+                              }]
+        }
+
+## Import [/import/{type}/{import}]
+### Get an import object [GET]
+Get an import object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
+    + import (required, string, `5245bc5b3e66a3b01f0024d4`)...The import id of a previously created job.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "importJob":{
+                                "_id":"545cc517ff584870b89fb98",
+                                "account":"50d771ff87e53afff2600001c",
+                                "application":"5354f0bbdddd4452ff4c7c0",
+                                "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
+                                "data":{
+                                      "user_segment":"53a0a047fff17d3215a94f6",
+                                      "clear":false
+                                },
+                                "result":"imported 0 records, skipped 3 records",
+                                "date":"2014-11-07T13:11:51.316Z",
+                                "status":"success",
+                                "type":"re.notifica.import.UserSegment"
+                          }
+        }
 
 
 # Group Notification
@@ -788,15 +1215,23 @@ You can also add an array `actions` to your notifications by simply providing on
 
 
 ## Action Objects:
-| type | label | target | keyboard | camera |
-|:---------:|:---------:|:---------:|:---------:|:---------:|
-| re.notifica.action.Callback | string (eg.: open cam) | string (eg.: http: //api.notifica.re/register?action=xpto&var=xyz) | boolean | boolean |
-| re.notifica.action.Telephone | string (eg.: make a call) | string (eg.: 0500666858) | n/a | n/a |
-| re.notifica.action.SMS | string (eg.: send sms) | string (eg.: 0500666858,0500666858) | n/a | n/a |
-| re.notifica.action.Mail | string | string (eg.: me @company.com,you @company.com) | n/a | n/a |
-| re.notifica.action.Browser | string (eg.: open notifica.re) | string (eg.: http: //notifica.re) | n/a | n/a |
-| re.notifica.action.App | string (open facebook) | string (eg.: fb: //) | n/a | n/a |
-| re.notifica.action.Custom | string (eg.: open tab) | string (eg.: openTabInMyCode) | n/a | n/a |
+| type | label | target | keyboard | camera | rules |
+|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+| re.notifica.action.Callback | string (eg.: open cam) | string (eg.: http: //api.notifica.re/register?action=xpto&var=xyz) | boolean | boolean | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Telephone | string (eg.: make a call) | string (eg.: 0500666858) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.SMS | string (eg.: send sms) | string (eg.: 0500666858,0500666858) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Mail | string | string (eg.: me @company.com,you @company.com) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Browser | string (eg.: open notifica.re) | string (eg.: http: //notifica.re) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.App | string (open facebook) | string (eg.: fb: //) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Custom | string (eg.: open tab) | string (eg.: openTabInMyCode) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+
+## Rules Objects:
+| type | params |
+|:---------:|-------------|
+| re.notifica.rule segment.Add | array of segment Ids (eg.: ["532434df434657df4664","532434df434657df4664"]) |
+| re.notifica.rule segment.Remove | array of segment Ids (eg.: ["532434df434657df4664","532434df434657df4664"]) |
+| re.notifica.rule tag.Add | array of tags (eg.: ["tag_news","tag_press"]) |
+| re.notifica.rule tag.Remove | array of tags (eg.: ["tag_news","tag_press"]) |
 
 ## Send to all [/notification/broadcast]
 
@@ -805,19 +1240,19 @@ Send a message to **all** devices.
 You can also schedule a broadcast, if `schedule` is true you should immediately use /notification/schedule to create the schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
-## Expected properties
++ Parameters
 
-| property | type | description | required | default |
-|----------|:------:|-------------|:----------:|:---------:|
-| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
-| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
-| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
-| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
-| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
-| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
-| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
-| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
-| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
 
@@ -838,11 +1273,13 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": []
                         }
                 ]
         }
@@ -863,20 +1300,20 @@ Send a message to devices with any of the specified `tags`.
 You can also schedule this message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
-## Expected properties
++ Parameters
 
-| property | type | description | required | default |
-|----------|:------:|-------------|:----------:|:---------:|
-| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
-| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
-| tags  | array | An array of strings. Defines which devices should receive the notification. Only devices registered with these tags will receive the notification. | Yes | null |
-| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
-| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
-| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
-| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
-| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
-| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
-| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
 
 + Request (application/json)
 
@@ -896,11 +1333,13 @@ The request accepts an array of tags. This request must be authenticated with th
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": [],
                         }
                 ]
         }
@@ -919,18 +1358,19 @@ Send a message to users in one or more of the specified `segments`.
 You can also schedule this messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
-| property | type | description | required | default |
-|----------|:------:|-------------|:----------:|:---------:|
-| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
-| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
-| segments  | array | An array of strings. Defines which devices should receive the notification. Only devices belonging to users in these segments will receive the notification. | Yes | null |
-| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
-| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
-| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
-| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
-| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
-| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
-| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
++ Parameters
+
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
 + Request (application/json)
@@ -951,11 +1391,13 @@ The request accepts an array of Segment Ids. This request must be authenticated 
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
                         }
                 ]
         }
@@ -974,16 +1416,19 @@ Send a message to one single `user`.
 You can also schedule a private message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
-| property | type | description | required | default |
-|----------|:------:|-------------|:----------:|:---------:|
-| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
-| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
-| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
-| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
-| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
-| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
-| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
-| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
++ Parameters
+
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
 + Parameters
@@ -1007,11 +1452,13 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
                         }
                 ]
         }
@@ -1030,21 +1477,21 @@ Send a message to a `device`.
 You can also schedule this type of messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
-| property | type | description | required | default |
-|----------|:------:|-------------|:----------:|:---------:|
-| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
-| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
-| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
-| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
-| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
-| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
-| schedule | boolean | When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule. | No | false |
-| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
-
-
 + Parameters
 
     + device (required, string, `bbff2ce9b547d2df4731bac277...`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
 
 + Request (application/json)
 
@@ -1063,11 +1510,13 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": []
                         }
                 ]
         }
@@ -1087,17 +1536,20 @@ Create a message that will not generate any notification. These kind of messages
 You can not schedule a triggered message.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
-| property | type | description | required | default |
-|----------|:------:|-------------|:----------:|:---------:|
-| type     | string | Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types. | No | re.notifica.notification.Alert |
-| message  | string | Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say. | Yes | - |
-| content  | array | An array of Content objects according to the type of Notification. Please refer to Content types for all available types. | No | null |
-| location | object | An object with the following format: `{"latitude":2.3455,"longitude":4.5667, distance: 10}`. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.  | No | null |
-| actions  | array | Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available. | No | null |
-| sound    | string | The name of a sound file in your app. This will tell device to play this sound whenever the notification is receive. | No | null |
-| badge    | number | This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999. | No | null |
-| triggered | boolean | When true will prevent the message from being sent. A triggered notification can be used in any Region, Beacon or In-App triggers. | Yes | true |
-| extra  | mixed | A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives. | No | null |
++ Parameters
+
+    + device (required, string, `bbff2ce9b547d2df4731bac277...`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
 + Request (application/json)
@@ -1117,11 +1569,13 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "actions":[
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
                         },
                         {
                                 "type":"re.notifica.action.Callback",
-                                "label":"Go away"
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
                         }
                 ]
         }
@@ -1140,6 +1594,12 @@ Start a schedule task for a previously created message.
 The property `local` determines if message should be sent on the device's local time or UTC.
 If `local` is true make sure the `time` is at least 14 hours from now to make sure the message will arrive in all timezones.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + notification (required, string, `5245bc5b3e66a3b01f0024d4`)...The notification Id of the notification to be schedule.
+    + time (required, string, `2014-12-25T10:00:00`)...The date and time in which the notification should be sent.
+    + local (required, `boolean`)...Defines if message should be sent on date and time of the device. If false time will be considered UTC.
 
 + Request (application/json)
 
@@ -1165,7 +1625,7 @@ Retrieve information about your message performance.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
-+ Response 201 (application/json; charset=utf-8)
++ Response 200 (application/json; charset=utf-8)
 
         {
                 "info":{
@@ -1195,14 +1655,26 @@ Combines User, Segments, Tags and the location of the devices the same way Notif
 ### Test a message to all devices [POST]
 Test a message to **all** devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
 
++ Parameters
+
+    + type (optional, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
+
+
 + Request (application/json)
 
         {
                 "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default"
-                "extras" : {"prod": 123}
+                "type":"re.notifica.notification.Alert"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1217,30 +1689,27 @@ Test a message to **all** devices. This call must be authenticated with the `app
 Test a message to devices with any of the specified `tags`. The call accepts an array of tags. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
++ Parameters
+
+    + type (optional, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, object, `{"immediate":"","near":"","far":""}`)...An object containing three previously created message Ids for each proximity level.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
+
+
 + Request (application/json)
 
         {
                 "tags":["test1","test2"],
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default",
-                "content": [
-                        {
-                                "type":"re.notifica.content.Text",
-                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
-                        }
-                ],
-                "actions":[
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
-                        },
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Go away"
-                        }
-                ]
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1260,25 +1729,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         {
                 "segments":["526f7a71dab9d70711000003","526f7a71dab9d70711000004"],
                 "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default",
-                "content": [
-                        {
-                                "type":"re.notifica.content.Text",
-                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
-                        }
-                ],
-                "actions":[
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
-                        },
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Go away"
-                        }
-                ]
+                "type":"re.notifica.notification.Alert"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1301,25 +1752,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
         {
                 "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default",
-                "content": [
-                        {
-                                "type":"re.notifica.content.Text",
-                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
-                        }
-                ],
-                "actions":[
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
-                        },
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Go away"
-                        }
-                ]
+                "type":"re.notifica.notification.Alert"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1342,25 +1775,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
         {
                 "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
-                "ttl":3600,
-                "sound":"default",
-                "content": [
-                        {
-                                "type":"re.notifica.content.Text",
-                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
-                        }
-                ],
-                "actions":[
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Please come in"
-                        },
-                        {
-                                "type":"re.notifica.action.Callback",
-                                "label":"Go away"
-                        }
-                ]
+                "type":"re.notifica.notification.Alert"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1369,6 +1784,1023 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count":"42"
         }
 
+
+# Group Pass
+Methods to manage your passes. Before creating passes you must create passbook templates. To create, edit and delete templates see the [Passbook](http://docs.notificare.apiary.io/#passbook) endpoints.
+
+
+## Pass Collection [/pass{?limit,skip}]
+
+### Get all passes for an application [GET]
+Get all passes for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+             "passes":[
+                             {
+                               "_id":"5501894253058ca5269a9928",
+                               "application":"5354f0bb3fa544452ff4c7c0",
+                               "passbook":"54e135049c2cad772e7c0de0",
+                               "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                               "data":{
+                                        "backgroundColor":"rgb(0,0,0)",
+                                        "foregroundColor":"rgb(255,255,255)",
+                                        "suppressStripShine":false,
+                                        "labelColor":"rgb(255,255,255)",
+                                        "logoText":"My Company",
+                                        "description":"coupon example",
+                                        "auxiliaryFields":[],
+                                        "headerFields":[],
+                                        "primaryFields":[
+                                                          {
+                                                             "string":true,
+                                                             "key":"discount",
+                                                             "label":"discount",
+                                                             "textAlignment": "PKTextAlignmentLeft",
+                                                             "value": "20% off"
+                                                           }
+                                                          ],
+                                        "secondaryFields":[
+                                                            {
+                                                              "string":true,
+                                                              "key":"expires",
+                                                              "label":"expires",
+                                                              "textAlignment":"PKTextAlignmentLeft",
+                                                              "value":"31-12-2015"
+                                                            }
+                                                          ],
+                                        "backFields":[],
+                                        "transitType":null,
+                                        "barcode":{
+                                                     "format":"PKBarcodeFormatQR",
+                                                     "messageEncoding":"iso-8859-1"
+                                                  },
+                                        "background":null,
+                                        "thumbnail":null,
+                                        "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                                        "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                                        "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                                        "footer":null
+
+                               }
+                             }
+                          ],
+                          "count":2
+        }
+
+
+
+
+## New Pass [/pass]
+
+### Create a new pass [POST]
+Create a new pass.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Request (application/json)
+
+        {
+             "_id":"5501894253058ca5269a9928",
+             "application":"5354f0bb3fa544452ff4c7c0",
+             "passbook":"54e135049c2cad772e7c0de0",
+             "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+             "data":{
+                       "backgroundColor":"rgb(0,0,0)",
+                       "foregroundColor":"rgb(255,255,255)",
+                       "suppressStripShine":false,
+                       "labelColor":"rgb(255,255,255)",
+                       "logoText":"lebkov",
+                       "description":"coupon example",
+                       "auxiliaryFields":[],
+                       "headerFields":[],
+                       "primaryFields":[
+                                         {
+                                            "string":true,
+                                            "key":"discount",
+                                            "label":"discount",
+                                            "textAlignment": "PKTextAlignmentLeft",
+                                            "value": "20% off"
+                                         }
+                                       ],
+                       "secondaryFields":[
+                                           {
+                                              "string":true,
+                                              "key":"expires",
+                                              "label":"expires",
+                                              "textAlignment":"PKTextAlignmentLeft",
+                                              "value": "31-12-2015"
+                                           }
+                                         ],
+                       "backFields":[],
+                       "transitType":null,
+                       "barcode":{
+                                   "format":"PKBarcodeFormatQR",
+                                   "messageEncoding":"iso-8859-1"
+                                 },
+                       "background":null,
+                       "thumbnail":null,
+                       "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                       "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                       "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                       "footer":null
+             }
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "pass":{
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                         }
+        }
+
+
+
+
+
+## Pass [/pass/{pass}]
+
+### Get a pass object [GET]
+Get a pass object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of pass.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                     "_id":"5501894253058ca5269a9928",
+                     "application":"5354f0bb3fa544452ff4c7c0",
+                     "passbook":"54e135049c2cad772e7c0de0",
+                     "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                     "data":{
+                               "backgroundColor":"rgb(0,0,0)",
+                               "foregroundColor":"rgb(255,255,255)",
+                               "suppressStripShine":false,
+                               "labelColor":"rgb(255,255,255)",
+                               "logoText":"lebkov",
+                               "description":"coupon example",
+                               "auxiliaryFields":[],
+                               "headerFields":[],
+                               "primaryFields":[
+                                                 {
+                                                    "string":true,
+                                                    "key":"discount",
+                                                    "label":"discount",
+                                                    "textAlignment": "PKTextAlignmentLeft",
+                                                    "value": "20% off"
+                                                 }
+                                               ],
+                               "secondaryFields":[
+                                                   {
+                                                      "string":true,
+                                                      "key":"expires",
+                                                      "label":"expires",
+                                                      "textAlignment":"PKTextAlignmentLeft",
+                                                      "value": "31-12-2015"
+                                                   }
+                                                 ],
+                               "backFields":[],
+                               "transitType":null,
+                               "barcode":{
+                                           "format":"PKBarcodeFormatQR",
+                                           "messageEncoding":"iso-8859-1"
+                                         },
+                               "background":null,
+                               "thumbnail":null,
+                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "footer":null
+                     }
+                }
+
+### Modify a pass [PUT]
+Modify a pass.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active pass.
+
++ Request (application/json)
+
+        {
+                             "_id":"5501894253058ca5269a9928",
+                             "application":"5354f0bb3fa544452ff4c7c0",
+                             "passbook":"54e135049c2cad772e7c0de0",
+                             "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                             "data":{
+                                       "backgroundColor":"rgb(0,0,0)",
+                                       "foregroundColor":"rgb(255,255,255)",
+                                       "suppressStripShine":false,
+                                       "labelColor":"rgb(255,255,255)",
+                                       "logoText":"lebkov",
+                                       "description":"coupon example",
+                                       "auxiliaryFields":[],
+                                       "headerFields":[],
+                                       "primaryFields":[
+                                                         {
+                                                            "string":true,
+                                                            "key":"discount",
+                                                            "label":"discount",
+                                                            "textAlignment": "PKTextAlignmentLeft",
+                                                            "value": "20% off"
+                                                         }
+                                                       ],
+                                       "secondaryFields":[
+                                                           {
+                                                              "string":true,
+                                                              "key":"expires",
+                                                              "label":"expires",
+                                                              "textAlignment":"PKTextAlignmentLeft",
+                                                              "value": "31-12-2015"
+                                                           }
+                                                         ],
+                                       "backFields":[],
+                                       "transitType":null,
+                                       "barcode":{
+                                                   "format":"PKBarcodeFormatQR",
+                                                   "messageEncoding":"iso-8859-1"
+                                                 },
+                                       "background":null,
+                                       "thumbnail":null,
+                                       "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                                       "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                                       "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                                       "footer":null
+                             }
+                        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"pass updated"
+        }
+
+
+
+
+### Delete a pass [DELETE]
+Delete a pass. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active pass.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"pass deleted"
+        }
+
+
+# Pass [/pass/forserial/{serial}]
+
+### Get a pass object using the serial number [GET]
+Get a pass object using the serial number.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of pass.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                     "_id":"5501894253058ca5269a9928",
+                     "application":"5354f0bb3fa544452ff4c7c0",
+                     "passbook":"54e135049c2cad772e7c0de0",
+                     "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                     "data":{
+                               "backgroundColor":"rgb(0,0,0)",
+                               "foregroundColor":"rgb(255,255,255)",
+                               "suppressStripShine":false,
+                               "labelColor":"rgb(255,255,255)",
+                               "logoText":"lebkov",
+                               "description":"coupon example",
+                               "auxiliaryFields":[],
+                               "headerFields":[],
+                               "primaryFields":[
+                                                 {
+                                                    "string":true,
+                                                    "key":"discount",
+                                                    "label":"discount",
+                                                    "textAlignment": "PKTextAlignmentLeft",
+                                                    "value": "20% off"
+                                                 }
+                                               ],
+                               "secondaryFields":[
+                                                   {
+                                                      "string":true,
+                                                      "key":"expires",
+                                                      "label":"expires",
+                                                      "textAlignment":"PKTextAlignmentLeft",
+                                                      "value": "31-12-2015"
+                                                   }
+                                                 ],
+                               "backFields":[],
+                               "transitType":null,
+                               "barcode":{
+                                           "format":"PKBarcodeFormatQR",
+                                           "messageEncoding":"iso-8859-1"
+                                         },
+                               "background":null,
+                               "thumbnail":null,
+                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "footer":null
+                     }
+                }
+
+
+## Redeem Pass [/pass/redeem/{serial}]
+
+### Redeem a pass [PUT]
+Redeem a pass.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"pass redeemed"
+        }
+
+
+## Download Pass [/pass/pkpass/{serial}]
+
+### Download Pass [GET]
+Download a pass.
+This request does not require authentication.
+
++ Parameters
+
+    + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
+
+
+
+
+
+# Group Passbook
+Methods to manage your passbook templates. These templates should be created before you can start creating passes.
+They will help you pre-define the template styles your application needs and accelerate pass creation. To create and redeem passes see also the [Pass](http://docs.notificare.apiary.io/#pass) endpoints.
+
+
+## Passbook Collection [/passbook{?limit,skip}]
+
+### Get all passbook templates for an application [GET]
+Get all passbook templates for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+             "passbooks":[
+                             {
+                               "_id":"5501894253058ca5269a9928",
+                               "application":"5354f0bb3fa544452ff4c7c0",
+                               "passStyle":"coupon",
+                               "data":{
+                                        "backgroundColor":"rgb(0,0,0)",
+                                        "foregroundColor":"rgb(255,255,255)",
+                                        "suppressStripShine":false,
+                                        "labelColor":"rgb(255,255,255)",
+                                        "logoText":"lebkov",
+                                        "description":"coupon example",
+                                        "auxiliaryFields":[],
+                                        "headerFields":[],
+                                        "primaryFields":[
+                                                          {
+                                                             "string":true,
+                                                             "key":"discount",
+                                                             "label":"discount",
+                                                             "textAlignment":
+                                                             "PKTextAlignmentLeft"
+                                                           }
+                                                          ],
+                                        "secondaryFields":[
+                                                            {
+                                                              "string":true,
+                                                              "key":"expires",
+                                                              "label":"expires",
+                                                              "textAlignment":"PKTextAlignmentLeft"
+                                                            }
+                                                          ],
+                                        "backFields":[],
+                                        "transitType":null,
+                                        "barcode":{
+                                                     "format":"PKBarcodeFormatQR",
+                                                     "messageEncoding":"iso-8859-1"
+                                                  },
+                                        "background":null,
+                                        "thumbnail":null,
+                                        "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                                        "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                                        "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                                        "footer":null
+
+                               },
+                               "name":"coupon example",
+                               "__v":0,
+                               "active":false
+                             }
+                          ],
+                          "count":2
+        }
+
+
+
+
+## New Passbook Template [/passbook]
+
+### Create a new passbook template [POST]
+Create a new passbook template.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Request (application/json)
+
+        {
+             "_id":"5501894253058ca5269a9928",
+             "application":"5354f0bb3fa544452ff4c7c0",
+             "passStyle":"coupon",
+             "data":{
+                       "backgroundColor":"rgb(0,0,0)",
+                       "foregroundColor":"rgb(255,255,255)",
+                       "suppressStripShine":false,
+                       "labelColor":"rgb(255,255,255)",
+                       "logoText":"lebkov",
+                       "description":"coupon example",
+                       "auxiliaryFields":[],
+                       "headerFields":[],
+                       "primaryFields":[
+                                         {
+                                            "string":true,
+                                            "key":"discount",
+                                            "label":"discount",
+                                            "textAlignment":
+                                            "PKTextAlignmentLeft"
+                                         }
+                                       ],
+                       "secondaryFields":[
+                                           {
+                                              "string":true,
+                                              "key":"expires",
+                                              "label":"expires",
+                                              "textAlignment":"PKTextAlignmentLeft"
+                                           }
+                                         ],
+                       "backFields":[],
+                       "transitType":null,
+                       "barcode":{
+                                   "format":"PKBarcodeFormatQR",
+                                   "messageEncoding":"iso-8859-1"
+                                 },
+                       "background":null,
+                       "thumbnail":null,
+                       "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                       "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                       "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                       "footer":null
+             },
+             "name":"coupon example"
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "passbook":{
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                         }
+        }
+
+
+
+
+
+## Passbook Template [/passbook/{passbook}]
+
+### Get a passbook template object [GET]
+Get a passbook template object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + passbook (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active passbook template.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                     "_id":"5501894253058ca5269a9928",
+                     "application":"5354f0bb3fa544452ff4c7c0",
+                     "passStyle":"coupon",
+                     "data":{
+                               "backgroundColor":"rgb(0,0,0)",
+                               "foregroundColor":"rgb(255,255,255)",
+                               "suppressStripShine":false,
+                               "labelColor":"rgb(255,255,255)",
+                               "logoText":"lebkov",
+                               "description":"coupon example",
+                               "auxiliaryFields":[],
+                               "headerFields":[],
+                               "primaryFields":[
+                                                 {
+                                                    "string":true,
+                                                    "key":"discount",
+                                                    "label":"discount",
+                                                    "textAlignment":
+                                                    "PKTextAlignmentLeft"
+                                                 }
+                                               ],
+                               "secondaryFields":[
+                                                   {
+                                                      "string":true,
+                                                      "key":"expires",
+                                                      "label":"expires",
+                                                      "textAlignment":"PKTextAlignmentLeft"
+                                                   }
+                                                 ],
+                               "backFields":[],
+                               "transitType":null,
+                               "barcode":{
+                                           "format":"PKBarcodeFormatQR",
+                                           "messageEncoding":"iso-8859-1"
+                                         },
+                               "background":null,
+                               "thumbnail":null,
+                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "footer":null
+                     },
+                     "name":"coupon example"
+        }
+
+
+### Modify a passbook template [PUT]
+Modify a passbook template.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + passbook (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active passbook template.
+
++ Request (application/json)
+
+        {
+                     "_id":"5501894253058ca5269a9928",
+                     "application":"5354f0bb3fa544452ff4c7c0",
+                     "passStyle":"coupon",
+                     "data":{
+                               "backgroundColor":"rgb(0,0,0)",
+                               "foregroundColor":"rgb(255,255,255)",
+                               "suppressStripShine":false,
+                               "labelColor":"rgb(255,255,255)",
+                               "logoText":"lebkov",
+                               "description":"coupon example",
+                               "auxiliaryFields":[],
+                               "headerFields":[],
+                               "primaryFields":[
+                                                 {
+                                                    "string":true,
+                                                    "key":"discount",
+                                                    "label":"discount",
+                                                    "textAlignment":
+                                                    "PKTextAlignmentLeft"
+                                                 }
+                                               ],
+                               "secondaryFields":[
+                                                   {
+                                                      "string":true,
+                                                      "key":"expires",
+                                                      "label":"expires",
+                                                      "textAlignment":"PKTextAlignmentLeft"
+                                                   }
+                                                 ],
+                               "backFields":[],
+                               "transitType":null,
+                               "barcode":{
+                                           "format":"PKBarcodeFormatQR",
+                                           "messageEncoding":"iso-8859-1"
+                                         },
+                               "background":null,
+                               "thumbnail":null,
+                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "footer":null
+                     },
+                     "name":"coupon example"
+        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"passbook updated"
+        }
+
+
+### Delete a passbook template [DELETE]
+Delete a passbook template. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + passbook (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active passbook template.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"passbook deleted"
+        }
+
+
+# Group Product
+Methods to manage your virtual products. Products can be purchased inside your application through both the App Store and Google Play.
+
+
+## Product Collection [/product{?limit,skip}]
+
+### Get all products for an application [GET]
+Get all products for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+            "products":[
+                           {
+                              "_id":"542f479660a365ad5a47a794",
+                              "application":"5354f0bb3fa544452ff4c7c0",
+                              "identifier":"re.notifica.office.nonconsumable",
+                              "type":"onetime",
+                              "name":"Non-Consumable",
+                              "stores":["AppStore","GooglePlay"],
+                              "active":true
+                           },
+                           {
+                              "_id":"5442c0927f8ec974633ed40c",
+                              "application":"5354f0bb3fa544452ff4c7c0",
+                              "identifier":"re.notifica.office.prod2",
+                              "type":"onetime",
+                              "name":"Prod2",
+                              "stores":["AppStore","GooglePlay"],
+                              "active":true
+                           },
+                           {
+                              "_id":"544788ed9a6050cd6f008b8d",
+                              "application":"5354f0bb3fa544452ff4c7c0",
+                              "identifier":"re.notifica.office.consumable",
+                              "type":"consumable",
+                              "name":"Consumable",
+                              "stores":["AppStore","GooglePlay"],
+                              "active":true
+                           }
+                       ],
+            "count":3
+        }
+
+
+
+
+## New Product [/product]
+
+### Create a new product [POST]
+Create a new product.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Request (application/json)
+
+        {
+             "identifier":"re.notifica.office.consumable",
+             "type":"consumable",
+             "name":"Consumable",
+             "stores":["AppStore","GooglePlay"],
+             "active":true
+
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "product":{
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                         }
+        }
+
+
+
+
+
+## Product [/product/{product}]
+
+### Get a product object [GET]
+Get a product object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + product (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active product.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                      "_id":"544788ed9a6050cd6f008b8d",
+                                      "application":"5354f0bb3fa544452ff4c7c0",
+                                      "identifier":"re.notifica.office.consumable",
+                                      "type":"consumable",
+                                      "name":"Consumable",
+                                      "stores":["AppStore","GooglePlay"],
+                                      "active":true
+                                   }
+
+
+### Modify a product [PUT]
+Modify a product.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + product (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active product.
+
++ Request (application/json)
+
+        {
+                     "identifier":"re.notifica.office.consumable",
+                     "type":"consumable",
+                     "name":"Consumable",
+                     "stores":["AppStore","GooglePlay"],
+                     "active":true
+
+                }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"product updated"
+        }
+
+
+### Delete a product [DELETE]
+Delete a product. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + product (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active product.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"product deleted"
+        }
+
+
+## Product [/product/foridentifier/{sku}]
+
+### Get a product object using the SKU [GET]
+Get a product object using SKU.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + sku (required, string, `re.notifica.office.consumable`)...The SKU (identifier) of an active product.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                      "_id":"544788ed9a6050cd6f008b8d",
+                                      "application":"5354f0bb3fa544452ff4c7c0",
+                                      "identifier":"re.notifica.office.consumable",
+                                      "type":"consumable",
+                                      "name":"Consumable",
+                                      "stores":["AppStore","GooglePlay"],
+                                      "active":true
+                                   }
+
+
+# Group Purchase
+
+## Purchase [/purchase{?limit,skip}]
+
+### Get all purchases for an application [GET]
+Get all purchases for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                    "products":[
+                                   {
+                                      "_id":"5477c86387c552350c886d2f",
+                                      "data":{
+                                                "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                "purchase_date_ms":"1417136222704",
+                                                "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
+                                                "original_transaction_id":"1000000133399653",
+                                                "bvrs":"1.0.36",
+                                                "transaction_id":"1000000133399653",
+                                                "quantity":"1",
+                                                "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
+                                                "item_id":"944702328",
+                                                "product_id":"re.notifica.office.consumable",
+                                                "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                "bid":"re.notifica.office",
+                                                "original_purchase_date_ms":"1417136222704"
+                                             },
+                                      "date":"2014-11-28T00:57:02.704Z",
+                                      "identifier":"re.notifica.office.consumable",
+                                      "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
+                                      "userID":"joel@notifica.re",
+                                      "price":0.89,
+                                      "application":"5354f0bb3fa544452ff4c7c0",
+                                      "transactionIdentifier":"1000000133399653",
+                                      "currency":"EUR"
+                                   }
+                               ],
+                               "count":1
+                }
+
+
+## Purchase [/purchase/{purchase}]
+
+### Get a specific purchase [GET]
+Get a specific purchase.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + purchase (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of a purchase.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                              "_id":"5477c86387c552350c886d2f",
+                                              "data":{
+                                                        "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "purchase_date_ms":"1417136222704",
+                                                        "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
+                                                        "original_transaction_id":"1000000133399653",
+                                                        "bvrs":"1.0.36",
+                                                        "transaction_id":"1000000133399653",
+                                                        "quantity":"1",
+                                                        "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
+                                                        "item_id":"944702328",
+                                                        "product_id":"re.notifica.office.consumable",
+                                                        "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "bid":"re.notifica.office",
+                                                        "original_purchase_date_ms":"1417136222704"
+                                                     },
+                                              "date":"2014-11-28T00:57:02.704Z",
+                                              "identifier":"re.notifica.office.consumable",
+                                              "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
+                                              "userID":"joel@notifica.re",
+                                              "price":0.89,
+                                              "application":"5354f0bb3fa544452ff4c7c0",
+                                              "transactionIdentifier":"1000000133399653",
+                                              "currency":"EUR"
+                                           }
+
+## Purchase [/purchase/bytransaction/{transaction}]
+
+### Get a specific purchase using the transaction [GET]
+Get a specific purchase using the transaction.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + transaction (required, string, `1000000133399653`)...The transaction id of a purchase.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                              "_id":"5477c86387c552350c886d2f",
+                                              "data":{
+                                                        "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "purchase_date_ms":"1417136222704",
+                                                        "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
+                                                        "original_transaction_id":"1000000133399653",
+                                                        "bvrs":"1.0.36",
+                                                        "transaction_id":"1000000133399653",
+                                                        "quantity":"1",
+                                                        "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
+                                                        "item_id":"944702328",
+                                                        "product_id":"re.notifica.office.consumable",
+                                                        "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "bid":"re.notifica.office",
+                                                        "original_purchase_date_ms":"1417136222704"
+                                                     },
+                                              "date":"2014-11-28T00:57:02.704Z",
+                                              "identifier":"re.notifica.office.consumable",
+                                              "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
+                                              "userID":"joel@notifica.re",
+                                              "price":0.89,
+                                              "application":"5354f0bb3fa544452ff4c7c0",
+                                              "transactionIdentifier":"1000000133399653",
+                                              "currency":"EUR"
+                                           }
+
+
+## Purchase [/purchase/byidentifier/{identifier}]
+
+### Get a specific purchase using the SKU [GET]
+Get a specific purchase using the SKU.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + identifier (required, string, `re.notifica.office.consumable`)...The SKU (identifier) of a purchase.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                                              "_id":"5477c86387c552350c886d2f",
+                                              "data":{
+                                                        "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "purchase_date_ms":"1417136222704",
+                                                        "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
+                                                        "original_transaction_id":"1000000133399653",
+                                                        "bvrs":"1.0.36",
+                                                        "transaction_id":"1000000133399653",
+                                                        "quantity":"1",
+                                                        "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
+                                                        "item_id":"944702328",
+                                                        "product_id":"re.notifica.office.consumable",
+                                                        "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                                                        "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                                                        "bid":"re.notifica.office",
+                                                        "original_purchase_date_ms":"1417136222704"
+                                                     },
+                                              "date":"2014-11-28T00:57:02.704Z",
+                                              "identifier":"re.notifica.office.consumable",
+                                              "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
+                                              "userID":"joel@notifica.re",
+                                              "price":0.89,
+                                              "application":"5354f0bb3fa544452ff4c7c0",
+                                              "transactionIdentifier":"1000000133399653",
+                                              "currency":"EUR"
+                                           }
 
 
 # Group Region
@@ -1518,7 +2950,7 @@ A Reply object is what Notificare creates when users interact with notifications
 These objects hold every single interaction and data your users send you.
 
 
-## Reply Collection [/reply/fornotification/{notification}{?limit,skip}]
+## Reply List [/reply/fornotification/{notification}{?limit,skip}]
 
 ### Get all replies for a specific notification [GET]
 Get all replies for a specific notification.
@@ -1556,6 +2988,31 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                             }
                 ],
                 "count": 2
+        }
+
+## Reply Collection [/reply/{reply}]
+
+### Get a specific reply object [GET]
+Get a specific reply object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + reply (required, string, `5245bc5b3e66a3b01f0024d4`)...The id for this reply.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+
+        {
+                "reply":{
+                              "notification":"53317011f90827d27c6e9c94",
+                              "userID":"testuser@example.com",
+                              "deviceID":"APA91bHWwt97wwvZ1-P8UQT1zCgczK7utZEZiqu7N4Awg",
+                              "label":"yes",
+                              "_id":"5331703332c17e3077d5a765",
+                              "time":"2014-03-25T12:01:55.713Z"
+                            }
         }
 
 
@@ -2133,6 +3590,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "dayEnd": "",
                                   "dayStart": "",
                                   "notification": "5245bc5b3e66a3b01f0024d4",
+                                  "rules": [],
                                   "source": "5245bc5b3e66a3b01f0024d4",
                                   "active": false
                             },
@@ -2146,6 +3604,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "dayEnd": "08:00:00",
                                   "dayStart": "19:00:00",
                                   "notification": "5245bc5b3e66a3b01f0024d4",
+                                  "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}],
                                   "source": "5245bc5b3e66a3b01f0024d4",
                                   "active": true
                             }
@@ -2174,6 +3633,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "dayEnd": "08:00",
                 "dayStart": "19:00",
                 "notification": "5245bc5b3e66a3b01f0024d4",
+                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}],
                 "source": "5245bc5b3e66a3b01f0024d4",
                 "active": false
         }
@@ -2213,6 +3673,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "dayEnd": "08:00:00",
                                   "dayStart": "19:00:00",
                                   "notification": "5245bc5b3e66a3b01f0024d4",
+                                  "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}],
                                   "source": "5245bc5b3e66a3b01f0024d4",
                                   "active": true
                             }
@@ -2240,6 +3701,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "dayEnd": "08:00",
                 "dayStart": "19:00",
                 "notification": "5245bc5b3e66a3b01f0024d4",
+                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}],
                 "source": "5245bc5b3e66a3b01f0024d4",
                 "active": false
         }
@@ -2640,86 +4102,5 @@ Remove user from segment
         {
                 "message": "user removed from segment"
         }
-        
-        
 
-# Group Import
-Methods for importing collections of items. Files are assumed to be uploaded to Notificare Storage before
-
-## New Import [/import/{type}]
-
-### New Import [POST]
-Create a new import for this app
-
-### Import types
-
-#### re.notifica.import.User (default)
-Used to import a list of users. Every row in the referenced CSV should include at least a `userID`. userName is optional and defaults to `anonymous`. This import type has no extra settings.
-
-#### re.notifica.import.Device
-Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform`. 
-The latter three can also be defaulted to whatever you put in the `data` field in the request. See the example, where `appVersion`, `platform` and `language` have default values.
-There is one option in this import type, which is `overwrite`, defaults to `false`.
-
-Recognized columns are:
-
-+ deviceID (APNS device token or Android registration id)
-
-+ osVersion
-
-+ appVersion
-
-+ sdkVersion 
-
-+ platform (iOS, Android)
-
-+ osString (defaults to platform + osVersion)
-
-+ deviceString (defaults to 'unknown')
-
-+ lastActive (ISO Date, defaults to current date/time)
-
-+ longitude 
-
-+ latitude
-
-+ locationLastUpdated (ISO Date, defaults to lastActive)
-
-+ timeZoneOffset
-
-+ userID (If the userID doesn't exist yet, a new user will be created. If omitted, an anonymous user will be generated.)
-
-+ userName (only used when userID is present. Defaults to 'anonymous')
-
-
-
-#### re.notifica.import.UserSegment
-Used to import a list of users into a segment. Every row in the referenced CSV should contain a `userID`. 
-The user segment to import into should be set as the `userSegment` property of `data`.
-There is one option in this import type, which is `clear`. If set, it clears the segment before importing users, otherwise it just adds users. It defaults to `false`.
-
-
-+ Parameters
-
-    + type (required, string, `re.notifica.import.Device`)...The import type
-
-+ Request (application/json; charset=utf-8)
-
-        {
-                "path":"/imports/647431c4dc3798f2a5ae147411a787e8d52447e365d7972ec4d8535/dfeba0ade92ad65ec8619d4464333facc95f5c2feb55df98a92a78",
-                "data":{
-                        "appVersion": "1.0",
-                        "platform": "iOS",
-                        "language": "pt",
-                        "overwrite": true
-                }
-        }
-
-+ Response 201 (application/json; charset=utf-8)
-
-        {
-                "importJob": {
-                        "id": "5245bc5b3e66a3b01f0024d4"
-                }
-        }
 
