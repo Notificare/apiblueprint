@@ -1598,14 +1598,14 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + notification (required, string, `5245bc5b3e66a3b01f0024d4`)...The notification Id of the notification to be schedule.
-    + time (required, string, `2014-12-25T10:00:00`)...The date and time in which the notification should be sent.
+    + time (required, string, `2014-12-25 10:00`)...The date and time (YYYY-MM-DD hh:mm) in which the notification should be sent.
     + local (required, `boolean`)...Defines if message should be sent on date and time of the device. If false time will be considered UTC.
 
 + Request (application/json)
 
         {
                 "notification":"5245bc5b3e66a3b01f0024d4",
-                "time":"2014-12-25T10:00:00",
+                "time":"2014-12-25 10:00",
                 "local":true
         }
 
