@@ -539,6 +539,47 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
+## Device Object [/device/{deviceID}]
+
+### Get a specific device based on the deviceID [GET]
+Get a specific device based on the deviceID.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + deviceID (required, string, `00a9b9bf-...9278-64d6a3f22476`)...The deviceID is the unique identifier provided by APNS or GCM.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "device":{
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "appVersion":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdkVersion":"0.0.1",
+                                  "transport":"Websocket",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "deviceString":"MacIntel"
+                              }
+
+
+        }
+
+
 ## Filter by User [/device/foruser/{user}]
 
 ### Get all the devices for a specific user [GET]
@@ -603,30 +644,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                           
         }
 
-## Get all tags [/device/tags{?limit,skip}]
-
-### Get the list of all tags for this application [GET]
-Get the list of all tags for this application.
-This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
-+ Parameters
-
-    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
-
-    + skip = `0` (optional, number, `0`)...The number of results to skip
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "tags":[
-                        {"tag":"toys", "deviceCount": 2},
-                        {"tag":"kitchen", "deviceCount": 5}
-                ],
-                "count": 2
-
-        }
 
 
 ## Filter by tag [/device/fortag/{tag}]
@@ -695,28 +714,6 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 ],
                 "count": 2
                           
-        }
-
-## Search tags [/device/tag/{tag}]
-
-### Search tags that match partially or totally a specific tag [GET]
-Get all the tags that match match partially or totally a specific tag.
-This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-+ Parameters
-
-    + tag (required, string, `toys`)... The string to search for
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "tags":[
-                        {"tag":"toys", "deviceCount": 2},
-                        {"tag":"kitchen", "deviceCount": 5}
-                ],
-                "count": 2
-
         }
 
 
@@ -792,6 +789,56 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "count": 2
                           
         }
+
+## Get all tags [/device/tags{?limit,skip}]
+
+### Get the list of all tags for this application [GET]
+Get the list of all tags for this application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "tags":[
+                        {"tag":"toys", "deviceCount": 2},
+                        {"tag":"kitchen", "deviceCount": 5}
+                ],
+                "count": 2
+
+        }
+
+
+
+## Search device tags [/device/tags/{tag}]
+
+### Search device tags that match partially or totally a specific query [GET]
+Get all the tags that match match partially or totally a specific query.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + tag (required, string, `toys`)... The string to search for
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "tags":[
+                        {"tag":"toys", "deviceCount": 2},
+                        {"tag":"kitchen", "deviceCount": 5}
+                ],
+                "count": 2
+
+        }
+
 
 
 # Group Event
