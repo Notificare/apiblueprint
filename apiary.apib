@@ -311,7 +311,150 @@ Destroy an application. This operation can not be undone. This request must be a
                 "message":"application deactivated"
         }
 
+# Group Automation
+Automation is an add-on of Notificare. It will give you access to mechanisms that can automate how you send notifications.
 
+## Datasource Collection [/datasource]
+### Get all the datasources [GET]
+Get all the datasources for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Response 200 (application/json; charset=utf-8)
+
+       {
+            "datasources":[{
+                                "_id":"55c0c7f4fed3e3bb70e2e86b",
+                                "type":"feed",
+                                "application":"5489b42ff23e5815132b492a",
+                                "lastRun":"2015-11-13T15:19:10.698Z",
+                                "name":"Blog",
+                                "config":{
+                                            "url":"http://notifica.re/blog/feed.xml",
+                                            "messageType":"re.notifica.notification.Alert"
+                                         },
+                                "feedMap":"tag_newsletter",
+                                "lastParsed":"2015-11-12T08:28:53.000Z",
+                                "categoryMap":[],
+                                "mapTarget":"tag",
+                                "mapType":"feed",
+                                "nextRun":"2015-11-13T15:34:10.698Z",
+                                "active":true
+                            },
+                            {
+                                "_id":"55c0c7f4fed3e3bb70e2e86b",
+                                "type":"feed",
+                                "application":"5489b42ff23e5815132b492a",
+                                "lastRun":"2015-11-13T15:19:10.698Z",
+                                "name":"Blog",
+                                "config":{
+                                            "url":"http://notifica.re/blog/feed.xml",
+                                            "messageType":"re.notifica.notification.Alert"
+                                         },
+                                "feedMap":"tag_newsletter",
+                                "lastParsed":"2015-11-12T08:28:53.000Z",
+                                "categoryMap":[],
+                                "mapTarget":"tag",
+                                "mapType":"feed",
+                                "nextRun":"2015-11-13T15:34:10.698Z",
+                                "active":true
+                            },
+                         ],
+                         "count": 2
+       }
+
+
+
+### New Datasource [POST]
+Create a datasource.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + name (required, string, `My Feed`)...The source's name
+    + type (required, string, `feed`)...The type of datasource. Accepts one of these: 'feed', 'upload'.
+    + config (required, object, `{"url":"http://notifica.re/blog/feed.xml","messageType":"re.notifica.notification.Alert"}`)...An object containing the URL's source and the notification type.
+    + feedMap (required, string, `tag_newsletter`)...A string representing a tag or a segment Id.
+    + mapType (required, string, `feed`)...The type of mapping for the source. Accepts one of these: 'feed', 'category'.
+    + mapTarget (required, string, `tag`)...The mapping target for the source. Accepts one of these: 'tag', 'segment'.
+    + categoryMap (optional, object, `{"category":"Newsletter","target":"tag_newsletter"}`)...An object containing the category and the target's tag or segment Id. Only used and required if you choose category in mapType.
+
+
++ Request (application/json)
+
+        {
+                "name": "My Feed",
+                "type": "feed",
+                "config": {
+                            "url":"http://notifica.re/blog/feed.xml",
+                            "messageType":"re.notifica.notification.Alert"
+                          },
+                "feedMap": "tag_newsletter",
+                "mapType": "tag"
+        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"datasource updated"
+        }
+
+
+## Datasource [/datasource/{id}]
+
+### Modify a datasource [PUT]
+Modify a datasource.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + datasource (required, string, `5245bc5b3e66a3b01f0024d4`)...The source's id.
+    + name (required, string, `My Feed`)...The source's name
+    + type (required, string, `feed`)...The type of datasource. Accepts one of these: 'feed', 'upload'.
+    + config (required, object, `{"url":"http://notifica.re/blog/feed.xml","messageType":"re.notifica.notification.Alert"}`)...An object containing the URL's source and the notification type.
+    + feedMap (required, string, `tag_newsletter`)...A string representing a tag or a segment Id.
+    + mapType (required, string, `feed`)...The type of mapping for the source. Accepts one of these: 'feed', 'category'.
+    + mapTarget (required, string, `tag`)...The mapping target for the source. Accepts one of these: 'tag', 'segment'.
+    + categoryMap (optional, object, `{"category":"Newsletter","target":"tag_newsletter"}`)...An object containing the category and the target's tag or segment Id. Only used and required if you choose category in mapType.
+
+
++ Request (application/json)
+
+        {
+                "name": "My Feed",
+                "type": "feed",
+                "config": {
+                            "url":"http://notifica.re/blog/feed.xml",
+                            "messageType":"re.notifica.notification.Alert"
+                          },
+                "feedMap": "tag_newsletter",
+                "mapType": "tag"
+        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"datasource updated"
+        }
+
+
+### Delete a datasource [DELETE]
+Delete a datasource. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + datasource (required, string, `5245bc5b3e66a3b01f0024d4`)...The source's id.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"datasource deleted"
+        }
 
 
 # Group Beacon
@@ -3928,6 +4071,72 @@ Create a new user segment
         }
 
 
+## New Segment with a Batch [/usersegment/batch]
+
+### Create a new user segment with a batch of userIDs [POST]
+Create a new user segment with a batch of userIDs. There is a limit of 1000 userIDs.
+
++ Request (application/json)
+
+        {
+                "name":"fans",
+                "description":"people who like our page on Facebook",
+                "users":["user1@notifica.re","user2@notifica.re"]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "userSegment": {
+                        "id":"12345"
+                }
+        }
+
+
+## Segment [/usersegment/{segment}/add]
+
+### Add a batch of users to a segment [PUT]
+Add users to a segment using a batch of userIDs
+
++ Parameters
+
+    + segment (required, string, `12345`)...The ID of the segment
+
++ Request (application/json)
+
+        {
+                "users":["user1@notifica.re","user2@notifica.re"]
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": 'added users to segment',
+                "count": 2
+        }
+
+## Segment [/usersegment/{segment}/remove]
+
+### Remove a batch of users from a segment [PUT]
+Remove users from a segment using a batch of userIDs
+
++ Parameters
+
+    + segment (required, string, `12345`)...The ID of the segment
+
++ Request (application/json)
+
+        {
+                "users":["user1@notifica.re","user2@notifica.re"]
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": 'removed users from segment',
+                "count": 2
+        }
+
 
 ## Segment [/usersegment/{segment}]
 
@@ -3967,6 +4176,7 @@ Change `name` and/or `description` of a user segment
         {
                 "message": "user segment updated"
         }
+
 
 ### Delete a segment [DELETE]
 Delete a user segment
