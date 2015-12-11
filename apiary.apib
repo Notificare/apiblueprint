@@ -1823,6 +1823,164 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                            }
         }
 
+## Notifications Collection [/notification]
+
+### Get all notifications[GET]
+Retrieves a list of notifications sent as a broadcast, sent to tags and/or sent to segments.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+             "notifications":[
+                                {
+                                    "id": "566acc80cbe343d7136ec9bf",
+                                    "application": "5489b42ff23e5815132b492a",
+                                    "account": "548985629f634350713ec9ee",
+                                    "user_id": null,
+                                    "device_id": null,
+                                    "ttl": null,
+                                    "message": "Ready for beers?",
+                                    "sound": "default",
+                                    "badge": null,
+                                    "action_category": null,
+                                    "__v": 0,
+                                    "actions": [{
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "yes",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c1",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }, {
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "no",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c0",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }],
+                                    "rules": [],
+                                    "attachments": [],
+                                    "location": {
+                                        "type": "Point",
+                                        "coordinates": [4.422683699999993, 51.91263190000001],
+                                        "distance": 0.6928425313346089
+                                    },
+                                    "content": [],
+                                    "scheduled": false,
+                                    "triggered": false,
+                                    "archived": false,
+                                    "cleared": false,
+                                    "show_in_list": true,
+                                    "scope": "application",
+                                    "type": "re.notifica.notification.Alert",
+                                    "time": "2015-12-11T13:15:44.298Z",
+                                    "tags": [],
+                                    "segments": [],
+                                    "schedules": [],
+                                    "info": {
+                                        "id": "566acc80cbe343d7136ec9c2",
+                                        "notification": "566acc80cbe343d7136ec9bf",
+                                        "application": "5489b42ff23e5815132b492a",
+                                        "duration": 79,
+                                        "replied": 1,
+                                        "opened": 1,
+                                        "sent": 7,
+                                        "fails": 1,
+                                        "queued": 8,
+                                        "devices": 8,
+                                        "users": 0,
+                                        "gathering": false,
+                                        "status": "finished"
+                                    }
+                                }
+                          ],
+                          "count":2
+        }
+
+## Private Notifications [/notification/user/{userID}]
+
+### Get all notifications for a user [GET]
+Retrieves the list of notifications sent to a specific user.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+             "notifications":[
+                                {
+                                    "id": "566acc80cbe343d7136ec9bf",
+                                    "application": "5489b42ff23e5815132b492a",
+                                    "account": "548985629f634350713ec9ee",
+                                    "user_id": null,
+                                    "device_id": null,
+                                    "ttl": null,
+                                    "message": "Ready for beers?",
+                                    "sound": "default",
+                                    "badge": null,
+                                    "action_category": null,
+                                    "__v": 0,
+                                    "actions": [{
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "yes",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c1",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }, {
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "no",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c0",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }],
+                                    "rules": [],
+                                    "attachments": [],
+                                    "location": {
+                                        "type": "Point",
+                                        "coordinates": [4.422683699999993, 51.91263190000001],
+                                        "distance": 0.6928425313346089
+                                    },
+                                    "content": [],
+                                    "scheduled": false,
+                                    "triggered": false,
+                                    "archived": false,
+                                    "cleared": false,
+                                    "show_in_list": true,
+                                    "scope": "application",
+                                    "type": "re.notifica.notification.Alert",
+                                    "time": "2015-12-11T13:15:44.298Z",
+                                    "tags": [],
+                                    "segments": [],
+                                    "schedules": [],
+                                    "info": {
+                                        "id": "566acc80cbe343d7136ec9c2",
+                                        "notification": "566acc80cbe343d7136ec9bf",
+                                        "application": "5489b42ff23e5815132b492a",
+                                        "duration": 79,
+                                        "replied": 1,
+                                        "opened": 1,
+                                        "sent": 7,
+                                        "fails": 1,
+                                        "queued": 8,
+                                        "devices": 8,
+                                        "users": 0,
+                                        "gathering": false,
+                                        "status": "finished"
+                                    }
+                                }
+                          ],
+                          "count":2
+        }
+
 
 ## Notification Info [/notification/{id}/info]
 
