@@ -2528,8 +2528,42 @@ This request does not require authentication.
 
     + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
 
+## Generate Barcode [/pass/barcode/forserial/{serial}]
 
+### Generate Barcode [GET]
+Generate a barcode for a specific pass.
+This request does not require authentication.
 
++ Parameters
+
+    + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
+
++ Response 200 (image/png)
+
+## Generate Barcode [/pass/barcode/{type}/{code}]
+
+### Generate Barcode [GET]
+Generate a barcode for a specific type and code.
+This request does not require authentication.
+
+### Types:
+
+***
+pdf417
+***
+qr
+***
+aztec
+***
+code128
+***
+
++ Parameters
+
+    + type (required, string, `qr`)...The barcode type.
+    + code (required, string, `xxx-yyy-zzzz-123456`)...The code to generate a barcode for.
+
++ Response 200 (image/png)
 
 
 # Group Passbook
