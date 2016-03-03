@@ -167,7 +167,82 @@ Get your active applications. This request must be authenticated with the `token
                                   }
                 ]
         }
-        
+
+## Shared Applications Collection [/application/shared{?limit,skip}]
+
+### Get all shared applications [GET]
+Get all the active applications that are shared with your account. This request must be authenticated with the `token`.
+
++ Parameters
+
+    + limit = `250` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "applications":[
+                                 {
+                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                   "account": "5245bc5b3e66a3b01f0024d4",
+                                   "applicationKey": "xxxxxxxxxxxxx",
+                                   "applicationSecret": "xxxxxxxxxxxx",
+                                   "authProviders": [
+                                                      {
+                                                        "provider": "twitter"
+                                                      }
+                                                    ],
+                                   "masterSecret": "xxxxxxxxxx",
+                                   "name": "Your App",
+                                   "gcmConfig": {
+                                                 "key": "xxxxxxxxxxxxxxxxxxxxx"
+                                    },
+                                   "apnsConfig": {
+                                                   "certificate": "raw certificate",
+                                                   "info": {
+                                                   "serial": "xxxxxx",
+                                                   "subject": {
+                                                                "UID": "re.notifica.test",
+                                                                "CN": "Apple Development IOS Push Services: re.notifica.test",
+                                                                "OU": "XXXXXXXXXX",
+                                                                "C": "NL"
+                                                    },
+                                                    "issuer": {
+                                                                "C": "US",
+                                                                "O": "Apple Inc.",
+                                                                "OU": "Apple Worldwide Developer Relations",
+                                                                "CN": "Apple Worldwide Developer Relations Certification Authority"
+                                                    },
+                                                    "notBefore": "2013-11-25T15:19:10.000Z",
+                                                    "notAfter": "2014-11-25T15:19:10.000Z"
+                                                 }
+                                    },
+                                    "regionConfig": {
+                                                      "proximityUUID": "f7826da6-4fa2-4e98-8024-bc5b71e0893e"
+                                                    },
+                                    "actionCategories": [{
+                                            "name": "MyTemplate",
+                                            "type": "re.notifica.notification.Alert",
+                                            "actions": [{
+                                                "label": "follow",
+                                                "type": "re.notifica.action.Callback",
+                                                "target": "",
+                                                "camera": false,
+                                                "keyboard": false,
+                                                "destructive": false
+                                            }]
+                                        }],
+                                    "locationTtl": 7,
+                                    "production": false,
+                                    "active": true,
+                                    "blocked": false,
+                                    "date": "2012-11-28T15:31:54.904Z",
+                                    "category": "Other"
+                                  }
+                ]
+        }
+
 
 ## New Application [/application]
 ### Create an application [POST]
