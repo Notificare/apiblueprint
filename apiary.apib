@@ -695,13 +695,16 @@ Methods to manage devices.
 Use these methods to retrieve information about devices for an application, for a specific user, for a specific tag or in a specific location.
 Management of devices is exclusively made by our SDK libraries therefore you only get access to read operations.
 
-## Device Collection [/device]
+## Device Collection [/device{?limit,skip}]
 
 ### Get all the devices for a specific application [GET]
-Get all the devices for a specific application.
+Get all the devices for a specific application. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
++ Parameters
 
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -798,16 +801,17 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Filter by User [/device/foruser/{user}]
+## Filter by User [/device/foruser/{user}{?limit,skip}]
 
 ### Get all the devices for a specific user [GET]
-Get all the devices for a specific user.
+Get all the devices for a specific user. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
     + user (required, string, `testuser@example.com`)...The user ID is the one the client device registered with, e.g., the user's email address. 
-
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -866,16 +870,17 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## Filter by tag [/device/fortag/{tag}]
+## Filter by tag [/device/fortag/{tag}{?limit,skip}]
 
 ### Get all the devices for a specific tag [GET]
-Get all the devices for a specific tag.
+Get all the devices for a specific tag. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
     + tag (required, string, `toys`)...The tag the device is associated with
-
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -936,10 +941,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## Filter by location [/device/bylocation/{latitude}/{longitude}/{distance}]
+## Filter by location [/device/bylocation/{latitude}/{longitude}/{distance}{?limit,skip}]
 
 ### Get all the devices in a specific location [GET]
-Get all the devices in a specific location.
+Get all the devices in a specific location. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
@@ -949,7 +954,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + latitude (required, float, `4.2345`)...The desired latitude
     + longitude (required, float, `5.6789`)...The desired longitude
     + distance (required, float, `1.5`)...The distance in kilometers of your search area relative to the latitude and longitude
-
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -1011,7 +1017,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 ## Get all tags [/device/tags{?limit,skip}]
 
 ### Get the list of all tags for this application [GET]
-Get the list of all tags for this application.
+Get the list of all tags for this application. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
