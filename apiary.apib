@@ -1072,6 +1072,7 @@ Get all the Events stored for a specific application.
 | type | description |
 |:---------:|----------------------------------|
 | re.notifica.event.application.Install | Stored whenever a new device installs the app. |
+| re.notifica.event.application.Uninstall | Stored whenever an app was removed from the device, as reported by APNS or GCM feedback. |
 | re.notifica.event.application.Open | Stored whenever the application becomes active. |
 | re.notifica.event.application.Close | Stored whenever the application goes to background. |
 | re.notifica.event.notification.Influenced | Stored whenever a notification when app is not active. |
@@ -1080,6 +1081,12 @@ Get all the Events stored for a specific application.
 | re.notifica.event.notification.Close | Stored whenever a notification is closed. |
 | re.notifica.event.region.Session | Stored whenever a user enters and leaves a region. |
 | re.notifica.event.beacon.Session | Stored whenever a user is on the proximity of a beacon. |
+| re.notifica.event.pass.Add | Stored whenever a pass is added to a device's wallet. |
+| re.notifica.event.pass.Remove | Stored whenever a pass is removed from a device's wallet. |
+| re.notifica.event.pass.Redeem | Stored whenever a pass is redeemed. |
+| re.notifica.event.product.Buy | Stored whenever a purchase is done. |
+| re.notifica.event.product.Buy.{store} | Stored whenever a purchase is done, where store is AppStore or GooglePlay. |
+| re.notifica.event.product.Buy.{store}.{identifier} | Stored whenever a purchase is done, where store is AppStore or GooglePlay. |
 
 ## Event Collection [/event/forapplication/{application}/{type}]
 
