@@ -768,7 +768,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + deviceID (required, string, `00a9b9bf-...9278-64d6a3f22476`)...The deviceID is the unique identifier provided by APNS or GCM.
+    + deviceID (required, string, `00a9b9bf-xxx9278-64d6a3f22476`)...The deviceID is the unique identifier provided by APNS or GCM.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -1768,7 +1768,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + device (required, string, `bbff2ce9b547d2df4731bac277...`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
+    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
@@ -1829,7 +1829,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + device (required, string, `bbff2ce9b547d2df4731bac277...`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
+    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
     + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
@@ -2403,7 +2403,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
     + tags (required, array, `["test"]`)...Only send to devices that have one or more of these tags.
     + type (optional, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
-    + message (required, number, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
@@ -2412,7 +2412,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
-    + extra (optional, number, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
 
@@ -2481,7 +2481,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + device (required, string, `bbff2ce9b547d2df4731bac277...`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
+    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
 
 + Request (application/json)
 
@@ -3586,8 +3586,71 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 ]
         }
 
+## Region Collection [/region/search/{search}{?limit,skip}]
+
+### Search regions for an application [GET]
+Search regions for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
++ Parameters
+
+    + search (required, string, `My`)...Search matching a name of an active region.
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "regions":[
+                            {
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "name": "My Region",
+                                  "geometry": {
+                                               "type": "Point",
+                                               "coordinates": [4.2345,5.6789]
+                                  },
+                                  "major": "123456",
+                                  "timezone": "Europe/Amsterdam"
+                            }
+                ]
+        }
+
+## Region Collection [/region/fortimezone/{timezone}{?limit,skip}]
+
+### Search regions by timezone for an application [GET]
+Search regions by timezone for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + timezone (required, string, `Europe`)...Search matching a timezone of an active region.
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "regions":[
+                            {
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "name": "My Region",
+                                  "geometry": {
+                                               "type": "Point",
+                                               "coordinates": [4.2345,5.6789]
+                                  },
+                                  "major": "123456",
+                                  "timezone": "Europe/Amsterdam"
+                            }
+                ]
+        }
 
 ## New Region [/region]
 
@@ -4380,6 +4443,11 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 ### Create a new trigger [POST]
 Create a new trigger. This request expects at least `name`, `type`, `frequency` and `notification`.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+Three special cases apply:
+- if `source` is an array, then this trigger will be added to all regions or beacons in that array
+- if `source` is set to `"all"`, then this trigger will be added to all regions or beacons in this application
+- if `notification` is an object, a new notification will be created, for each region/beacon if `source` contains multiple sources
 
 + Request (application/json)
 
