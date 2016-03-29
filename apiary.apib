@@ -3434,6 +3434,19 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
+## Region [/region/all]
+
+### Delete all regions [DELETE]
+Delete all regions, including attached triggers and beacons. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"region deleted"
+        }
+
+
 # Group Reply
 A Reply object is what Notificare creates when users interact with notifications with actions. 
 These objects hold every single interaction and data your users send you.
