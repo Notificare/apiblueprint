@@ -100,7 +100,7 @@ Get your active applications. This request must be authenticated with the `token
 
 + Parameters
 
-    + limit = `250` (optional, number, `10`)...The maximum number of results to retrieve.
+    + limit = `50` (optional, number, `10`)...The number of results to retrieve.
 
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
@@ -175,7 +175,7 @@ Get all the active applications that are shared with your account. This request 
 
 + Parameters
 
-    + limit = `250` (optional, number, `10`)...The maximum number of results to retrieve.
+    + limit = `50` (optional, number, `10`)...The maximum number of results to retrieve.
 
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
@@ -2095,6 +2095,263 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                              "users": 0
                         }
         }
+
+## Notification Log [/notification/log]
+
+### Get all the errors related to APNS and GCM [GET]
+Retrieve information about errors related to APNS and GCM feedback service.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "log":{
+                             "application": "5354f0bb3fff5452ff4c7c0",
+                             "id": "543d90d0f4e6e1we3ad6576",
+                             "message": "Invalid token size"
+                             "notification": "56d421uu073cc157eu3137",
+                             "transport": "APNS",
+                             "device_id": "d31b6529"
+                             "date": "2016-02-29T10:46:00.111Z"
+                        }
+        }
+
+### Delete the list of errors [DELETE]
+Clear the list of errors related to APNS and GCM feedback service.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "log cleared"
+        }
+
+
+
+
+# Group Notification Template
+Methods for retrieving, creating and edit notification templates
+
+## Template Collection [/notification/template{?limit,skip}]
+
+### List all templates for this app [GET]
+List all templates for this app
+
++ Parameters
+
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+             "templates":[
+                                {
+                                    "id": "566acc80cbe343d7136ec9bf",
+                                    "application": "5489b42ff23e5815132b492a",
+                                    "account": "548985629f634350713ec9ee",
+                                    "ttl": null,
+                                    "message": "Ready for beers?",
+                                    "sound": "default",
+                                    "badge": null,
+                                    "action_category": null,
+                                    "__v": 0,
+                                    "actions": [{
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "yes",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c1",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }, {
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "no",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c0",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }],
+                                    "rules": [],
+                                    "attachments": [],
+                                    "content": [],
+                                    "type": "re.notifica.notification.Alert",
+                                    "time": "2015-12-11T13:15:44.298Z"
+                                }
+                          ],
+                          "count":2
+        }
+
+## Create a template [/notification/template]
+
+### Create a template [POST]
+Create a template object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
+    + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
+    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
+
++ Request (application/json)
+
+        {
+                "message":"Hello world!",
+                "type":"re.notifica.notification.Alert",
+                "ttl":3600,
+                "triggered":true,
+                "sound":"default",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "template": {
+                                "_id":"5245bc5b3e66a3b01f0024d4"
+                            }
+        }
+
+
+## Template [/notification/template/{template}]
+
+### Retrieve a template object [GET]
+Retrieve a template object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + template (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the template
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "template": {
+                                "id": "566acc80cbe343d7136ec9bf",
+                                "application": "5489b42ff23e5815132b492a",
+                                "account": "548985629f634350713ec9ee",
+                                "ttl": null,
+                                "message": "Ready for beers?",
+                                "sound": "default",
+                                "badge": null,
+                                "action_category": null,
+                                "__v": 0,
+                                "actions": [{
+                                    "type": "re.notifica.action.Callback",
+                                    "label": "yes",
+                                    "target": "",
+                                    "id": "566acc80cbe343d7136ec9c1",
+                                    "rules": [],
+                                    "camera": false,
+                                    "keyboard": false
+                                }, {
+                                    "type": "re.notifica.action.Callback",
+                                    "label": "no",
+                                    "target": "",
+                                    "id": "566acc80cbe343d7136ec9c0",
+                                    "rules": [],
+                                    "camera": false,
+                                    "keyboard": false
+                                }],
+                                "rules": [],
+                                "attachments": [],
+                                "content": [],
+                                "type": "re.notifica.notification.Alert",
+                                "time": "2015-12-11T13:15:44.298Z"
+                            }
+        }
+
+
+
+## Edit Template [PUT]
+Edit a template object
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + template (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the template
+
++ Request (application/json)
+
+        {
+                "message":"Hello world!",
+                "type":"re.notifica.notification.Alert",
+                "ttl":3600,
+                "triggered":true,
+                "sound":"default",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
+                        }
+                ]
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "template updated"
+        }
+
+
+## Delete a template [DELETE]
+Destroy a template. This operation can not be undone.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + template (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the template
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "template deleted"
+        }
+
 
 
 
@@ -4058,7 +4315,6 @@ Get the current availability of the API
 
 
 
-
 # Group Trigger
 Methods to manage your triggers. Triggers are used to send messages when some event occurs.
 There are two types of triggers, Geo-Triggers and In-App triggers. Geo-Triggers are used by regions and beacons to send notifications whenever a device enters/exits a Region or is in the proximity range of a Beacon.
@@ -4073,7 +4329,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + limit = `250` (optional, number, `100`)...The maximum number of results to retrieve.
+    + limit = `100` (optional, number, `100`)...The maximum number of results to retrieve.
 
     + skip = `0` (optional, number, `0`)...The number of results to skip
     
