@@ -1702,7 +1702,7 @@ You can also schedule a private message, if `schedule` is true you should immedi
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
-
+    + user (required, string, `testuser@example.com`)...The user ID is the one the client device registered with, e.g., the user's email address.
     + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
@@ -1711,26 +1711,19 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
     + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
-    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add","params":["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
-
-
-+ Parameters
-
-    + user (required, string, `testuser@example.com`)...The user ID is the one the client device registered with, e.g., the user's email address. 
 
 + Request (application/json)
 
         {
-                "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
+                "message":"Hello world!",
                 "ttl":3600,
-                "sound":"default",
-                "schedule":false,
                 "content": [
                         {
                                 "type":"re.notifica.content.Text",
@@ -1748,7 +1741,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                 "label":"Go away",
                                 "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
                         }
-                ]
+                ],
+                "sound":"default"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -1828,8 +1822,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
     + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
+    + segments (optional, array, `["526f7a71dab9d70711000003","526f7a71dab9d70711000004"]`)...Only send to devices whose user is in one or more of these segments.
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
@@ -1910,12 +1904,17 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                            }
         }
 
-## Notifications Collection [/notification]
+## Notifications Collection [/notification{?limit,skip}]
 
-### Get all notifications[GET]
+### Get a list of notifications [GET]
 Retrieves a list of notifications sent as a broadcast, sent to tags and/or sent to segments.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
++ Parameters
+
+    + limit = `10` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -1968,33 +1967,23 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "time": "2015-12-11T13:15:44.298Z",
                                     "tags": [],
                                     "segments": [],
-                                    "schedules": [],
-                                    "info": {
-                                        "id": "566acc80cbe343d7136ec9c2",
-                                        "notification": "566acc80cbe343d7136ec9bf",
-                                        "application": "5489b42ff23e5815132b492a",
-                                        "duration": 79,
-                                        "replied": 1,
-                                        "opened": 1,
-                                        "sent": 7,
-                                        "fails": 1,
-                                        "queued": 8,
-                                        "devices": 8,
-                                        "users": 0,
-                                        "gathering": false,
-                                        "status": "finished"
-                                    }
                                 }
                           ],
                           "count":2
         }
 
-## Private Notifications [/notification/user/{userID}]
+## Notifications Collection [/notification/all{?limit,skip,since}]
 
-### Get all notifications for a user [GET]
-Retrieves the list of notifications sent to a specific user.
+### Get a list of all notifications [GET]
+Retrieves a list of all notifications.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
++ Parameters
+
+    + limit = `10` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+    + since = `0` (optional, date, `2016-01-01T12:00:00`)...Notifications since a specific date, overrides header
+    + If-Modified-Since (optional, date, `2016-01-01T12:00:00`)...Notifications since a specific date, as a HTTP header
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -2047,22 +2036,74 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "time": "2015-12-11T13:15:44.298Z",
                                     "tags": [],
                                     "segments": [],
-                                    "schedules": [],
-                                    "info": {
-                                        "id": "566acc80cbe343d7136ec9c2",
-                                        "notification": "566acc80cbe343d7136ec9bf",
-                                        "application": "5489b42ff23e5815132b492a",
-                                        "duration": 79,
-                                        "replied": 1,
-                                        "opened": 1,
-                                        "sent": 7,
-                                        "fails": 1,
-                                        "queued": 8,
-                                        "devices": 8,
-                                        "users": 0,
-                                        "gathering": false,
-                                        "status": "finished"
-                                    }
+                                }
+                          ],
+                          "count":2
+        }
+
+## Private Notifications [/notification/user/{userID}{?limit,skip}]
+
+### Get all notifications for a user [GET]
+Retrieves the list of notifications sent to a specific user.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + userID (required, string, `testuser@example.com`)...The user ID is the one the client device registered with, e.g., the user's email address.
+    + limit = `10` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+             "notifications":[
+                                {
+                                    "id": "566acc80cbe343d7136ec9bf",
+                                    "application": "5489b42ff23e5815132b492a",
+                                    "account": "548985629f634350713ec9ee",
+                                    "user_id": null,
+                                    "device_id": null,
+                                    "ttl": null,
+                                    "message": "Ready for beers?",
+                                    "sound": "default",
+                                    "badge": null,
+                                    "action_category": null,
+                                    "__v": 0,
+                                    "actions": [{
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "yes",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c1",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }, {
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "no",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c0",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }],
+                                    "rules": [],
+                                    "attachments": [],
+                                    "location": {
+                                        "type": "Point",
+                                        "coordinates": [4.422683699999993, 51.91263190000001],
+                                        "distance": 0.6928425313346089
+                                    },
+                                    "content": [],
+                                    "scheduled": false,
+                                    "triggered": false,
+                                    "archived": false,
+                                    "cleared": false,
+                                    "show_in_list": true,
+                                    "scope": "application",
+                                    "type": "re.notifica.notification.Alert",
+                                    "time": "2015-12-11T13:15:44.298Z",
+                                    "tags": [],
+                                    "segments": []
                                 }
                           ],
                           "count":2
@@ -2075,6 +2116,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 Retrieve information about your message performance.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
++ Parameters
+
+    + id (required, string, `543d90d0f4e6e1we3ad6576`)...The user ID is the one the client device registered with, e.g., the user's email address.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -2095,12 +2139,17 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                         }
         }
 
-## Notification Log [/notification/log]
+## Notification Log [/notification/log{?limit,skip}]
 
 ### Get all the errors related to APNS and GCM [GET]
 Retrieve information about errors related to APNS and GCM feedback service.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
++ Parameters
+
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -2141,7 +2190,6 @@ List all templates for this app
 + Parameters
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
-
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Response 200 (application/json; charset=utf-8)
