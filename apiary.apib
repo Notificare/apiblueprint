@@ -1514,7 +1514,7 @@ You can also add an array `actions` to your notifications by simply providing on
 
 ### Send a message to all devices [POST]
 Send a message to **all** devices. 
-You can also schedule a broadcast, if `schedule` is true you should immediately use /notification/schedule to create the schedule task.
+You can also schedule a broadcast, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -1530,7 +1530,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is an iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -1542,7 +1542,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
                 "sound":"default",
-                "schedule": true,
+                "scheduled": true,
                 "content": [
                         {
                                 "type":"re.notifica.content.Text",
@@ -1576,7 +1576,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 ### Send a message to devices with any of the specified tags [POST]
 
 Send a message to devices with any of the specified `tags`. 
-You can also schedule this message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+You can also schedule this message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -1592,7 +1592,7 @@ The request accepts an array of tags. This request must be authenticated with th
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -1604,7 +1604,7 @@ The request accepts an array of tags. This request must be authenticated with th
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
                 "sound":"default",
-                "schedule":false,
+                "scheduled":false,
                 "content": [
                         {
                                 "type":"re.notifica.content.Text",
@@ -1636,7 +1636,7 @@ The request accepts an array of tags. This request must be authenticated with th
 
 ### Send a message to users in one or more of the specified segments [POST]
 Send a message to users in one or more of the specified `segments`. 
-You can also schedule this messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+You can also schedule this messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -1654,7 +1654,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -1666,7 +1666,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
                 "sound":"default",
-                "schedule":true,
+                "scheduled":true,
                 "content": [
                         {
                                 "type":"re.notifica.content.Text",
@@ -1698,7 +1698,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
 
 ### Send a message to one single user [POST]
 Send a message to one single `user`. 
-You can also schedule a private message, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+You can also schedule a private message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -1756,7 +1756,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 ### Send a message to one single device [POST]
 Send a message to a `device`. 
-You can also schedule this type of messages, if `schedule` is true you should immediately use /notification/schedule to create a schedule task.
+You can also schedule this type of messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -1773,7 +1773,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -1784,7 +1784,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
                 "sound":"default",
-                "schedule":true,
+                "scheduled":true,
                 "content": [
                         {
                                 "type":"re.notifica.content.Text",
@@ -1835,7 +1835,6 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
