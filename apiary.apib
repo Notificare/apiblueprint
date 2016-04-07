@@ -4433,9 +4433,17 @@ Get the current availability of the API
 
 
 # Group Trigger
-Methods to manage your triggers. Triggers are used to send messages when some event occurs.
-There are two types of triggers, Geo-Triggers and In-App triggers. Geo-Triggers are used by regions and beacons to send notifications whenever a device enters/exits a Region or is in the proximity range of a Beacon.
-In-App triggers basically are a free form of triggers that you can use to send a notification on any in-app event. 
+Methods to manage your triggers. Triggers are used to send messages when a transition into or out of a region occurs.
+There are two types of triggers, Region triggers and Beacon triggers. They are used by regions and beacons to send notifications whenever a device enters/exits a Region or is in the proximity range of a Beacon.
+
+## Trigger Types:
+| type | description |
+|:---------:|-------------|
+| re.notifica.trigger.region.Enter | Device entered a region |
+| re.notifica.trigger.region.Exit | Device exited a region |
+| re.notifica.trigger.beacon.Enter | Device entered a beacon range |
+| re.notifica.trigger.beacon.Exit | Device exited a beacon range |
+
 
 ## Trigger Collection [/trigger{?limit,skip}]
 
@@ -4447,9 +4455,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Parameters
 
     + limit = `100` (optional, number, `100`)...The maximum number of results to retrieve.
-
     + skip = `0` (optional, number, `0`)...The number of results to skip
-    
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -4502,6 +4508,22 @@ Three special cases apply:
 - if `source` is an array, then this trigger will be added to all regions or beacons in that array
 - if `source` is set to `"all"`, then this trigger will be added to all regions or beacons in this application
 - if `notification` is an object, a new notification will be created, for each region/beacon if `source` contains multiple sources
+
++ Parameters
+    + name (required, string, `My Trigger`)...The name as it appears in the list.
+    + type (optional, string, `re.notifica.trigger.region.Enter`)...Defines the type of trigger. Types of triggers are represented by namespaces. Trigger types should be match the following namespace: re.notifica.trigger.*. Please refer to Trigger Types for all available types.
+    + frequency = `time` (optional, string,)...How often the trigger should be fired. Can be `once`, `always` or `time`. The latter value requires an interval to be provided.
+    + interval = 86400 (optional, number, `86400`)...Minimal interval in seconds before a trigger will be fired again.
+    + delayMinutes = 0 (optional, number, `5`)...Trigger will fire after this amount of minutes, if not canceled by the opposite geo-transition.
+    + notBefore (optional, date, `2012-11-28T15:31:54`)...Triggers will not fire before this date.
+    + notAfter (optional, date, `2014-11-28T15:31:54`)...Triggers will not fire after this date.
+    + dayStart (optional, time, `08:00:00`)...Triggers will not fire before this time of day.
+    + dayEnd (optional, time, `19:00:00`)...Triggers will not fire after this time of day.
+    + skipDays (optional, array, `[1,2]`)...Triggers will not fire on any of these days. Sunday is `0`.
+    + source (required, string, `5245bc5b3e66a3b01f0024d4`)...The region or beacon this trigger is attached to.
+    + active = `false` (optional, boolean, `true`)...This trigger is active or not.
+    + notification (optional, string, `5245bc5b3e66a3b01f0024d4a`)...Notification to be sent when trigger is fired.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]`)...Rules to be executed upon firing of this trigger. See Notifications for an overview of rules.
 
 + Request (application/json)
 
@@ -4572,6 +4594,21 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Parameters
 
     + trigger (required, string, `5245bc5b3e66a3b01f0024d4`)...The trigger id
+    + name (required, string, `My Trigger`)...The name as it appears in the list.
+    + type (optional, string, `re.notifica.trigger.region.Enter`)...Defines the type of trigger. Types of triggers are represented by namespaces. Trigger types should be match the following namespace: re.notifica.trigger.*. Please refer to Trigger Types for all available types.
+    + frequency = `time` (optional, string,)...How often the trigger should be fired. Can be `once`, `always` or `time`. The latter value requires an interval to be provided.
+    + interval = 86400 (optional, number, `86400`)...Minimal interval in seconds before a trigger will be fired again.
+    + delayMinutes = 0 (optional, number, `5`)...Trigger will fire after this amount of minutes, if not canceled by the opposite geo-transition.
+    + notBefore (optional, date, `2012-11-28T15:31:54`)...Triggers will not fire before this date.
+    + notAfter (optional, date, `2014-11-28T15:31:54`)...Triggers will not fire after this date.
+    + dayStart (optional, time, `08:00:00`)...Triggers will not fire before this time of day.
+    + dayEnd (optional, time, `19:00:00`)...Triggers will not fire after this time of day.
+    + skipDays (optional, array, `[1,2]`)...Triggers will not fire on any of these days. Sunday is `0`.
+    + source (required, string, `5245bc5b3e66a3b01f0024d4`)...The region or beacon this trigger is attached to.
+    + active = `false` (optional, boolean, `true`)...This trigger is active or not.
+    + notification (optional, string, `5245bc5b3e66a3b01f0024d4a`)...Notification to be sent when trigger is fired.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]`)...Rules to be executed upon firing of this trigger. See Notifications for an overview of rules.
+
 
 + Request (application/json)
 
