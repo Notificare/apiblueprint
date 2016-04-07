@@ -4501,13 +4501,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 ## New Trigger [/trigger]
 
 ### Create a new trigger [POST]
-Create a new trigger. This request expects at least `name`, `type`, `frequency` and `notification`.
+Create a new trigger. This request expects at least `name`, `type` and `source`.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 Three special cases apply:
 - if `source` is an array, then this trigger will be added to all regions or beacons in that array
 - if `source` is set to `"all"`, then this trigger will be added to all regions or beacons in this application
-- if `notification` is an object, a new notification will be created, for each region/beacon if `source` contains multiple sources
+- if `notification` is an object instead of an id string, a new notification will be created, for each region/beacon if `source` contains multiple sources. See Notifications for the structure of a Notification object.
 
 + Parameters
     + name (required, string, `My Trigger`)...The name as it appears in the list.
@@ -4520,9 +4520,9 @@ Three special cases apply:
     + dayStart (optional, time, `08:00:00`)...Triggers will not fire before this time of day.
     + dayEnd (optional, time, `19:00:00`)...Triggers will not fire after this time of day.
     + skipDays (optional, array, `[1,2]`)...Triggers will not fire on any of these days. Sunday is `0`.
-    + source (required, string, `5245bc5b3e66a3b01f0024d4`)...The region or beacon this trigger is attached to.
+    + source (required, string, `5245bc5b3e66a3b01f0024d4`)...The region or beacon this trigger is attached to. See notes above.
     + active = `false` (optional, boolean, `true`)...This trigger is active or not.
-    + notification (optional, string, `5245bc5b3e66a3b01f0024d4a`)...Notification to be sent when trigger is fired.
+    + notification (optional, string, `5245bc5b3e66a3b01f0024d4a`)...Previously created notification to be sent when trigger is fired. See notes above.
     + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]`)...Rules to be executed upon firing of this trigger. See Notifications for an overview of rules.
 
 + Request (application/json)
@@ -4604,9 +4604,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + dayStart (optional, time, `08:00:00`)...Triggers will not fire before this time of day.
     + dayEnd (optional, time, `19:00:00`)...Triggers will not fire after this time of day.
     + skipDays (optional, array, `[1,2]`)...Triggers will not fire on any of these days. Sunday is `0`.
-    + source (required, string, `5245bc5b3e66a3b01f0024d4`)...The region or beacon this trigger is attached to.
+    + source (required, string, `5245bc5b3e66a3b01f0024d4`)...The region or beacon this trigger is attached to. See notes above.
     + active = `false` (optional, boolean, `true`)...This trigger is active or not.
-    + notification (optional, string, `5245bc5b3e66a3b01f0024d4a`)...Notification to be sent when trigger is fired.
+    + notification (optional, string, `5245bc5b3e66a3b01f0024d4a`)...Previously created notification to be sent when trigger is fired. See notes above.
     + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]`)...Rules to be executed upon firing of this trigger. See Notifications for an overview of rules.
 
 
