@@ -386,6 +386,375 @@ Destroy an application. This operation can not be undone. This request must be a
                 "message":"application deactivated"
         }
 
+
+# Group Asset
+Storage is an add-on of Notificare. When active this add-on will let you manage files and create groups of assets to be used in your applications.
+Therefore this add-on is divided in two different endpoints: assets and asset groups. Assets being the files you can upload to Notificare and asset groups being the groups of files that can be used in an application.
+
+## Asset Collection [/asset{?limit,skip}]
+### Get all the assets [GET]
+Get all the assets for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+       {
+            "assets":[{
+                                "_id": "5708dff98f252b8f23fe05100",
+                                "application": "5354f0bb3fa544f52ff4cff0",
+                                "key": "3d99d18148e6f3dbcf4ff891c9a0ff63b0311feccc7b9d0c8c79fee9b4dde19/e457c97c76bc41ff524af3697cc5236cc06fd982a83f983046fff68ea56b1b6",
+                                "fileName": "/notifications/3d99d18148e6f3dbcf4ff891c9a0ff63b0311feccc7b9d0c8c79fee9b4dde19/e457c97c76bc41ff524af3697cc5236cc06fd982a83f983046fff68ea56b1b6",
+                                "contentLength": 59609,
+                                "contentType": "image/png",
+                                "contentDisposition": "form-data; name=\"file\"; filename=\"Screenshot_2016-04-07-13-17-31.png\"",
+                                "originalFileName": "Screenshot_2016-04-07-13-17-31.png",
+                                "lastModified": "2016-04-09T10:25:28.129Z",
+                                "__v": 0,
+                                "customSortOrder": 0
+                            },
+                            {
+                                "_id": "5708dff98f252b8f23fe05100",
+                                "application": "5354f0bb3fa544f52ff4cff0",
+                                "key": "3d99d18148e6f3dbcf4ff891c9a0ff63b0311feccc7b9d0c8c79fee9b4dde19/e457c97c76bc41ff524af3697cc5236cc06fd982a83f983046fff68ea56b1b6",
+                                "fileName": "/notifications/3d99d18148e6f3dbcf4ff891c9a0ff63b0311feccc7b9d0c8c79fee9b4dde19/e457c97c76bc41ff524af3697cc5236cc06fd982a83f983046fff68ea56b1b6",
+                                "contentLength": 59609,
+                                "contentType": "image/png",
+                                "contentDisposition": "form-data; name=\"file\"; filename=\"Screenshot_2016-04-07-13-17-31.png\"",
+                                "originalFileName": "Screenshot_2016-04-07-13-17-31.png",
+                                "lastModified": "2016-04-09T10:25:28.129Z",
+                                "__v": 0,
+                                "customSortOrder": 0
+                            },
+                         ],
+                         "count": 2
+       }
+
+
+
+### New Asset [POST]
+Create an asset in a specific application. Uploads a file to Notificare. The resulting filename is the path of that file inside the notificare storage. This can be used as a reference to the file in further processing or deleting.
+The contents of the file should be in the body of the request and with the correct mime-type. So, e.g. an image should be of type `image/png`, `image/jpg` or `image/gif`, a pdf should be `application/pdf` and a video should be `video/mp4`.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Request (image/jpeg)
+    ------BoundaryaQGxWlhjMW7v9kU1
+    Content-Disposition: form-data; name="file"; filename="landscapes-202a.jpg"
+    Content-Type: image/jpeg
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id": "570bff9ff09c7c399e721897"
+                "key": "3d99d18148e6f3dbcf4ff891c9a02ffb0311feccc7b9d0c8c79fee9dddde19/51b73467c0665add7abfd4bc47ebfdff843f77f58dcb12cdeb3d0c094f0e9835"
+        }
+
+## Asset [/asset/{id}]
+
+### Modify an asset [PUT]
+Modify a specific asset.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + id (required, string, `5245bc5b3e66a3b01fff24d4`)...The asset's id.
+
++ Request (image/jpeg)
+    ------BoundaryaQGxWlhjMW7v9kU1
+    Content-Disposition: form-data; name="file"; filename="landscapes-202a.jpg"
+    Content-Type: image/jpeg
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"asset updated"
+        }
+
+
+### Delete an asset [DELETE]
+Delete an asset. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + id (required, string, `5245bc5b3e66a3b01fff24d4`)...The asset's id.
+
+
++ Response 204 (application/json; charset=utf-8)
+
+
+## Asset Group Collection [/asset/group{?limit,skip}]
+### Get all the asset groups [GET]
+Get all the asset groups for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+       {
+            "assetGroups":[{
+                                "_id": "56f3444fc34c01653ffccdf0",
+                                "application": "5354f0bb3fa54ff52ff4c7c0",
+                                "name": "testing",
+                                "notBefore": null,
+                                "notAfter": null,
+                                "assets":[
+                                            {
+                                            "title": "Screen Shot 2016-03-24 at 00.04.49.png",
+                                            "key": "3d99d18148e6f3dbcf4ff891c9a02646ff311feccc7b9d0c8c79fee9b4dde19/c76c6363a7e014fae1586fa9b8ff1c61faa7b79036fd2670db2840de979cab03",
+                                            "description": "",
+                                            "_id": "56f3444fcff01653c7ccdf1",
+                                            "button":{
+                                                        "label": "",
+                                                        "action": ""
+                                                     }
+                                            }
+                                ]
+                            },
+                            {
+                                "_id": "56f3444fc34c01653c7ccdf0",
+                                "application": "5354f0bb3fa544452ff4c7c0",
+                                "name": "testing",
+                                "notBefore": null,
+                                "notAfter": null,
+                                "assets":[
+                                            {
+                                            "title": "Screen Shot 2016-03-24 at 00.04.49.png",
+                                            "key": "3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/c76c6363a7e014fae1586fa9b83b1c61faa7b79036fd2670db2840de979cab03",
+                                            "description": "",
+                                            "_id": "56f3444fc34c01653c7ccdf1",
+                                            "button":{
+                                                        "label": "",
+                                                        "action": ""
+                                                     }
+                                            }
+                                ]
+                            },
+                         ],
+                         "count": 2
+       }
+
+
+## Asset Groups By Name [/asset/group{?limit,skip}]
+### Get all the asset groups by name [GET]
+Get all the asset groups for an application. Because asset groups can share the same name you might need to get all asset groups with the same name. Use this endpoint to retrieve assets with the same name.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+       {
+            "assetGroups":[{
+                                "_id": "56f3444fc34c01653ffccdf0",
+                                "application": "5354f0bb3fa54ff52ff4c7c0",
+                                "name": "testing",
+                                "notBefore": null,
+                                "notAfter": null,
+                                "assets":[
+                                            {
+                                            "title": "Screen Shot 2016-03-24 at 00.04.49.png",
+                                            "key": "3d99d18148e6f3dbcf4ff891c9a02646ff311feccc7b9d0c8c79fee9b4dde19/c76c6363a7e014fae1586fa9b8ff1c61faa7b79036fd2670db2840de979cab03",
+                                            "description": "",
+                                            "_id": "56f3444fcff01653c7ccdf1",
+                                            "button":{
+                                                        "label": "",
+                                                        "action": ""
+                                                     }
+                                            }
+                                ]
+                            },
+                            {
+                                "_id": "56f3444fc34c01653c7ccdf0",
+                                "application": "5354f0bb3fa544452ff4c7c0",
+                                "name": "testing",
+                                "notBefore": null,
+                                "notAfter": null,
+                                "assets":[
+                                            {
+                                            "title": "Screen Shot 2016-03-24 at 00.04.49.png",
+                                            "key": "3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/c76c6363a7e014fae1586fa9b83b1c61faa7b79036fd2670db2840de979cab03",
+                                            "description": "",
+                                            "_id": "56f3444fc34c01653c7ccdf1",
+                                            "button":{
+                                                        "label": "",
+                                                        "action": ""
+                                                     }
+                                            }
+                                ]
+                            },
+                         ],
+                         "count": 2
+       }
+
+
+
+### New Asset Group [POST]
+Create an asset group in a specific application. This allows you to group assets in a group can then later be retrieved in your applications using the SDKs.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + name (required, string, `My Banner Set`)...The asset group's name
+    + notBefore (optional, date, `2012-11-28T15:31:54`)...Asset groups will not be visible before this date.
+    + notAfter (optional, date, `2014-11-28T15:31:54`)...Asset groups will not be visible after this date.
+    + assets (required, array, `[{ "title": "My Banner Set"... }]`)...An array of objects.
+
++ Request (application/json)
+
+        {
+                "name": "My Banner Set",
+                "notBefore": null,
+                "notAfter": null,
+                "assets":[
+                            {
+                                "title": "Screen Shot 2016-03-24 at 00.04.49.png",
+                                "key": "3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/c76c6363a7e014fae1586fa9b83b1c61faa7b79036fd2670db2840de979cab03",
+                                "description": "",
+                                "_id": "56f3444fc34c01653c7ccdf1",
+                                "button":{
+                                            "label": "",
+                                            "action": ""
+                                         }
+                            },
+                            {
+                                "title": "Screen Shot 2016-03-24 at 00.04.49.png",
+                                "key": "3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/c76c6363a7e014fae1586fa9b83b1c61faa7b79036fd2670db2840de979cab03",
+                                "description": "",
+                                "_id": "56f3444fc34c01653c7ccdf1",
+                                "button":{
+                                            "label": "",
+                                            "action": ""
+                                         }
+                            }
+                ]
+        }
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "assetGroup": {
+                                "_id": "56f3444fc34c01653c7ccdf1"
+                              }
+        }
+
+
+## Asset Group [/asset/group/{id}]
+
+### Get an asset group [GET]
+Get a specific asset group.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + id (required, string, `5245bc5b3e66a3b01f0024d4`)...The asset group's id.
+
++ Response 200 (application/json; charset=utf-8)
+
+       {
+            "assetGroup":{
+                                "_id": "56f3444fc34c01653ffccdf0",
+                                "application": "5354f0bb3fa54ff52ff4c7c0",
+                                "name": "testing",
+                                "notBefore": null,
+                                "notAfter": null,
+                                "assets":[
+                                            {
+                                            "title": "Screen Shot 2016-03-24 at 00.04.49.png",
+                                            "key": "3d99d18148e6f3dbcf4ff891c9a02646ff311feccc7b9d0c8c79fee9b4dde19/c76c6363a7e014fae1586fa9b8ff1c61faa7b79036fd2670db2840de979cab03",
+                                            "description": "",
+                                            "_id": "56f3444fcff01653c7ccdf1",
+                                            "button":{
+                                                        "label": "",
+                                                        "action": ""
+                                                     }
+                                            }
+                                ]
+                            }
+       }
+
+
+### Modify an asset group [PUT]
+Modify a specific asset group.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + id (required, string, `5245bc5b3e66a3b01f0024d4`)...The asset group's id.
+    + name (required, string, `My Banner Set`)...The asset group's name
+    + notBefore (optional, date, `2012-11-28T15:31:54`)...Asset groups will not be visible before this date.
+    + notAfter (optional, date, `2014-11-28T15:31:54`)...Asset groups will not be visible after this date.
+    + assets (required, array, `[{ "title": "My Banner Set"... }]`)...An array of objects.
+
++ Request (application/json)
+
+        {
+                "name": "My Banner Set",
+                "notBefore": null,
+                "notAfter": null,
+                "assets":[
+                            {
+                                "title": "Screen Shot 2016-03-24 at 00.04.49.png",
+                                "key": "3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/c76c6363a7e014fae1586fa9b83b1c61faa7b79036fd2670db2840de979cab03",
+                                "description": "",
+                                "_id": "56f3444fc34c01653c7ccdf1",
+                                "button":{
+                                            "label": "",
+                                            "action": ""
+                                         }
+                            },
+                            {
+                                "title": "Screen Shot 2016-03-24 at 00.04.49.png",
+                                "key": "3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/c76c6363a7e014fae1586fa9b83b1c61faa7b79036fd2670db2840de979cab03",
+                                "description": "",
+                                "_id": "56f3444fc34c01653c7ccdf1",
+                                "button":{
+                                            "label": "",
+                                            "action": ""
+                                         }
+                            }
+                ]
+        }
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "asset group updated"
+        }
+
+### Delete an asset group [DELETE]
+Delete an asset group. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + id (required, string, `5245bc5b3e66a3b01fff24d4`)...The asset group's id.
+
+
++ Response 200 (application/json; charset=utf-8)
+        {
+                "message": "asset group removed"
+        }
+
+
 # Group Automation
 Automation is an add-on of Notificare. It will give you access to mechanisms that can automate how you send notifications.
 
@@ -472,7 +841,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Response 200 (application/json; charset=utf-8)
 
         {
-                "message":"datasource updated"
+                "datasource": {
+                                "_id": "56f3444fc34c01653c7ccdf1"
+                              }
         }
 
 
@@ -485,7 +856,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + datasource (required, string, `5245bc5b3e66a3b01f0024d4`)...The source's id.
+    + id (required, string, `5245bc5b3e66a3b01f0024d4`)...The source's id.
     + name (required, string, `My Feed`)...The source's name
     + type (required, string, `feed`)...The type of datasource. Accepts one of these: 'feed', 'upload'.
     + config (required, object, `{"url":"http://notifica.re/blog/feed.xml","messageType":"re.notifica.notification.Alert"}`)...An object containing the URL's source and the notification type.
@@ -1478,6 +1849,9 @@ You can also add an array `actions` to your notifications by simply providing on
 | re.notifica.notification.Map | This type of notifications will use the device's native maps to display one or more locations. It requires one or more Content objects of type `re.notifica.content.Marker`. You can additionally add Action objects to this type of Notification. |
 | re.notifica.notification.Rate | This type is used exclusively to send a dialog window with three Action objects included. The user can then choose to rate the app in App Store/Google Play, to be remembered later to rate or to not rate at all. This type of Notification does not require any Content object. Also you can not add any more Action objects to this type of Notification. |
 | re.notifica.notification.Passbook | Use this type to easily send .pkpass files in your push notifications. Distribute your Passbook Passes directly to your app users. This type does not allow any Action objects. |
+| re.notifica.notification.Video | This type of notifications is used to send video content to your users. It requires one of these three types of content: `re.notifica.content.YouTube`, `re.notifica.content.Vimeo` or `re.notifica.content.HTML5Video`. You can additionally add Action objects to this type of Notification. This type is only available for SDKs 1.8.0 and up. |
+| re.notifica.notification.URLScheme | Use this type of notifications to deep link messages to areas of your app. You will need to make sure your app responds to these URL Schemes by providing them in you app's Info.plist (iOS) or AndroidManifest.xml (Android). This type is only available for SDKs 1.8.0 and up. |
+| re.notifica.notification.None | Use this type if you do not wish to show any UI in Notificare but still make sure we log the open notification event and be able to see these in the dashboard. When using this type you can still handle the notifications yourself so it is possible to still include content, actions or extra parameters. This type is only available for SDKs 1.8.0 and up. |
 
 
 ## Content Objects:
@@ -1489,6 +1863,9 @@ You can also add an array `actions` to your notifications by simply providing on
 | re.notifica.content.Image | string (eg.: https: //s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9fd.../6ccd..) |
 | re.notifica.content.Marker | object (eg.: {"title":"Some Place", "description":"Some description about that place", "latitude": 4.098765, "longitude": 5.08875}) |
 | re.notifica.content.PKPass | string (eg.: http: //notifica.re/path/to/my/pass.pkpass) |
+| re.notifica.content.YouTube | string (eg.: 3t_EN-HZVLw) |
+| re.notifica.content.Vimeo | string (eg.: 75196023) |
+| re.notifica.content.HTML5Video | string (eg.: https://push.notifica.re/asset/file/3d99d18.../1b029...) |
 
 
 ## Action Objects:
@@ -1531,7 +1908,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is an iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
-    + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
+    + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to process soon the notification arrives.
 
 
 
@@ -1593,6 +1971,7 @@ The request accepts an array of tags. This request must be authenticated with th
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -1655,6 +2034,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -1716,6 +2096,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 + Request (application/json)
@@ -1774,6 +2155,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -1835,6 +2217,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
+    + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
