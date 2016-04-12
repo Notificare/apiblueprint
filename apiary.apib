@@ -849,6 +849,39 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Datasource [/datasource/{id}]
 
+### Get a specific the datasource [GET]
+Get a specific datasource.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + id (required, string, `55c0c7f4fed3e3ff70e2e86b`)...The source's id.
+
++ Response 200 (application/json; charset=utf-8)
+
+       {
+            "datasource":{
+                                "_id":"55c0c7f4fed3e3bb70e2e86b",
+                                "type":"feed",
+                                "application":"5489b42ff23e5815132b492a",
+                                "lastRun":"2015-11-13T15:19:10.698Z",
+                                "name":"Blog",
+                                "config":{
+                                            "url":"http://notifica.re/blog/feed.xml",
+                                            "messageType":"re.notifica.notification.Alert"
+                                         },
+                                "feedMap":"tag_newsletter",
+                                "lastParsed":"2015-11-12T08:28:53.000Z",
+                                "categoryMap":[],
+                                "mapTarget":"tag",
+                                "mapType":"feed",
+                                "nextRun":"2015-11-13T15:34:10.698Z",
+                                "active":true
+                            }
+       }
+
+
+
 ### Modify a datasource [PUT]
 Modify a datasource.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -1458,17 +1491,20 @@ Get all the Events stored for a specific application.
 | re.notifica.event.product.Buy.{store} | Stored whenever a purchase is done, where store is AppStore or GooglePlay. |
 | re.notifica.event.product.Buy.{store}.{identifier} | Stored whenever a purchase is done, where store is AppStore or GooglePlay. |
 
-## Event Collection [/event/forapplication/{application}/{type}]
+## Event Collection [/event/fortype/{type}{?limit,skip,since,before,region}]
 
 ### Get all the events for a specific application [GET]
 Get all the Events types stored for a specific application.
-This request is authenticated with `token`.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + application (required, string, `542f1868d341d51284b`)...The application's Id which the event belongs to.
     + type (required, string, `re.notifica.event.application.Install`)...The type of event.
-
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+    + since =  (optional, date, `2014-10-03`)...When provided will only retrieve events after this date
+    + before =  (optional, date, `2014-10-04`)...When provided will only retrieve events before this date (only available when a since date is provided)
+    + region = (optional, string, `542f1868d341d51284b`)...The region's id of an event of type re.notifica.event.region.Session or re.notifica.event.beacon.Session
 
 + Response 200 (application/json; charset=utf-8)
 
