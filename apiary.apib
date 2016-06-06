@@ -2322,7 +2322,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                            }
         }
 
-## Notifications Collection [/notification{?limit,skip}]
+## Notifications Collection [/notification{?limit,skip,scope,scheduled,tag,segment,archived,draft}]
 
 ### Get a list of notifications [GET]
 Retrieves a list of notifications sent as a broadcast, sent to tags and/or sent to segments.
@@ -2331,8 +2331,14 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + limit = `10` (optional, number, `10`)...The maximum number of results to retrieve.
-
     + skip = `0` (optional, number, `0`)...The number of results to skip
+    + scope = `application` (optional, string, `application`)...The scope of the messages (it can be one of the following: application, segments, tags)
+    + scheduled = `0` (optional, boolean, `1`)...Filter by messages that have been scheduled
+    + tag = `tag_news` (optional, string, `tag_news`)...Filter messages by tag (scope must be set to tags)
+    + segment = `566acc80cbe343d7136ec9bf` (optional, string, `566acc80cbe343d7136ec9bf`)...Filter messages by segment (scope must be set to segments)
+    + archived = `0` (optional, boolean, `1`)...Filter by messages that have been archived
+    + draft = `0` (optional, boolean, `1`)...Filter by messages that have have a status of draft
+
 
 + Response 200 (application/json; charset=utf-8)
 
