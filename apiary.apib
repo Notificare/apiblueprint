@@ -928,6 +928,21 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "message":"datasource updated"
         }
 
+### Delete a datasource [DELETE]
+Delete a datasource. This operation can not be undone.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + datasource (required, string, `5245bc5b3e66a3b01f0024d4`)...The source's id.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message":"datasource deleted"
+        }
+
 
 ## Datasource Test [/datasource/test]
 
@@ -1006,21 +1021,6 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                             }]
                 }
        }
-
-### Delete a datasource [DELETE]
-Delete a datasource. This operation can not be undone.
-This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-+ Parameters
-
-    + datasource (required, string, `5245bc5b3e66a3b01f0024d4`)...The source's id.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "message":"datasource deleted"
-        }
 
 
 # Group Beacon
