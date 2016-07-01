@@ -929,6 +929,84 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
+## Datasource Test [/datasource/test]
+
+### Test a new datasource feed [POST]
+Test a datasource feed.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + config (required, object, `{"url":"http://notifica.re/blog/feed.xml","messageType":"re.notifica.notification.Alert"}`)...An object containing the URL's source and the notification type.
+
++ Request (application/json)
+
+        {
+                "config": {
+                            "url":"http://notifica.re/blog/feed.xml",
+                            "messageType":"re.notifica.notification.Alert"
+                }
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "feed": {
+                            "meta": {
+                                    "title": "Notificare",
+                                    "description": "Our Blog",
+                                    "date": "2016-06-24T09:00:00.000Z"
+                            },
+                            "items": [{
+                                    "title": "MobileStrategy and Notificare announce...",
+                                    "description": "<p><br />\n<strong>Press release</strong>...",
+                                    "date": "2016-06-24T09:00:00.000Z",
+                                    "link": "http://notifica.re/blog/2016/06/24/MobileStrategy-Notificare-Partnership/"
+                            }, {
+                                    "title": "Notificare receives ISO 27001 certification",
+                                    "description": "<p><br />\nFrom day 1, we set out to provide...",
+                                    "date": "2016-02-26T13:02:00.000Z",
+                                    "link": "http://notifica.re/blog/2016/02/26/Notificare-ISO-Certification/"
+                            }]
+                }
+       }
+
+
+
+## Datasource Test [/datasource/{id}/test]
+
+### Test an existing datasource feed [PUT]
+Test a datasource feed.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + id (required, string, `5245bc5b3e66a3b01f0024d4`)...The source's id.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "feed": {
+                            "meta": {
+                                    "title": "Notificare",
+                                    "description": "Our Blog",
+                                    "date": "2016-06-24T09:00:00.000Z"
+                            },
+                            "items": [{
+                                    "title": "MobileStrategy and Notificare announce...",
+                                    "description": "<p><br />\n<strong>Press release</strong>...",
+                                    "date": "2016-06-24T09:00:00.000Z",
+                                    "link": "http://notifica.re/blog/2016/06/24/MobileStrategy-Notificare-Partnership/"
+                            }, {
+                                    "title": "Notificare receives ISO 27001 certification",
+                                    "description": "<p><br />\nFrom day 1, we set out to provide...",
+                                    "date": "2016-02-26T13:02:00.000Z",
+                                    "link": "http://notifica.re/blog/2016/02/26/Notificare-ISO-Certification/"
+                            }]
+                }
+       }
+
 ### Delete a datasource [DELETE]
 Delete a datasource. This operation can not be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
