@@ -2378,36 +2378,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "_id":"5245bc5b3e66a3b01f0024d4",
                 "message":"notifications are queued"
         }
-        
-## Schedule a message [/notification/schedule]
 
-### Start a schedule task for a previously created message [POST]
-Start a schedule task for a previously created message.
-The property `local` determines if message should be sent on the device's local time or UTC.
-If `local` is true make sure the `time` is at least 14 hours from now to make sure the message will arrive in all timezones.
-This request must be authenticated with the `applicationKey` and `masterSecret`.
-
-+ Parameters
-
-    + notification (required, string, `5245bc5b3e66a3b01f0024d4`)...The notification Id of the notification to be schedule.
-    + time (required, string, `2014-12-25 10:00`)...The date and time (YYYY-MM-DD hh:mm) in which the notification should be sent.
-    + local (required, `boolean`)...Defines if message should be sent on date and time of the device. If false time will be considered UTC.
-
-+ Request (application/json)
-
-        {
-                "notification":"5245bc5b3e66a3b01f0024d4",
-                "time":"2014-12-25 10:00",
-                "local":true
-        }
-
-+ Response 201 (application/json; charset=utf-8)
-
-        {
-                "schedule":{
-                             "\_id":"5245bc5b3e66a3b01f0024d4"
-                           }
-        }
 
 ## Notifications Collection [/notification{?limit,skip,scope,scheduled,tag,segment,archived,draft}]
 
@@ -2685,6 +2656,174 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
         {
                 "message": "log cleared"
+        }
+
+
+# Group Notification Schedule
+Methods to create, list, modify or cancel notification schedules. Schedules can be set according to a specific time (in UTC) or according to the local timezone on the device.
+In the first case, the schedule will only run once, in the latter case, the schedule will run until all timezones have passed the time in the schedule.
+A schedule can have a status of `scheduled`, `running`, `finished` or `canceled`. Only `scheduled` schedules can be modified.
+These methods operate on existing notifications, so create a notification first with the `scheduled` property set.
+Use its `_id` property to refer to it in any of these methods.
+
+## New Notification Schedule [/notification/schedule]
+
+### Create a schedule for a previously created message [POST]
+Start a scheduled task for a previously created message.
+The property `local` determines if message should be sent on the device's local time or UTC.
+If `local` is true make sure the `time` is at least 14 hours from now to make sure the message will arrive in all timezones.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + notification (required, string, `5245bc5b3e66a3b01f0024d4`)...The notification Id of the notification to be schedule.
+    + time (required, string, `2014-12-25 10:00`)...The date and time (YYYY-MM-DD hh:mm) in which the notification should be sent.
+    + local (required, `boolean`)...Defines if message should be sent on date and time of the device. If false time will be considered UTC.
+
++ Request (application/json)
+
+        {
+                "notification":"5245bc5b3e66a3b01f0024d4",
+                "time":"2014-12-25 10:00",
+                "local":true
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "schedule":{
+                             "_id":"5245bc5b3e66a3b01f0024d4"
+                           }
+        }
+
+
+## Notification Schedules Collection [/notification/schedule{?skip,limit}]
+
+### Get a list of schedules [GET]
+Returns a list of all schedules for your app
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "schedules": [
+                        {
+                                "_id": "56d421uu073cc157eu3137",
+                                "nextRun": "2016-08-26T23:15:04.958Z",
+                                "application": "5489b42ff23e5815132b492a",
+                                "notification": "56d421uu073cc157eu3137",
+                                "time": "2016-08-26 23:01",
+                                "status": "running",
+                                "lastRun": "2016-08-26T23:00:10.273Z",
+                                "local": true
+                        }
+                ],
+                "count": 1
+        }
+
+
+## Notification Schedules Collection [/notification/schedule/fornotification/{notification}{?skip,limit}]
+
+### Get a list of schedules for a notification [GET]
+
+Returns a list of all schedules for a specific notification
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + notification (required, string, `56d421uu073cc157eu3137`)...The notification Id
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "schedules": [
+                        {
+                                "_id": "56d421uu073cc157eu3137",
+                                "nextRun": "2016-08-26T23:15:04.958Z",
+                                "application": "5489b42ff23e5815132b492a",
+                                "notification": "56d421uu073cc157eu3137",
+                                "time": "2016-08-26 23:01",
+                                "status": "running",
+                                "lastRun": "2016-08-26T23:00:10.273Z",
+                                "local": true
+                        }
+                ],
+                "count": 1
+        }
+
+
+
+## Notification schedule [/notification/schedule/{schedule}]
+
+### Retrieve a notification schedule [GET]
+Returns a schedule object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + schedule (required, string, `56d421uu073cc157eu3137`)...The schedule Id
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "schedule": {
+                                "_id": "56d421uu073cc157eu3137",
+                                "nextRun": "2016-08-26T23:15:04.958Z",
+                                "application": "5489b42ff23e5815132b492a",
+                                "notification": "56d421uu073cc157eu3137",
+                                "time": "2016-08-26 23:01",
+                                "status": "running",
+                                "lastRun": "2016-08-26T23:00:10.273Z",
+                                "local": true
+                },
+                "count": 1
+        }
+
+### Modify a notification schedule [PUT]
+Modifies a notification schedule. Can only be applied to a schedule that is currently `scheduled`. Attempts to modify a currently `running`, `finished` or `canceled` schedule result in a `400`.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + schedule (required, string, `56d421uu073cc157eu3137`)...The schedule Id of the schedule to be canceled.
+    + time (optional, string, `2014-12-25 10:00`)...The date and time (YYYY-MM-DD hh:mm) in which the notification should be sent.
+    + local (optional, `boolean`)...Defines if message should be sent on date and time of the device. If false time will be considered UTC.
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "time": "2016-08-25 10:00",
+                "local": false
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "schedule updated"
+        }
+
+### Cancel a notification schedule [DELETE]
+Cancels a currently `scheduled` or `running` schedule.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + schedule (required, string, `56d421uu073cc157eu3137`)...The schedule Id of the schedule to be canceled.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "schedule canceled"
         }
 
 
@@ -5060,7 +5199,7 @@ Three special cases apply:
 
         {
                 "trigger":{
-                                  "\_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
                          }
         }
 
