@@ -2454,7 +2454,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                           "count":2
         }
 
-## Notifications Collection [/notification/all{?limit,skip,since}]
+## Notifications Collection [/notification/all{?limit,skip,since,archived}]
 
 ### Get a list of all notifications [GET]
 Retrieves a list of all notifications.
@@ -2466,6 +2466,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + skip = `0` (optional, number, `0`)...The number of results to skip
     + since = `0` (optional, date, `2016-01-01T12:00:00`)...Notifications since a specific date, overrides header
     + If-Modified-Since (optional, date, `2016-01-01T12:00:00`)...Notifications since a specific date, as a HTTP header
+    + archived = `0` (optional, boolean, `1`)...Filter by messages that have been archived
 
 + Response 200 (application/json; charset=utf-8)
 
