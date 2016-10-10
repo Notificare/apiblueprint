@@ -1980,27 +1980,27 @@ You can also add an array `actions` to your notifications by simply providing on
 ## Content Objects:
 | type | data | 
 |:---------:|-------------|
-| re.notifica.content.Text | string (eg.: Hello World!) |
-| re.notifica.content.HTML | string (eg.: \<h1>Hello World!\</h1>) |
-| re.notifica.content.URL | string (eg.: http: //notifica.re) |
-| re.notifica.content.Image | string (eg.: https: //s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9fd.../6ccd..) |
+| re.notifica.content.Text | string (eg.: "Hello World!") |
+| re.notifica.content.HTML | string (eg.: "\<h1>Hello World!\</h1>") |
+| re.notifica.content.URL | string (eg.: "http://notifica.re") |
+| re.notifica.content.Image | string (eg.: "https://s3-eu-west-1.amazonaws.com/notificare-storage/notifications/9fd.../6ccd..") |
 | re.notifica.content.Marker | object (eg.: {"title":"Some Place", "description":"Some description about that place", "latitude": 4.098765, "longitude": 5.08875}) |
-| re.notifica.content.PKPass | string (eg.: http: //notifica.re/path/to/my/pass.pkpass) |
-| re.notifica.content.YouTube | string (eg.: 3t_EN-HZVLw) |
-| re.notifica.content.Vimeo | string (eg.: 75196023) |
-| re.notifica.content.HTML5Video | string (eg.: https://push.notifica.re/asset/file/3d99d18.../1b029...) |
+| re.notifica.content.PKPass | string (eg.: "http://notifica.re/path/to/my/pass.pkpass") |
+| re.notifica.content.YouTube | string (eg.: "3t_EN-HZVLw") |
+| re.notifica.content.Vimeo | string (eg.: "75196023") |
+| re.notifica.content.HTML5Video | string (eg.: "https://push.notifica.re/asset/file/3d99d18.../1b029...") |
 
 
 ## Action Objects:
 | type | label | target | keyboard | camera | rules |
 |:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
-| re.notifica.action.Callback | string (eg.: open cam) | string (eg.: http: //api.notifica.re/register?action=xpto&var=xyz) | boolean | boolean | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
-| re.notifica.action.Telephone | string (eg.: make a call) | string (eg.: 0500666858) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
-| re.notifica.action.SMS | string (eg.: send sms) | string (eg.: 0500666858,0500666858) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
-| re.notifica.action.Mail | string | string (eg.: me @company.com,you @company.com) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
-| re.notifica.action.Browser | string (eg.: open notifica.re) | string (eg.: http: //notifica.re) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
-| re.notifica.action.App | string (open facebook) | string (eg.: fb: //) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
-| re.notifica.action.Custom | string (eg.: open tab) | string (eg.: openTabInMyCode) | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Callback | string (eg.: "open cam") | string (eg.: "http://api.notifica.re/register?action=xpto&var=xyz") | boolean | boolean | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Telephone | string (eg.: "make a call") | string (eg.: "0500666858") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.SMS | string (eg.: "send sms") | string (eg.: "0500666858") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Mail | string | string (eg.: "me@company.com","you@company.com") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Browser | string (eg.: "open notifica.re") | string (eg.:"http://notifica.re") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.App | string (e.g., "open facebook") | string (eg.: "fb://") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Custom | string (eg.: "open tab") | string (eg.: "openTabInMyCode") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
 
 ## Rules Objects:
 | type | params |
