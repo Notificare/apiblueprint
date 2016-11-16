@@ -5158,6 +5158,291 @@ Retrieve the number of notifications sent on a specific day.
 
 
 
+## Retrieve total number of users [/stats/user]
+
+### Retrieve last month user stats [GET]
+Retrieve the total number of users in your account.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":{
+                            "date":"2014-02-28T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":0,
+                            "day":28
+                          }
+        }
+
+
+
+## Retrieve last month user stats [/stats/user/lastmonth]
+
+### Retrieve last month user stats [GET]
+Retrieve the number of users in your account on the last 30 days.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "date":"2014-02-28T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":0,
+                            "day":28,
+                            "application":"50b62e6aebe6dd821d000003"
+                          },
+                          {
+                            "date":"2014-02-27T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":2,
+                            "day":27,
+                            "application":"50b62e6aebe6dd821d000003"
+                          }
+                          ...
+                ]
+        }
+
+
+## Retrieve one single year of user stats [/stats/user/{year}]
+
+### Retrieve one single year of user stats [GET]
+Retrieve the number of users in your account for a specific year.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "month":2,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single month of user stats [/stats/user/{year}/{month}]
+
+### Retrieve one single month of user stats [GET]
+Retrieve the number of users in your account for a specific month.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "day":2,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single day user stats [/stats/user/{year}/{month}/{day}]
+
+### Retrieve one single day of user stats [GET]
+Retrieve the number of user in your account for a specific day.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "hour": 0,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-01-01T01:00:00.000Z",
+                            "hour":1,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+
+## Retrieve total number of users in an application [/stats/user/forapplication/{application}]
+
+### Retrieve total number of user in an application [GET]
+Retrieve the total number of users in an application.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":{
+                            "date":"2014-02-28T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":0,
+                            "day":28,
+                            "application":"50b62e6aebe6dd821d000003"
+                          }
+        }
+
+
+
+## Retrieve last month user stats for an application [/stats/user/forapplication/{application}/lastmonth]
+
+### Retrieve last month user stats for an application [GET]
+Retrieve the number of users in an application on the last 30 days.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "date":"2014-02-28T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":0,
+                            "day":28,
+                            "application":"50b62e6aebe6dd821d000003"
+                          },
+                          {
+                            "date":"2014-02-27T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":2,
+                            "day":27,
+                            "application":"50b62e6aebe6dd821d000003"
+                          }
+                          ...
+                ]
+        }
+
+
+## Retrieve one single year of user stats for an application [/stats/user/forapplication/{application}/{year}]
+
+### Retrieve one single year of user stats for an application [GET]
+Retrieve the number of users in an application for a specific year.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "month":2,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single month of user stats for an application [/stats/user/forapplication/{application}/{year}/{month}]
+
+### Retrieve one single month of user stats for an application [GET]
+Retrieve the number of users in an application for a specific month.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "day":2,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single day user stats for an application [/stats/user/forapplication/{application}/{year}/{month}/{day}]
+
+### Retrieve one single day of user stats for an application [GET]
+Retrieve the number of user in an application for a specific day.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "hour": 0,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-01-01T01:00:00.000Z",
+                            "hour":1,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+
 # Group Status
 Public methods to retrieve information about the status and health of the API 
 
