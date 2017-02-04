@@ -82,9 +82,10 @@ Delete account session. This request must be authenticated with the `token`.
         }
 
 ## Two Step Verification [/account/login/totp]
+Once you enable a 2FA authentication method, the endpoint for account login will return the property `needsSecondFactor` as true. Whenever that is the case you need to implement also this endpoint in order to provide us with the 6 digit code required to start a session. Failing to do this will result in HTTP errors for all endpoints using the session token.
 
 ### 2nd Step [POST]
-Provide the 6 digit code after retrieving session token with account credentials. This request must be authenticated with the `email` and `password`.
+Provide the 6 digit code after retrieving session token with account credentials. This request must be authenticated with the `token`.
 
 + Parameters
 
