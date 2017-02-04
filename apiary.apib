@@ -82,7 +82,7 @@ Delete account session. This request must be authenticated with the `token`.
         }
 
 ## Two Step Verification [/account/login/totp]
-Once you enable a 2FA authentication method, the endpoint for account login will return the property `needsSecondFactor` as true. Whenever that is the case you need to implement also this endpoint in order to provide us with the 6 digit code required to start a session. Failing to do this will result in HTTP errors for all endpoints using the session token.
+Once you enable a 2FA authentication method, the endpoint for account login will return the property `needsSecondFactor` as true. Whenever that is the case, you need to implement also this endpoint in order to provide us with the 6 digit code required to start a session. Failing to do this will result in HTTP errors for all endpoints using the session token.
 
 ### 2nd Step [POST]
 Provide the 6 digit code after retrieving session token with account credentials. This request must be authenticated with the `token`.
@@ -103,7 +103,7 @@ Provide the 6 digit code after retrieving session token with account credentials
 
 
 ## 2FA [/account/2fa]
-As an extra layer of security you can choose to enable Two Factor Autentication for your account. This features currently supports only TOTP (Time-based One-Time Password) with Google Authenticator app to generate one time codes that will be required every time you try to start a new session. Support for channels like U2F (Universal 2nd Factor Authentication) and SMS (Short Message Service) are currently being developed.
+As an extra layer of security you can choose to enable Two Factor Authentication for your account. This feature currently supports only TOTP (Time-based One-Time Password) with the Google Authenticator app which generates one time codes that will be required every time you try to start a new session. Support for channels like U2F (Universal 2nd Factor Authentication) and SMS (Short Message Service) are currently being developed.
 
 ### Check 2FA Status [GET]
 Retrieve the account 2FA state. This should provide information about 2FA functionality for your account. This request must be authenticated with the `token`.
@@ -126,7 +126,7 @@ Retrieve the account 2FA state. This should provide information about 2FA functi
 As part of the 2FA setup, registering for TOTP is required in order to obtained the URL required to open Google Authenticator app and configure, enable or disable a TOTP.
 
 ### Register for TOTP [POST]
-Register your account for TOTP. This endpoint will provide you a key (for manually setup) and URL (to create a QRCode) that allows you to configure the Google Authenticator app. This request must be authenticated with the `token`.
+Register your account for TOTP. This endpoint will provide you a key (for manual setup) and URL (to create a QRCode) that allows you to configure the Google Authenticator app. This request must be authenticated with the `token`.
 
 + Response 200 (application/json; charset=utf-8)
 
