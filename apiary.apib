@@ -5862,12 +5862,12 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 # Group User Segment
-These methods let you create, change and remove user segments
+These methods let you create, change and remove user segments as well as manage add, remove or clear all users from a segment.
 
 ## User Segment Collection [/usersegment{?limit,skip}]
 
 ### Retrieve a list of segments [GET]
-Retrieve a list of segments
+Retrieve a list of segments. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -5896,7 +5896,7 @@ Retrieve a list of segments
 ## Retrieve a list of segments by name [/usersegment/forname/{name}{?limit,skip}]
 
 ### Retrieve a list of segments by name [GET]
-Retrieve a list of segments with a name (starting with) `name`
+Retrieve a list of segments with a name (starting with) `name`. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -5923,7 +5923,7 @@ Retrieve a list of segments with a name (starting with) `name`
 ## New Segment [/usersegment]
 
 ### Create a new user segment [POST]
-Create a new user segment
+Create a new user segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Request (application/json)
 
@@ -5944,7 +5944,7 @@ Create a new user segment
 ## New Segment with a Batch [/usersegment/batch]
 
 ### Create a new user segment with a batch of userIDs [POST]
-Create a new user segment with a batch of userIDs. There is a limit of 1000 userIDs.
+Create a new user segment with a batch of userIDs. There is a limit of 1000 userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Request (application/json)
 
@@ -5966,7 +5966,7 @@ Create a new user segment with a batch of userIDs. There is a limit of 1000 user
 ## Add Batch of Users to Segment [/usersegment/{segment}/add]
 
 ### Add a batch of users to a segment [PUT]
-Add users to a segment using a batch of userIDs
+Add users to a segment using a batch of userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -5988,7 +5988,7 @@ Add users to a segment using a batch of userIDs
 ## Remove Batch of Users from Segment [/usersegment/{segment}/remove]
 
 ### Remove a batch of users from a segment [PUT]
-Remove users from a segment using a batch of userIDs
+Remove users from a segment using a batch of userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6008,10 +6008,10 @@ Remove users from a segment using a batch of userIDs
         }
 
 
-## Users in Segment [/usersegment/{segment}/users]
+## Get Users in Segment [/usersegment/{segment}/users]
 
 ### Get all users from a segment [GET]
-Get all the users in a segment.
+Get all the users in a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6043,10 +6043,10 @@ Get all the users in a segment.
         }
 
 
-## Users in Segment [/usersegment/{segment}/clear]
+## Clear Users from Segment [/usersegment/{segment}/clear]
 
 ### Clear all users from a segment [PUT]
-Clear all the users in a segment.
+Clear all the users from a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6063,7 +6063,7 @@ Clear all the users in a segment.
 ## Segment [/usersegment/{segment}]
 
 ### Retrieve a segment [GET]
-Retrieve a segment
+Retrieve a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6080,7 +6080,7 @@ Retrieve a segment
         }
 
 ### Modify a segment [PUT]
-Change `name` and/or `description` of a user segment
+Change `name` and/or `description` of a user segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6101,7 +6101,7 @@ Change `name` and/or `description` of a user segment
 
 
 ### Delete a segment [DELETE]
-Delete a user segment
+Delete a user segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6116,12 +6116,12 @@ Delete a user segment
 
 
 # Group User
-Methods for retrieving (groups of) users and adding / removing them from user segments
+Methods for retrieving (groups of) users. Additionally you can also add and remove them from user segments.
 
 ## User Collection [/user{?limit,skip}]
 
 ### List all users for this app [GET]
-List all users for this app
+List all users for this app. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6150,7 +6150,7 @@ List all users for this app
 ## Retrieve users for a segment [/user/forsegment/{segment}{?limit,skip}]
 
 ### Retrieve users for a segment [GET]
-Retrieve users for a segment
+Retrieve users for a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6181,7 +6181,7 @@ Retrieve users for a segment
 ## Search users [/user/search/{search}{?limit,skip}]
 
 ### Search users [GET]
-Search users by `userName` and `userID`
+Search users by `userName` and `userID`. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6213,7 +6213,7 @@ Search users by `userName` and `userID`
 ## User [/user/{user}]
 
 ### Retrieve a user object [GET]
-Retrieve a user object.
+Retrieve a user object. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6235,9 +6235,9 @@ Retrieve a user object.
         }
 
 
-## Delete a user [DELETE]
+## Deactivate a user [DELETE]
 Deactivate a user. The user will not receive any more notifications. 
-If the user registers again on one of his devices, he will be activated again.
+If the user registers again on one of his devices, he will be activated again. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6246,10 +6246,23 @@ If the user registers again on one of his devices, he will be activated again.
 + Response 204
 
 
+## Delete a user [/user/{userid}/remove]
+
+### Delete a user object by userID [DELETE]
+Delete a user. The user will be completely removed from our system.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the user
+
++ Response 202
+
+
 ## Retrieve a user object by userID [/user/foruserid/{userid}]
 
 ### Retrieve a user object by userID [GET]
-Retrieve a user object by custom `userID`.
+Retrieve a user object by custom `userID`. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6275,7 +6288,7 @@ Retrieve a user object by custom `userID`.
 ## Add user to segment [/user/{user}/add/{segment}]
 
 ### Add user to segment [PUT]
-Add user to segment
+Add user to segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6292,7 +6305,7 @@ Add user to segment
 ## Remove user from segment [/user/{user}/remove/{segment}]
 
 ### Remove user from segment [PUT]
-Remove user from segment
+Remove user from segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
