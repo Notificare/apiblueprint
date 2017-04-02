@@ -1415,6 +1415,46 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
+## User Registration [/device/{deviceID}/user]
+
+### Register a userID and userName to a device [PUT]
+Register a userID and userName to a device. If you have the Users & Authentication add-on, you can delegate user registration to you back-end API. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to add a userID and userName to a device.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + deviceID (required, string, `00a9b9bf-xxx9278-64d6a3f22476`)...The deviceID is the unique identifier provided by APNS or GCM.
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "userID": "12345678",
+                "userName": "John Doe"
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "device updated"
+        }
+
+## Unregister User from Device [/device/{deviceID}/user]
+
+### Unregister a userID and userName from a device [DELETE]
+Unregister a userID and userName from a device. If you have the Users & Authentication add-on, you can delegate user registration to you back-end API. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to remove a userID and userName from a device.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + deviceID (required, string, `00a9b9bf-xxx9278-64d6a3f22476`)...The deviceID is the unique identifier provided by APNS or GCM.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "device updated"
+        }
+
+
 ## Filter by User [/device/foruser/{user}{?limit,skip}]
 
 ### Get all the devices for a specific user [GET]
