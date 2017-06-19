@@ -4876,15 +4876,15 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-# Group Stats
-Methods to retrieve usage reports of all resources in the API. 
-These requests must be authenticated with the `token`.
+# Group Application Stats
+Methods to retrieve usage reports of application resources in the API. 
+These requests must be authenticated with the `applicationKey` and `masterSecret`.
 
 
-## Last month stats based on specific dimensions [/stats/device/{dimension}/forapplication/{application}/lastmonth]
+## Last month device stats based on specific dimensions [/stats/device/{dimension}/lastmonth]
 
 ### Retrieve last 30 days devices by dimension [GET]
-Retrieve the number of devices of a certain dimension for the last 30 days for a specific application.
+Retrieve the number of devices of a certain dimension for the last 30 days.
 
 ### Dimensions:
 
@@ -4907,7 +4907,6 @@ deviceString
 + Parameters
 
     + dimension (required, string, `osVersion`)...The desired dimension.
-    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -4929,10 +4928,10 @@ deviceString
 
 
 
-## Retrieve one single year of device stats by dimension [/stats/device/{dimension}/forapplication/{application}/{year}]
+## Retrieve one single year of device stats by dimension [/stats/device/{dimension}/{year}]
 
 ### Retrieve one single year of device stats by dimension [GET]
-Retrieve the number of devices of a certain dimension in a specific year for a specific application.
+Retrieve the number of devices of a certain dimension in a specific year.
 
 ### Dimensions:
 
@@ -4955,7 +4954,6 @@ deviceString
 + Parameters
 
     + dimension (required, string, `osVersion`)...The desired dimension.
-    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
     + year (required, string, `2014`)...The year you desire to get stats from.
 
 + Response 200 (application/json; charset=utf-8)
@@ -4977,10 +4975,10 @@ deviceString
         }
 
 
-## Retrieve one single month of device stats by dimension [/stats/device/{dimension}/forapplication/{application}/{year}/{month}]
+## Retrieve one single month of device stats by dimension [/stats/device/{dimension}/{year}/{month}]
 
 ### Retrieve one single month of device stats by dimension [GET]
-Retrieve the number of devices of a certain dimension in a specific month for a specific application.
+Retrieve the number of devices of a certain dimension in a specific month.
 
 ### Dimensions:
 
@@ -5003,7 +5001,6 @@ deviceString
 + Parameters
 
     + dimension (required, string, `osVersion`)...The desired dimension.
-    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
     + year (required, string, `2014`)...The year you desire to get stats from.
     + month (required, string, `03`)...The month you desire to get stats from.
     
@@ -5027,10 +5024,10 @@ deviceString
 
 
 
-## Retrieve one single day of device stats by dimension [/stats/device/{dimension}/forapplication/{application}/{year}/{month}/{day}]
+## Retrieve one single day of device stats by dimension [/stats/device/{dimension}/{year}/{month}/{day}]
 
 ### Retrieve one single day of device stats by dimension [GET]
-Retrieve the number of devices of a certain dimension in a specific day for a specific application.
+Retrieve the number of devices of a certain dimension in a specific day.
 
 ### Dimensions:
 
@@ -5053,7 +5050,6 @@ deviceString
 + Parameters
 
     + dimension (required, string, `osVersion`)...The desired dimension.
-    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
     + year (required, string, `2014`)...The year you desire to get stats from.
     + month (required, string, `03`)...The month you desire to get stats from.
     + day (required, string, `01`)...The day you desire to get stats from.
@@ -5076,11 +5072,10 @@ deviceString
                 ]
         }
 
-
-## Retrieve last month events of a certain type [/stats/event/{type}/forapplication/{application}/lastmonth]
+## Retrieve total events of a certain type [/stats/event/{type}/total]
 
 ### Retrieve last month event stats of a certain type [GET]
-Retrieve the number of events of a certain type for the last 30 days and for a specific application.
+Retrieve the number of events of a certain type.
 
 
 ### Events
@@ -5108,7 +5103,50 @@ re.notifica.event.beacon.Session
 + Parameters
 
     + type (required, string, `re.notifica.event.application.Install`)...The event type.
-    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "count":1000
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve last month events of a certain type [/stats/event/{type}/lastmonth]
+
+### Retrieve last month event stats of a certain type [GET]
+Retrieve the number of events of a certain type for the last 30 days.
+
+
+### Events
+***
+re.notifica.event.application.Install
+***
+re.notifica.event.application.Uninstall
+***
+re.notifica.event.application.Open
+***
+re.notifica.event.application.Close
+***
+re.notifica.event.notification.Influenced
+***
+re.notifica.event.notification.Receive
+***
+re.notifica.event.notification.Open
+***
+re.notifica.event.region.Session
+***
+re.notifica.event.beacon.Session
+***
+
+
++ Parameters
+
+    + type (required, string, `re.notifica.event.application.Install`)...The event type.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -5127,11 +5165,11 @@ re.notifica.event.beacon.Session
                 ]
         }
 
+## Retrieve last week events of a certain type [/stats/event/{type}/lastweek]
 
-## Retrieve one single year event stats of a certain type [/stats/event/{type}/forapplication/{application}/{year}]
+### Retrieve last week event stats of a certain type [GET]
+Retrieve the number of events of a certain type for the last 7 days.
 
-### Retrieve one single year event stats of a certain type [GET]
-Retrieve the number of events of a certain type for a specific year and for a specific application.
 
 ### Events
 ***
@@ -5158,7 +5196,103 @@ re.notifica.event.beacon.Session
 + Parameters
 
     + type (required, string, `re.notifica.event.application.Install`)...The event type.
-    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "count":2,
+                            "date":"2014-02-27T00:00:00.000Z"
+                          },
+                          {
+                            "count":2,
+                            "date":"2014-02-26T00:00:00.000Z"
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve yearly event stats of a certain type [/stats/event/{type}]
+
+### Retrieve yearly event stats of a certain type [GET]
+Retrieve the number of events of a certain type per year.
+
+### Events
+***
+re.notifica.event.application.Install
+***
+re.notifica.event.application.Uninstall
+***
+re.notifica.event.application.Open
+***
+re.notifica.event.application.Close
+***
+re.notifica.event.notification.Influenced
+***
+re.notifica.event.notification.Receive
+***
+re.notifica.event.notification.Open
+***
+re.notifica.event.region.Session
+***
+re.notifica.event.beacon.Session
+***
+
+
++ Parameters
+
+    + type (required, string, `re.notifica.event.application.Install`)...The event type.
+    + year (required, string, `2014`)...The year you desire to get stats from.
+
+    
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "count":2,
+                            "date":"2014-01-01T00:00:00.000Z"
+                          },
+                          {
+                            "count":2,
+                            "date":"2015-01-01T00:00:00.000Z"
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single year event stats of a certain type [/stats/event/{type}/{year}]
+
+### Retrieve one single year event stats of a certain type [GET]
+Retrieve the number of events of a certain type for a specific year.
+
+### Events
+***
+re.notifica.event.application.Install
+***
+re.notifica.event.application.Uninstall
+***
+re.notifica.event.application.Open
+***
+re.notifica.event.application.Close
+***
+re.notifica.event.notification.Influenced
+***
+re.notifica.event.notification.Receive
+***
+re.notifica.event.notification.Open
+***
+re.notifica.event.region.Session
+***
+re.notifica.event.beacon.Session
+***
+
+
++ Parameters
+
+    + type (required, string, `re.notifica.event.application.Install`)...The event type.
     + year (required, string, `2014`)...The year you desire to get stats from.
 
     
@@ -5179,10 +5313,10 @@ re.notifica.event.beacon.Session
         }
 
 
-## Retrieve one single month event stats of a certain type [/stats/event/{type}/forapplication/{application}/{year}/{month}]
+## Retrieve one single month event stats of a certain type [/stats/event/{type}/{year}/{month}]
 
 ### Retrieve one single month event stats of a certain type [GET]
-Retrieve the number of events of a certain type for a specific month and for a specific application.
+Retrieve the number of events of a certain type for a specific month.
 
 
 ### Events
@@ -5210,7 +5344,6 @@ re.notifica.event.beacon.Session
 + Parameters
 
     + type (required, string, `re.notifica.event.application.Install`)...The event type.
-    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
     + year (required, string, `2014`)...The year you desire to get stats from.
     + month (required, string, `03`)...The month you desire to get stats from.
 
@@ -5232,10 +5365,10 @@ re.notifica.event.beacon.Session
         }
 
 
-## Retrieve one single year event stats of a certain type [/stats/event/{type}/forapplication/{application}/{year}/{month}/{day}]
+## Retrieve one single year event stats of a certain type [/stats/event/{type}/{year}/{month}/{day}]
 
 ### Retrieve one single year event stats of a certain type [GET]
-Retrieve the number of events of a certain type for a specific day and for a specific application.
+Retrieve the number of events of a certain type for a specific day.
 
 ### Events
 ***
@@ -5262,7 +5395,6 @@ re.notifica.event.beacon.Session
 + Parameters
 
     + type (required, string, `re.notifica.event.application.Install`)...The event type.
-    + application (required, string, `5245bc5b3e66a3b01f0024d4`)...The application id of an active application.
     + year (required, string, `2014`)...The year you desire to get stats from.
     + month (required, string, `03`)...The month you desire to get stats from.
     + day (required, string, `01`)...The day you desire to get stats from.
@@ -5283,7 +5415,8 @@ re.notifica.event.beacon.Session
                 ]
         }
 
-## Retrieve last month notification stats [/stats/notification/lastmonth]
+
+## Retrieve last month notification stats [/stats/notification/application/lastmonth]
 
 ### Retrieve last month notification stats [GET]
 Retrieve the number of notifications sent on the last 30 days.
@@ -5314,7 +5447,7 @@ Retrieve the number of notifications sent on the last 30 days.
         }
 
 
-## Retrieve one single year notification stats [/stats/notification/{year}]
+## Retrieve one single year notification stats [/stats/notification/application/{year}]
 
 ### Retrieve one single year of notification stats [GET]
 Retrieve the number of notifications sent on a specific year.
@@ -5342,7 +5475,7 @@ Retrieve the number of notifications sent on a specific year.
                 ]
         }
 
-## Retrieve one single month notification stats [/stats/notification/{year}/{month}]
+## Retrieve one single month notification stats [/stats/notification/application/{year}/{month}]
 
 ### Retrieve one single month of notification stats [GET]
 Retrieve the number of notifications sent on a specific month.
@@ -5372,7 +5505,7 @@ Retrieve the number of notifications sent on a specific month.
                 ]
         }
 
-## Retrieve one single day notification stats [/stats/notification/{year}/{month}/{day}]
+## Retrieve one single day notification stats [/stats/notification/application/{year}/{month}/{day}]
 
 ### Retrieve one single day of notification stats [GET]
 Retrieve the number of notifications sent on a specific day.
@@ -5405,150 +5538,7 @@ Retrieve the number of notifications sent on a specific day.
         }
 
 
-
-## Retrieve total number of users [/stats/user]
-
-### Retrieve last month user stats [GET]
-Retrieve the total number of users in your account.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "stats":{
-                            "date":"2014-02-28T00:00:00.000Z",
-                            "year":2014,
-                            "month":2,
-                            "count":0,
-                            "day":28
-                          }
-        }
-
-
-
-## Retrieve last month user stats [/stats/user/lastmonth]
-
-### Retrieve last month user stats [GET]
-Retrieve the number of users in your account on the last 30 days.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "stats":[
-                          {
-                            "date":"2014-02-28T00:00:00.000Z",
-                            "year":2014,
-                            "month":2,
-                            "count":0,
-                            "day":28,
-                            "application":"50b62e6aebe6dd821d000003"
-                          },
-                          {
-                            "date":"2014-02-27T00:00:00.000Z",
-                            "year":2014,
-                            "month":2,
-                            "count":2,
-                            "day":27,
-                            "application":"50b62e6aebe6dd821d000003"
-                          }
-                          ...
-                ]
-        }
-
-
-## Retrieve one single year of user stats [/stats/user/{year}]
-
-### Retrieve one single year of user stats [GET]
-Retrieve the number of users in your account for a specific year.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "stats":[
-                          {
-                            "application":"50b62e6aebe6dd821d000003",
-                            "count":33,
-                            "date":"2014-01-01T00:00:00.000Z",
-                            "month":1,
-                            "year":2014
-                          },
-                          {
-                            "application":"50b62e6aebe6dd821d000003",
-                            "count":38,
-                            "date":"2014-02-01T00:00:00.000Z",
-                            "month":2,
-                            "year":2014
-                          }
-                          ...
-                ]
-        }
-
-## Retrieve one single month of user stats [/stats/user/{year}/{month}]
-
-### Retrieve one single month of user stats [GET]
-Retrieve the number of users in your account for a specific month.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "stats":[
-                          {
-                            "application":"50b62e6aebe6dd821d000003",
-                            "count":33,
-                            "date":"2014-01-01T00:00:00.000Z",
-                            "day":1,
-                            "month":1,
-                            "year":2014
-                          },
-                          {
-                            "application":"50b62e6aebe6dd821d000003",
-                            "count":38,
-                            "date":"2014-02-01T00:00:00.000Z",
-                            "day":2,
-                            "month":1,
-                            "year":2014
-                          }
-                          ...
-                ]
-        }
-
-## Retrieve one single day user stats [/stats/user/{year}/{month}/{day}]
-
-### Retrieve one single day of user stats [GET]
-Retrieve the number of user in your account for a specific day.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "stats":[
-                          {
-                            "application":"50b62e6aebe6dd821d000003",
-                            "count":33,
-                            "date":"2014-01-01T00:00:00.000Z",
-                            "hour": 0,
-                            "day":1,
-                            "month":1,
-                            "year":2014
-                          },
-                          {
-                            "application":"50b62e6aebe6dd821d000003",
-                            "count":38,
-                            "date":"2014-01-01T01:00:00.000Z",
-                            "hour":1,
-                            "day":1,
-                            "month":1,
-                            "year":2014
-                          }
-                          ...
-                ]
-        }
-
-
-## Retrieve total number of users in an application [/stats/user/forapplication/{application}]
+## Retrieve total number of users in an application [/stats/user/application]
 
 ### Retrieve total number of user in an application [GET]
 Retrieve the total number of users in an application.
@@ -5569,7 +5559,7 @@ Retrieve the total number of users in an application.
 
 
 
-## Retrieve last month user stats for an application [/stats/user/forapplication/{application}/lastmonth]
+## Retrieve last month user stats for an application [/stats/user/application/lastmonth]
 
 ### Retrieve last month user stats for an application [GET]
 Retrieve the number of users in an application on the last 30 days.
@@ -5600,7 +5590,7 @@ Retrieve the number of users in an application on the last 30 days.
         }
 
 
-## Retrieve one single year of user stats for an application [/stats/user/forapplication/{application}/{year}]
+## Retrieve one single year of user stats for an application [/stats/user/application/{year}]
 
 ### Retrieve one single year of user stats for an application [GET]
 Retrieve the number of users in an application for a specific year.
@@ -5628,7 +5618,7 @@ Retrieve the number of users in an application for a specific year.
                 ]
         }
 
-## Retrieve one single month of user stats for an application [/stats/user/forapplication/{application}/{year}/{month}]
+## Retrieve one single month of user stats for an application [/stats/user/application/{year}/{month}]
 
 ### Retrieve one single month of user stats for an application [GET]
 Retrieve the number of users in an application for a specific month.
@@ -5658,10 +5648,278 @@ Retrieve the number of users in an application for a specific month.
                 ]
         }
 
-## Retrieve one single day user stats for an application [/stats/user/forapplication/{application}/{year}/{month}/{day}]
+## Retrieve one single day user stats for an application [/stats/user/application/{year}/{month}/{day}]
 
 ### Retrieve one single day of user stats for an application [GET]
 Retrieve the number of user in an application for a specific day.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "hour": 0,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-01-01T01:00:00.000Z",
+                            "hour":1,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+
+# Group Account Stats
+Methods to retrieve usage reports of account resources in the API. 
+These requests must be authenticated with the `token`.
+
+## Retrieve last month notification stats [/stats/notification/account/lastmonth]
+
+### Retrieve last month notification stats [GET]
+Retrieve the number of notifications sent on the last 30 days.
+
+    
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "date":"2014-02-28T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":0,
+                            "day":28,
+                            "application":"50b62e6aebe6dd821d000003"
+                          },
+                          {
+                            "date":"2014-02-27T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":2,
+                            "day":27,
+                            "application":"50b62e6aebe6dd821d000003"
+                          }
+                          ...
+                ]
+        }
+
+
+## Retrieve one single year notification stats [/stats/notification/account/{year}]
+
+### Retrieve one single year of notification stats [GET]
+Retrieve the number of notifications sent on a specific year.
+
+    
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "month":2,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single month notification stats [/stats/notification/account/{year}/{month}]
+
+### Retrieve one single month of notification stats [GET]
+Retrieve the number of notifications sent on a specific month.
+
+    
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "day":2,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single day notification stats [/stats/notification/account/{year}/{month}/{day}]
+
+### Retrieve one single day of notification stats [GET]
+Retrieve the number of notifications sent on a specific day.
+
+    
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "hour": 0,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-01-01T01:00:00.000Z",
+                            "hour":1,
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+
+## Retrieve total number of users [/stats/user/account]
+
+### Retrieve last month user stats [GET]
+Retrieve the total number of users in your account.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":{
+                            "date":"2014-02-28T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":0,
+                            "day":28
+                          }
+        }
+
+
+
+## Retrieve last month user stats [/stats/user/account/lastmonth]
+
+### Retrieve last month user stats [GET]
+Retrieve the number of users in your account on the last 30 days.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "date":"2014-02-28T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":0,
+                            "day":28,
+                            "application":"50b62e6aebe6dd821d000003"
+                          },
+                          {
+                            "date":"2014-02-27T00:00:00.000Z",
+                            "year":2014,
+                            "month":2,
+                            "count":2,
+                            "day":27,
+                            "application":"50b62e6aebe6dd821d000003"
+                          }
+                          ...
+                ]
+        }
+
+
+## Retrieve one single year of user stats [/stats/user/account/{year}]
+
+### Retrieve one single year of user stats [GET]
+Retrieve the number of users in your account for a specific year.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "month":2,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single month of user stats [/stats/user/account/{year}/{month}]
+
+### Retrieve one single month of user stats [GET]
+Retrieve the number of users in your account for a specific month.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "stats":[
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":33,
+                            "date":"2014-01-01T00:00:00.000Z",
+                            "day":1,
+                            "month":1,
+                            "year":2014
+                          },
+                          {
+                            "application":"50b62e6aebe6dd821d000003",
+                            "count":38,
+                            "date":"2014-02-01T00:00:00.000Z",
+                            "day":2,
+                            "month":1,
+                            "year":2014
+                          }
+                          ...
+                ]
+        }
+
+## Retrieve one single day user stats [/stats/user/account/{year}/{month}/{day}]
+
+### Retrieve one single day of user stats [GET]
+Retrieve the number of user in your account for a specific day.
 
 
 + Response 200 (application/json; charset=utf-8)
