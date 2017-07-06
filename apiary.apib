@@ -2184,6 +2184,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
+    + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -2204,6 +2206,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Request (application/json)
 
         {
+                "title":"This is a title",
+                "subtitle":"This is a subtitle",
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
@@ -2248,6 +2252,8 @@ The request accepts an array of tags. This request must be authenticated with th
 + Parameters
 
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
+    + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -2268,6 +2274,8 @@ The request accepts an array of tags. This request must be authenticated with th
 
         {
                 "tags":["test1","test2"],
+                "title":"This is a title",
+                "subtitle":"This is a subtitle",
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
@@ -2312,6 +2320,8 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + segments (required, array, `["526f7a71dab9d70711000003","526f7a71dab9d70711000004"]`)...The segments of users to send to.
     + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
+    + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -2332,6 +2342,8 @@ The request accepts an array of Segment Ids. This request must be authenticated 
 
         {
                 "segments":["526f7a71dab9d70711000003","526f7a71dab9d70711000004"],
+                "title":"This is a title",
+                "subtitle":"This is a subtitle",
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
@@ -2374,6 +2386,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
+    + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -2394,7 +2408,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Request (application/json)
 
         {
-                "message":"Hello world!",
+               "title":"This is a title",
+               "subtitle":"This is a subtitle",
+               "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "eventCriteria": {
                       "type": "re.notifica.notification.Open",
@@ -2450,6 +2466,8 @@ The request accepts an array of Segment Ids. This request must be authenticated 
 
     + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
+    + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -2497,6 +2515,8 @@ The request accepts an array of Segment Ids. This request must be authenticated 
                     }]
                   ]
                 },
+                "title":"This is a title",
+                "subtitle":"This is a subtitle",
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
@@ -2541,6 +2561,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + user (required, string, `testuser@example.com`)...The user ID is the one the client device registered with, e.g., the user's email address.
     + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
+    + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -2560,6 +2582,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
         {
                 "type":"re.notifica.notification.Alert",
+                "title":"This is a title",
+                "subtitle":"This is a subtitle",
                 "message":"Hello world!",
                 "ttl":3600,
                 "content": [
@@ -2601,6 +2625,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
     + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
+    + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -2620,6 +2646,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Request (application/json)
 
         {
+                "title":"This is a title",
+                "subtitle":"This is a subtitle",
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
@@ -2665,6 +2693,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
     + segments (optional, array, `["526f7a71dab9d70711000003","526f7a71dab9d70711000004"]`)...Only send to devices whose user is in one or more of these segments.
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
+    + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -2683,6 +2713,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Request (application/json)
 
         {
+                "title":"This is a title",
+                "subtitle":"This is a subtitle",
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
@@ -2745,6 +2777,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "user_id": null,
                                     "device_id": null,
                                     "ttl": null,
+                                    "title":"This is a title",
+                                    "subtitle":"This is a subtitle",
                                     "message": "Ready for beers?",
                                     "sound": "default",
                                     "badge": null,
@@ -2815,6 +2849,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "user_id": null,
                                     "device_id": null,
                                     "ttl": null,
+                                    "title":"This is a title",
+                                    "subtitle":"This is a subtitle",
                                     "message": "Ready for beers?",
                                     "sound": "default",
                                     "badge": null,
@@ -2883,6 +2919,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "user_id": null,
                                     "device_id": null,
                                     "ttl": null,
+                                    "title":"This is a title",
+                                    "subtitle":"This is a subtitle",
                                     "message": "Ready for beers?",
                                     "sound": "default",
                                     "badge": null,
