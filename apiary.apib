@@ -2159,7 +2159,7 @@ You can also add an array `actions` to your notifications by simply providing on
 | type | label | target | keyboard | camera | rules |
 |:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | re.notifica.action.Callback | string (eg.: "open cam") | string (eg.: "http://api.notifica.re/register?action=xpto&var=xyz") | boolean | boolean | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
-| re.notifica.action.Telephone | string (eg.: "make a call") | string (eg.: "0500666858") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
+| re.notifica.action.Telephone | string (eg.: "make a call") | string (eg.: "tel:0500666858") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
 | re.notifica.action.SMS | string (eg.: "send sms") | string (eg.: "0500666858") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
 | re.notifica.action.Mail | string | string (eg.: "me@company.com","you@company.com") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
 | re.notifica.action.Browser | string (eg.: "open notifica.re") | string (eg.:"http://notifica.re") | n/a | n/a | array (eg.: [{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]) |
@@ -2488,32 +2488,32 @@ The request accepts an array of Segment Ids. This request must be authenticated 
 
         {
                 "criteria":{
-                  "segmentsCriteria":[{
-                    "quantifier":"any",
-                    "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
-                  }],
-                  "tagsCriteria":[{
-                    "quantifier":"all",
-                    "tags":["test","test2"]
-                  }, {
-                    "quantifier":"none",
-                    "tags":["test3","test4"]
-                  }],
-                  "propertiesCriteria":[
-                    [{
-                      "property":"platform",
-                      "operator":"in",
-                      "value":["iOS","Android"]
-                    }, {
-                      "property":"sdkVersion",
-                      "operator":"gte",
-                      "value":"1.8.0"
-                    }, {
-                      "property":"language",
-                      "operator":"in",
-                      "value":["nl","en","en-US"]
-                    }]
-                  ]
+                ? "segmentsCriteria":[{
+                ? ? "quantifier":"any",
+                ? ? "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                ? }],
+                ? "tagsCriteria":[{
+                ? ? "quantifier":"all",
+                ? ? "tags":["test","test2"]
+                ? }, {
+                ? ? "quantifier":"none",
+                ? ? "tags":["test3","test4"]
+                ? }],
+                ? "propertiesCriteria":[
+                ? ? [{
+                ? ? ? "property":"platform",
+                ? ? ? "operator":"in",
+                ? ? ? "value":["iOS","Android"]
+                ? ? }, {
+                ? ? ? "property":"sdkVersion",
+                ? ? ? "operator":"gte",
+                ? ? ? "value":"1.8.0"
+                ? ? }, {
+                ? ? ? "property":"language",
+                ? ? ? "operator":"in",
+                ? ? ? "value":["nl","en","en-US"]
+                ? ? }]
+                ? ]
                 },
                 "title":"This is a title",
                 "subtitle":"This is a subtitle",
