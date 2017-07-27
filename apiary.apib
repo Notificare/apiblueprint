@@ -1668,6 +1668,230 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                           
         }
 
+
+## Filter by bounds [/device/bylocation/{lat1}/{long1}/{lat2}/{long2}{?limit,skip}]
+
+### Get all the devices withing a specific bounds [GET]
+Get all the devices withing a specific bounds. Bounds form a rectangle from the points at its south-west and north-east corners. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
+
++ Parameters
+
+    + lat1 (required, float, `4.2345`)...The desired south-east latitude
+    + long1 (required, float, `5.6789`)...The desired south-east longitude
+    + lat2 (required, float, `4.2345`)...The desired north-west latitude
+    + long2 (required, float, `5.6789`)...The desired north-west longitude
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "devices":[
+                              {
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "appVersion":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdkVersion":"0.0.1",
+                                  "transport":"Websocket",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "deviceString":"MacIntel"
+                              },
+                               {
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "appVersion":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdkVersion":"0.0.1",
+                                  "transport":"Websocket",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "deviceString":"MacIntel"
+                              }
+                ],
+                "count": 2
+
+        }
+
+## Filter by region [/device/forregion/{region}{?limit,skip}]
+
+### Get all the devices in a specific region [GET]
+Get all the devices in a specific region. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
+
++ Parameters
+
+    + region (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of the region
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "devices":[
+                              {
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "appVersion":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdkVersion":"0.0.1",
+                                  "transport":"Websocket",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "deviceString":"MacIntel"
+                              },
+                               {
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "appVersion":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdkVersion":"0.0.1",
+                                  "transport":"Websocket",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "deviceString":"MacIntel"
+                              }
+                ],
+                "count": 2
+
+        }
+
+
+## Filter by geometry [/device/bygeometry{?limit,skip}]
+
+### Get all the devices in a specific geometric shape. [POST]
+Get all the devices in a specific geometric shape. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "geometry": [[4.2345,5.6789],[4.2345,5.6789],[4.2345,5.6789],[4.2345,5.6789],[4.2345,5.6789]]
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "devices":[
+                              {
+                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "appVersion":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdkVersion":"0.0.1",
+                                  "transport":"Websocket",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "deviceString":"MacIntel"
+                              },
+                               {
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "appVersion":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdkVersion":"0.0.1",
+                                  "transport":"Websocket",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[
+                                          toys
+                                  ],
+                                  "location":{
+                                               "coordinates":[],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "deviceString":"MacIntel"
+                              }
+                ],
+                "count": 2
+
+        }
+
+
 ## Get all tags [/device/tags{?limit,skip}]
 
 ### Get the list of all tags for this application [GET]
