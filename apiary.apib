@@ -6644,7 +6644,7 @@ Remove users from a segment using a batch of userIDs. This request is authentica
         }
 
 
-## Get Users in Segment [/usersegment/{segment}/users]
+## Get Users in Segment [/usersegment/{segment}/users{?limit,skip}]
 
 ### Get all users from a segment [GET]
 Get all the users in a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6652,6 +6652,10 @@ Get all the users in a segment. This request is authenticated with the `applicat
 + Parameters
 
     + segment (required, string, `5245bc5b3e66a3b01f0024d4`)...The ID of the segment
+    
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+    
+    + skip = `0` (optional, number, `0`)...The number of results to skip
 
 + Request (application/json)
 
