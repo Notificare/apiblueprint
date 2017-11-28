@@ -2172,6 +2172,100 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
+# Group Geo
+Methods for retrieving information about timezone, country, forward and reverse geocoding.
+
+## Timezone & Country [/geo/timezone]
+
+### Get information about a timezone and country [GET]
+Get information about a timezone and country for a given latitude or longitude.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + latitude (required, number, `52`)...The latitude
+    + longitude (required, number, `2`)...The longitude
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "timezone":{
+                                  "_id":"54fec699beb5cb2f6f9839ed",
+                                  "referenceKey":"276",
+                                  "abbreviation": "CET",
+                                  "countryCode":"NL",
+                                  "start":"2015-03-10T10:25:29.340Z",
+                                  "name":"Europe/Amsterdam",
+                                  "countryName":"Netherlands",
+                                  "dst": false,
+                                  "timeZoneOffset": 1
+                               }
+
+        }
+
+## Forward Geocoding [/geo/search]
+
+### Get latitude and longitude [GET]
+Get information about latitude and longitude of a given address, place, city or country.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + search (required, string, `Meerum`)...The address to search for
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "locations": [
+                               {
+                                  "license":"Data (c) OpenStreetMap...",
+                                  "displayName":"171, Meerum Terwogtlaan, Rotterdam, Netherlands",
+                                  "boundingBox": [52, 52, 2, 2],
+                                  "address":"Meerum Terwogtlaan 171",
+                                  "latitude": 52,
+                                  "longitude": 2
+                               },
+                               {
+                                 "license":"Data (c) OpenStreetMap...",
+                                 "displayName":"171, Meerum Terwogtlaan, Rotterdam, Netherlands",
+                                 "boundingBox": [52, 52, 2, 2],
+                                 "address":"Meerum Terwogtlaan 171",
+                                 "latitude": 52,
+                                 "longitude": 2
+                               }
+                             ]
+
+        }
+
+
+## Reverse Geocoding [/geo/reverse]
+
+### Get address from latitude & longitude [GET]
+Get information about an address for a given latitude and longitude.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + latitude (required, number, `52`)...The latitude
+    + longitude (required, number, `2`)...The longitude
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "locations": {
+                                   "license":"Data (c) OpenStreetMap...",
+                                   "displayName":"171, Meerum Terwogtlaan, Rotterdam, Netherlands",
+                                   "boundingBox": [52, 52, 2, 2],
+                                   "address":"Meerum Terwogtlaan 171"
+                              }
+
+        }
+
+
+
 # Group Import
 Methods for importing collections of items. Files are assumed to be uploaded to Notificare Storage before they can be used in a new import. Use this [endpoint](http://docs.notificare.apiary.io/#reference/upload) to upload a file.
 
