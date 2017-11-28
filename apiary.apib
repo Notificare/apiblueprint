@@ -165,7 +165,7 @@ Unregister your account for TOTP. This endpoint will delete the setup for the Go
 ## Enabling TOTP [/account/2fa/enable]
 
 ### Enable TOTP [PUT]
-At any time when your account has configured for 2FA, you can use this endpoint to enable it. This request must be authenticated with the `token`.
+At any time when your account has been configured for 2FA, you can use this endpoint to enable it. This request must be authenticated with the `token`.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -195,7 +195,7 @@ At any time when your account has configured for 2FA, you can use this endpoint 
 ## Disabling TOTP [/account/2fa/disable]
 
 ### Disable TOTP [PUT]
-At any time when your account has been configure for 2FA and is enabled, you can disable it. This request must be authenticated with the `token`.
+At any time when your account has been configured for 2FA and is enabled, you can disable it. This request must be authenticated with the `token`.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -6602,7 +6602,7 @@ Create a new user segment with a batch of userIDs. There is a limit of 1000 user
 ## Add Batch of Users to Segment [/usersegment/{segment}/add]
 
 ### Add a batch of users to a segment [PUT]
-Add users to a segment using a batch of userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
+Add users to a segment using a batch of userIDs. There is a limit of 1000 userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6624,7 +6624,7 @@ Add users to a segment using a batch of userIDs. This request is authenticated w
 ## Remove Batch of Users from Segment [/usersegment/{segment}/remove]
 
 ### Remove a batch of users from a segment [PUT]
-Remove users from a segment using a batch of userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
+Remove users from a segment using a batch of userIDs. There is a limit of 1000 userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -6653,7 +6653,7 @@ Get all the users in a segment. This request is authenticated with the `applicat
 
     + segment (required, string, `5245bc5b3e66a3b01f0024d4`)...The ID of the segment
     
-    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve, max 1000.
     
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
@@ -6827,7 +6827,7 @@ Search users by `userName` and `userID`. This request is authenticated with the 
 
     + search (required, string, `Mas`)...The search string
 
-    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
+    + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve, max 1000.
 
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
