@@ -2281,6 +2281,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 #### re.notifica.import.User (default)
 Used to import a list of users. Every row in the referenced CSV should include at least a `userID`. userName is optional and defaults to `anonymous`. This import type has no extra settings.
 
+Recognized columns are:
+
++ userID
+
++ userName
+
+
 #### re.notifica.import.Device
 Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform`.
 The latter three can also be defaulted to whatever you put in the `data` field in the request. See the example, where `appVersion`, `platform` and `language` have default values.
@@ -2323,6 +2330,66 @@ Used to import a list of users into a segment. Every row in the referenced CSV s
 The user segment to import into should be set as the `userSegment` property of `data`.
 There is one option in this import type, which is `clear`. If set, it clears the segment before importing users, otherwise it just adds users. It defaults to `false`.
 Additionally you can also send a push notification whenever the import is finished. For that make sure you have previously created at least one template and then provide its Id in `notificationTemplate` and `push` as true as properties in the `data` object.
+
+
+
+#### re.notifica.import.Region
+Used to import a list of regions. Regions can have a circular geometry, i.e., latitude/longitude plus a distance, or an advanced Polygon geometry. If only an advanced geometry is given, the import job will calculate an enclosing circle automatically. If no timezone or country are given, these will also be calculated automatically.
+
+Recognized columns:
+
++ referenceKey
+
++ name
+
++ description
+
++ address
+
++ tags, separated by `|`
+
++ category, (`fence`, `poi`, `county`, `city`, `country`). Defaults to `fence`.
+
++ latitude for circular geometry
+
++ longitude for circular geometry
+
++ distance for circular geometry
+
++ coordinates (pairs of `longitude:latitude`, separated by `|`) for advanced geometry
+
++ major to be used for beacons in the region
+
++ timezone, defaults to `UTC`
+
++ timeZoneOffset, defaults to `0`
+
++ country
+
+
+#### re.notifica.import.Beacon
+Used to import a list of beacons. If no region with a given major exists, and the `createRegion` property of `data` is set, a new region is created automatically with the same location as the beacon and default values for `category`, `timezone` and `distance`, or `fence`, `UTC` and `100` respectively.
+If no region was found or none could be created, the import row is skipped.
+
+Recognized columns:
+
++ major
+
++ minor
+
++ name
+
++ purpose, (`general`, `pay`, `info`, `staff`, `admin`, `other`). Defaults to `general`.
+
++ latitude, defaults to region latitude
+
++ longitude, defaults to region longitude
+
++ timezone, defaults to `UTC`
+
++ notification, message  to be set for the beacon
+
+
 
 
 + Parameters
