@@ -216,7 +216,7 @@ Your account can create as many applications as you want.
 Applications must provide a name, a category and the environment it should use. When you create an application three access keys will be automatically created for you. 
 These keys will be used in by both your apps and this API to access your applications. Make sure you never share these keys publicly online. 
 
-## Application Collection [/application{?limit,skip}]
+## Applications [/application{?limit,skip}]
 
 ### Get all applications [GET]
 Get your active applications. This request must be authenticated with the `token`.
@@ -291,7 +291,7 @@ Get your active applications. This request must be authenticated with the `token
                 ]
         }
 
-## Shared Applications Collection [/application/shared{?limit,skip}]
+## Shared Applications [/application/shared{?limit,skip}]
 
 ### Get all shared applications [GET]
 Get all the active applications that are shared with your account. This request must be authenticated with the `token`.
@@ -514,7 +514,7 @@ Destroy an application. This operation can not be undone. This request must be a
 Storage is an add-on of Notificare. When active this add-on will let you manage files and create groups of assets to be used in your applications.
 Therefore this add-on is divided in two different endpoints: assets and asset groups. Assets being the files you can upload to Notificare and asset groups being the groups of files that can be used in an application.
 
-## Asset Collection [/asset{?limit,skip}]
+## Assets [/asset{?limit,skip}]
 ### Get all the assets [GET]
 Get all the assets for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -613,7 +613,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Response 204 (application/json; charset=utf-8)
 
 
-## Asset Group Collection [/asset/group{?limit,skip}]
+## Asset Groups [/asset/group{?limit,skip}]
 ### Get all the asset groups [GET]
 Get all the asset groups for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -890,7 +890,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 # Group Automation
 Automation is an add-on of Notificare. It will give you access to mechanisms that can automate how you send notifications.
 
-## Datasource Collection [/datasource]
+## Datasources [/datasource]
 ### Get all the datasources [GET]
 Get all the datasources for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -1067,10 +1067,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Datasource Test [/datasource/test]
+## New Datasource Test [/datasource/test]
 
 ### Test a new datasource feed [POST]
-Test a datasource feed.
+Test a datasource feed before actually creating it.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -1111,10 +1111,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## Datasource Test [/datasource/{id}/test]
+## Existing Datasource Test [/datasource/{id}/test]
 
 ### Test an existing datasource feed [PUT]
-Test a datasource feed.
+Test a datasource feed that is already created.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
@@ -1151,7 +1151,7 @@ Methods to manage your beacons. Be sure to add the `regionConfig.proximityUUID` 
 Also beacons require that you create a triggered message previously.
 
 
-## Beacon Collection [/beacon/forregion/{region}]
+## Beacons [/beacon/forregion/{region}]
 ### Get all beacons for a certain region [GET]
 Get all beacons for a certain region.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -1165,22 +1165,22 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "beacons":[{
-                                   "_id":"5245bc5b3e66a3b01f0024d4",
-                                   "notification":"6245bc5b3e66a3b01f0024d5",
-                                   "name": "My Beacon",
-                                   "major": "654321",
-                                   "minor": "123456",
-                                   "proximity": "immediate"
-        },
-        {
-                                   "_id":"5245bc5b3e66a3b01f0024d4",
-                                   "notification":"6245bc5b3e66a3b01f0024d5",
-                                   "name": "My Beacon",
-                                   "major": "654321",
-                                   "minor": "123456",
-                                   "proximity": "immediate"
-        }]
-
+                       "_id":"5245bc5b3e66a3b01f0024d4",
+                       "notification":"6245bc5b3e66a3b01f0024d5",
+                       "name": "My Beacon",
+                       "major": "654321",
+                       "minor": "123456",
+                       "proximity": "immediate"
+                },
+                {
+                       "_id":"5245bc5b3e66a3b01f0024d4",
+                       "notification":"6245bc5b3e66a3b01f0024d5",
+                       "name": "My Beacon",
+                       "major": "654321",
+                       "minor": "123456",
+                       "proximity": "immediate"
+                }]
+        }
 
 ## New Beacon [/beacon]
 
@@ -1309,7 +1309,7 @@ Methods to manage devices.
 Use these methods to retrieve information about devices for an application, for a specific user, for a specific tag or in a specific location.
 Management of devices is exclusively made by our SDK libraries therefore you only get access to read operations.
 
-## Device Collection [/device{?limit,skip}]
+## Devices [/device{?limit,skip}]
 
 ### Get all the devices for a specific application [GET]
 Get all the devices for a specific application. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
@@ -1374,7 +1374,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## Device Object [/device/{deviceID}]
+## Device [/device/{deviceID}]
 
 ### Get a specific device based on the deviceID [GET]
 Get a specific device based on the deviceID.
@@ -1417,7 +1417,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## User Registration [/device/{deviceID}/user]
 
-### Register a userID and userName to a device [PUT]
+### Register User to Device [PUT]
 Register a userID and userName to a device. If you have the Users & Authentication add-on, you can delegate user registration to you back-end API. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to add a userID and userName to a device.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1438,9 +1438,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "message": "device updated"
         }
 
-## Unregister User from Device [/device/{deviceID}/user]
+## User Unregistration [/device/{deviceID}/user]
 
-### Unregister a userID and userName from a device [DELETE]
+### Unregister User from a device [DELETE]
 Unregister a userID and userName from a device. If you have the Users & Authentication add-on, you can delegate user registration to you back-end API. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to remove a userID and userName from a device.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1455,7 +1455,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Filter by User [/device/foruser/{user}{?limit,skip}]
+## Devices for User [/device/foruser/{user}{?limit,skip}]
 
 ### Get all the devices for a specific user [GET]
 Get all the devices for a specific user. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
@@ -1524,7 +1524,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## Filter by tag [/device/fortag/{tag}{?limit,skip}]
+## Devices For Tag [/device/fortag/{tag}{?limit,skip}]
 
 ### Get all the devices for a specific tag [GET]
 Get all the devices for a specific tag. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
@@ -1595,7 +1595,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## Filter by location [/device/bylocation/{latitude}/{longitude}/{distance}{?limit,skip}]
+## Devices for Location [/device/bylocation/{latitude}/{longitude}/{distance}{?limit,skip}]
 
 ### Get all the devices in a specific location [GET]
 Get all the devices in a specific location. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
@@ -1669,7 +1669,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Filter by bounds [/device/bylocation/{lat1}/{long1}/{lat2}/{long2}{?limit,skip}]
+## Devices within Bounds [/device/bylocation/{lat1}/{long1}/{lat2}/{long2}{?limit,skip}]
 
 ### Get all the devices withing a specific bounds [GET]
 Get all the devices withing a specific bounds. Bounds form a rectangle from the points at its south-west and north-east corners. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
@@ -1743,7 +1743,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         }
 
-## Filter by region [/device/forregion/{region}{?limit,skip}]
+## Devices for Region [/device/forregion/{region}{?limit,skip}]
 
 ### Get all the devices in a specific region [GET]
 Get all the devices in a specific region. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
@@ -1815,7 +1815,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Filter by geometry [/device/bygeometry{?limit,skip}]
+## Devices for Polygon [/device/bygeometry{?limit,skip}]
 
 ### Get all the devices in a specific geometric shape. [POST]
 Get all the devices in a specific geometric shape. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
@@ -1888,56 +1888,6 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "language":"en",
                                   "deviceString":"MacIntel"
                               }
-                ],
-                "count": 2
-
-        }
-
-
-## Get all tags [/device/tags{?limit,skip}]
-
-### Get the list of all tags for this application [GET]
-Get the list of all tags for this application. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
-This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-
-+ Parameters
-
-    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
-
-    + skip = `0` (optional, number, `0`)...The number of results to skip
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "tags":[
-                        {"tag":"toys", "deviceCount": 2},
-                        {"tag":"kitchen", "deviceCount": 5}
-                ],
-                "count": 2
-
-        }
-
-
-
-## Search device tags [/device/tags/{tag}]
-
-### Search device tags that match partially or totally a specific query [GET]
-Get all the tags that match match partially or totally a specific query.
-This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-+ Parameters
-
-    + tag (required, string, `toys`)... The string to search for
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "tags":[
-                        {"tag":"toys", "deviceCount": 2},
-                        {"tag":"kitchen", "deviceCount": 5}
                 ],
                 "count": 2
 
@@ -2035,7 +1985,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 # Group Export
 Methods for exporting users and devices.
 
-## Export Collection [/export]
+## Exports [/export]
 
 ### Get all export jobs for an application [GET]
 Get all export jobs for an application.
@@ -2130,7 +2080,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Export [/export/fortype/{type}]
+## Exports for Type [/export/fortype/{type}]
 
 ### Get all export jobs of a specific type [GET]
 Get all export jobs of a specific type.
@@ -2268,6 +2218,97 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 # Group Import
 Methods for importing collections of items. Files are assumed to be uploaded to Notificare Storage before they can be used in a new import. Use this [endpoint](http://docs.notificare.apiary.io/#reference/upload) to upload a file.
+
+
+## Imports [/import]
+### Get all the import objects [GET]
+Get all the import objects.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+
+
+        }
+                "importJobs":[{
+                                   "_id":"545cc517ff584870b89fb98",
+                                   "account":"50d771ff87e53afff2600001c",
+                                   "application":"5354f0bbdddd4452ff4c7c0",
+                                   "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
+                                   "data":{
+                                            "user_segment":"53a0a047fff17d3215a94f6",
+                                            "clear":false
+                                          },
+                                   "result":"imported 0 records, skipped 3 records",
+                                   "date":"2014-11-07T13:11:51.316Z",
+                                   "status":"success",
+                                   "type":"re.notifica.import.UserSegment"
+                              }]
+        }
+
+## Import for Type [/import/{type}]
+### Get all the import objects by type [GET]
+Get all the import objects by type.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+
+
+        }
+                "importJobs":[{
+                                   "_id":"545cc517ff584870b89fb98",
+                                   "account":"50d771ff87e53afff2600001c",
+                                   "application":"5354f0bbdddd4452ff4c7c0",
+                                   "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
+                                   "data":{
+                                            "user_segment":"53a0a047fff17d3215a94f6",
+                                            "clear":false
+                                          },
+                                   "result":"imported 0 records, skipped 3 records",
+                                   "date":"2014-11-07T13:11:51.316Z",
+                                   "status":"success",
+                                   "type":"re.notifica.import.UserSegment"
+                              }]
+        }
+
+## Import [/import/{type}/{import}]
+### Get an import object [GET]
+Get an import object.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
+    + import (required, string, `5245bc5b3e66a3b01f0024d4`)...The import id of a previously created job.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "importJob":{
+                                "_id":"545cc517ff584870b89fb98",
+                                "account":"50d771ff87e53afff2600001c",
+                                "application":"5354f0bbdddd4452ff4c7c0",
+                                "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
+                                "data":{
+                                      "user_segment":"53a0a047fff17d3215a94f6",
+                                      "clear":false
+                                },
+                                "result":"imported 0 records, skipped 3 records",
+                                "date":"2014-11-07T13:11:51.316Z",
+                                "status":"success",
+                                "type":"re.notifica.import.UserSegment"
+                          }
+        }
+
 
 ## New Import [/import/{type}]
 
@@ -2416,95 +2457,6 @@ Recognized columns:
                 }
         }
 
-## Import Collection [/import]
-### Get all the import objects [GET]
-Get all the import objects.
-This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-
-
-        }
-                "importJobs":[{
-                                   "_id":"545cc517ff584870b89fb98",
-                                   "account":"50d771ff87e53afff2600001c",
-                                   "application":"5354f0bbdddd4452ff4c7c0",
-                                   "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
-                                   "data":{
-                                            "user_segment":"53a0a047fff17d3215a94f6",
-                                            "clear":false
-                                          },
-                                   "result":"imported 0 records, skipped 3 records",
-                                   "date":"2014-11-07T13:11:51.316Z",
-                                   "status":"success",
-                                   "type":"re.notifica.import.UserSegment"
-                              }]
-        }
-
-## Retrieve all import objects by type [/import/{type}]
-### Get all the import objects by type [GET]
-Get all the import objects by type.
-This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-+ Parameters
-
-    + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-
-
-        }
-                "importJobs":[{
-                                   "_id":"545cc517ff584870b89fb98",
-                                   "account":"50d771ff87e53afff2600001c",
-                                   "application":"5354f0bbdddd4452ff4c7c0",
-                                   "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
-                                   "data":{
-                                            "user_segment":"53a0a047fff17d3215a94f6",
-                                            "clear":false
-                                          },
-                                   "result":"imported 0 records, skipped 3 records",
-                                   "date":"2014-11-07T13:11:51.316Z",
-                                   "status":"success",
-                                   "type":"re.notifica.import.UserSegment"
-                              }]
-        }
-
-## Import [/import/{type}/{import}]
-### Get an import object [GET]
-Get an import object.
-This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-+ Parameters
-
-    + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
-    + import (required, string, `5245bc5b3e66a3b01f0024d4`)...The import id of a previously created job.
-
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "importJob":{
-                                "_id":"545cc517ff584870b89fb98",
-                                "account":"50d771ff87e53afff2600001c",
-                                "application":"5354f0bbdddd4452ff4c7c0",
-                                "path":"/imports/3d99d18148e6f3dbcf4ffccc...",
-                                "data":{
-                                      "user_segment":"53a0a047fff17d3215a94f6",
-                                      "clear":false
-                                },
-                                "result":"imported 0 records, skipped 3 records",
-                                "date":"2014-11-07T13:11:51.316Z",
-                                "status":"success",
-                                "type":"re.notifica.import.UserSegment"
-                          }
-        }
-
 
 # Group Notification
 Methods to create, send and schedule notifications to a specific target audience, user or device.
@@ -2586,6 +2538,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + badge (optional, number, `2`)...This is an iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to process soon the notification arrives.
 
 
@@ -2654,6 +2607,7 @@ The request accepts an array of tags. This request must be authenticated with th
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -2722,6 +2676,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -2788,6 +2743,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + badge (optional, number, `2`)...This is an iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to process soon the notification arrives.
 
 
@@ -2868,6 +2824,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
 
@@ -3135,7 +3092,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Notifications Collection [/notification{?limit,skip,scope,scheduled,tag,segment,archived,draft}]
+## Notifications [/notification{?limit,skip,scope,scheduled,tag,segment,archived,draft}]
 
 ### Get a list of notifications [GET]
 Retrieves a list of notifications sent as a broadcast, sent to tags and/or sent to segments.
@@ -3211,7 +3168,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                           "count":2
         }
 
-## Notifications Collection (All Types) [/notification/all{?limit,skip,since,archived}]
+## Notifications (All Types) [/notification/all{?limit,skip,since,archived}]
 
 ### Get a list of all notifications [GET]
 Retrieves a list of all notifications.
@@ -3428,7 +3385,7 @@ A schedule can have a status of `scheduled`, `running`, `finished` or `canceled`
 These methods operate on existing notifications, so create a notification first with the `scheduled` property set.
 Use its `_id` property to refer to it in any of these methods.
 
-## New Notification Schedule [/notification/schedule]
+## New Scheduled Notification [/notification/schedule]
 
 ### Create a schedule for a previously created message [POST]
 Start a scheduled task for a previously created message.
@@ -3459,7 +3416,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Notification Schedules Collection [/notification/schedule{?skip,limit}]
+## Scheduled Notifications [/notification/schedule{?skip,limit}]
 
 ### Get a list of schedules [GET]
 Returns a list of all schedules for your app
@@ -3489,7 +3446,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Notification Schedules Collection [/notification/schedule/fornotification/{notification}{?skip,limit}]
+## Schedules [/notification/schedule/fornotification/{notification}{?skip,limit}]
 
 ### Get a list of schedules for a notification [GET]
 
@@ -3522,7 +3479,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
 
-## Notification schedule [/notification/schedule/{schedule}]
+## Schedule [/notification/schedule/{schedule}]
 
 ### Retrieve a notification schedule [GET]
 Returns a schedule object.
@@ -3594,7 +3551,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 # Group Notification Template
 Methods for retrieving, creating and edit notification templates
 
-## Template Collection [/notification/template{?limit,skip}]
+## Templates [/notification/template{?limit,skip}]
 
 ### List all templates for this app [GET]
 List all templates for this app
@@ -3645,7 +3602,7 @@ List all templates for this app
                           "count":2
         }
 
-## Create a template [/notification/template]
+## New Template [/notification/template]
 
 ### Create a template [POST]
 Create a template object.
@@ -3963,7 +3920,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 Methods to manage your passes. Before creating passes you must create passbook templates. To create, edit and delete templates see the [Passbook](http://docs.notificare.apiary.io/#passbook) endpoints.
 
 
-## Pass Collection [/pass{?limit,skip}]
+## Passes [/pass{?limit,skip}]
 
 ### Get all passes for an application [GET]
 Get all passes for an application.
@@ -4246,7 +4203,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-# Pass [/pass/forserial/{serial}]
+# Pass for Serial [/pass/forserial/{serial}]
 
 ### Get a pass object using the serial number [GET]
 Get a pass object using the serial number.
@@ -4373,15 +4330,15 @@ code128
 + Response 200 (image/png)
 
 
-# Group Passbook
+# Group Pass Templates
 Methods to manage your passbook templates. These templates should be created before you can start creating passes.
 They will help you pre-define the template styles your application needs and accelerate pass creation. To create and redeem passes see also the [Pass](http://docs.notificare.apiary.io/#pass) endpoints.
 
 
-## Passbook Collection [/passbook{?limit,skip}]
+## Pass Templates [/passbook{?limit,skip}]
 
-### Get all passbook templates for an application [GET]
-Get all passbook templates for an application.
+### Get all pass templates for an application [GET]
+Get all pass templates for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
@@ -4451,10 +4408,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## New Passbook Template [/passbook]
+## New Pass Template [/passbook]
 
-### Create a new passbook template [POST]
-Create a new passbook template.
+### Create a new pass template [POST]
+Create a new pass template.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Request (application/json)
@@ -4518,10 +4475,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## Passbook Template [/passbook/{passbook}]
+## Pass Template [/passbook/{passbook}]
 
-### Get a passbook template object [GET]
-Get a passbook template object.
+### Get a pass template object [GET]
+Get a pass template object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -4578,8 +4535,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-### Modify a passbook template [PUT]
-Modify a passbook template.
+### Modify a pass template [PUT]
+Modify a pass template.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -4642,8 +4599,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-### Delete a passbook template [DELETE]
-Delete a passbook template. This operation can not be undone.
+### Delete a pass template [DELETE]
+Delete a pass template. This operation can not be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -4662,7 +4619,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 Methods to manage your virtual products. Products can be purchased inside your application through both the App Store and Google Play.
 
 
-## Product Collection [/product{?limit,skip}]
+## Products [/product{?limit,skip}]
 
 ### Get all products for an application [GET]
 Get all products for an application.
@@ -4811,7 +4768,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Product [/product/foridentifier/{sku}]
+## Product by SKU [/product/foridentifier/{sku}]
 
 ### Get a product object using the SKU [GET]
 Get a product object using SKU.
@@ -4837,7 +4794,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 # Group Purchase
 
-## Purchase [/purchase{?limit,skip}]
+## Purchases [/purchase{?limit,skip}]
 
 ### Get all purchases for an application [GET]
 Get all purchases for an application.
@@ -4927,7 +4884,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                               "currency":"EUR"
                                            }
 
-## Purchase [/purchase/bytransaction/{transaction}]
+## Purchase by Transaction [/purchase/bytransaction/{transaction}]
 
 ### Get a specific purchase using the transaction [GET]
 Get a specific purchase using the transaction.
@@ -4969,7 +4926,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                            }
 
 
-## Purchase [/purchase/byidentifier/{identifier}]
+## Purchase by SKU [/purchase/byidentifier/{identifier}]
 
 ### Get a specific purchase using the SKU [GET]
 Get a specific purchase using the SKU.
@@ -5017,7 +4974,7 @@ When none are created your region will just gather the session data as users ent
 You can have a combination of Triggers and Beacons or just one of them. Note that iBeacon technology requires users to turn on Bluetooth to work.
 
 
-## Region Collection [/region{?limit,skip}]
+## Regions [/region{?limit,skip}]
 
 ### Get all regions for an application [GET]
 Get all regions for an application.
@@ -5048,7 +5005,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 ]
         }
 
-## Region Collection [/region/search/{search}{?limit,skip}]
+## Search Regions [/region/search/{search}{?limit,skip}]
 
 ### Search regions for an application [GET]
 Search regions for an application.
@@ -5081,7 +5038,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 ]
         }
 
-## Region Collection [/region/fortimezone/{timezone}{?limit,skip}]
+## Regions by Timezone [/region/fortimezone/{timezone}{?limit,skip}]
 
 ### Search regions by timezone for an application [GET]
 Search regions by timezone for an application.
@@ -5090,7 +5047,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + timezone (required, string, `Europe`)...Search matching a timezone of an active region.
+    + timezone (required, string, `Europe`)...The timezone you want to search regions for.
 
     + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
 
@@ -5114,6 +5071,40 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 ]
         }
 
+## Regions by Country [/region/forcountry/{country}{?limit,skip}]
+
+### Search regions by timezone for an application [GET]
+Search regions by timezone for an application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + country (required, string, `NL`)...The country you want to search regions for.
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "regions":[
+                            {
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "name": "My Region",
+                                  "geometry": {
+                                               "type": "Point",
+                                               "coordinates": [4.2345,5.6789]
+                                  },
+                                  "major": "123456",
+                                  "timezone": "Europe/Amsterdam"
+                            }
+                ]
+        }
+
+
 ## New Region [/region]
 
 ### Create a new region [POST]
@@ -5126,9 +5117,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + tags = `["Street Store", "Flagship Store"]` (optional, array, `["Street Store", "Flagship Store"]`)...The list of tags this region should be associated with.
     + icon = `"https://push.notifica.re/upload/..."` (optional, string, `https://push.notifica.re/upload/...`)...The icon used for this region. Must be a publicly accessible URL.
     + category = `"poi"` (optional, string, `poi`)...The category of this region. By default regions will be marked as fence and used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
-    + major = `123456` (optional, number, `123456`)...The major identifier for the region. If you intend ot use beacons this field must match the major identifier for your beacons.
+    + major = `123456` (optional, number, `123456`)...The major identifier for the region. If you intend to use beacons this field must match the major identifier for your beacons.
     + address = `Meerum Terwogtlaan 171` (optional, string, `Meerum Terwogtlaan 171`)...The address for this region. This field is merely informative.
-    + referenceKey = `123456` (optional, string, `123456`)...The foreign key for this region. This field is can be sued to match region with other 3rd party systems.
+    + referenceKey = `123456` (optional, string, `123456`)...The foreign key for this region. This field is can be used to match regions in other systems.
     + description = `This is a nice text for a description` (optional, string, `This is a nice text for a description`)...The description for this region. This field is merely informative.
     + geometry = `{"type": "Point","coordinates": [4.2345,5.6789]}` (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
     + advancedGeometry = `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}` (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
@@ -5189,19 +5180,19 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 Modify a region.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
-
 + Parameters
     + name = `Flagship Store` (required, string, `Flagship Store`)...The name for the region.
     + tags = `["Street Store", "Flagship Store"]` (optional, array, `["Street Store", "Flagship Store"]`)...The list of tags this region should be associated with.
     + icon = `"https://push.notifica.re/upload/..."` (optional, string, `https://push.notifica.re/upload/...`)...The icon used for this region. Must be a publicly accessible URL.
     + category = `"poi"` (optional, string, `poi`)...The category of this region. By default regions will be marked as fence and used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
-    + major = `123456` (optional, number, `123456`)...The major identifier for the region. If you intend ot use beacons this field must match the major identifier for your beacons.
+    + major = `123456` (optional, number, `123456`)...The major identifier for the region. If you intend to use beacons this field must match the major identifier for your beacons.
     + address = `Meerum Terwogtlaan 171` (optional, string, `Meerum Terwogtlaan 171`)...The address for this region. This field is merely informative.
-    + referenceKey = `123456` (optional, string, `123456`)...The foreign key for this region. This field is can be sued to match region with other 3rd party systems.
+    + referenceKey = `123456` (optional, string, `123456`)...The foreign key for this region. This field is can be used to match regions in other systems.
     + description = `This is a nice text for a description` (optional, string, `This is a nice text for a description`)...The description for this region. This field is merely informative.
     + geometry = `{"type": "Point","coordinates": [4.2345,5.6789]}` (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
     + advancedGeometry = `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}` (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
     + distance = `200` (optional, number, `200`)...The radius of a circle for the region. This field is required if geometry is being passed. If advancedGeometry is used then this field will be automatically calculated for you.
+
 
 + Request (application/json)
 
@@ -5238,7 +5229,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Region [/region/all]
+## Delete All Regions [/region/all]
 
 ### Delete all regions [DELETE]
 Delete all regions, including attached triggers and beacons. This operation can not be undone.
@@ -5256,7 +5247,7 @@ A Reply object is what Notificare creates when users interact with notifications
 These objects hold every single interaction and data your users send you.
 
 
-## Reply List [/reply/fornotification/{notification}{?limit,skip}]
+## Replies [/reply/fornotification/{notification}{?limit,skip}]
 
 ### Get all replies for a specific notification [GET]
 Get all replies for a specific notification.
@@ -5296,7 +5287,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "count": 2
         }
 
-## Reply Collection [/reply/{reply}]
+## Reply [/reply/{reply}]
 
 ### Get a specific reply object [GET]
 Get a specific reply object.
@@ -6413,6 +6404,61 @@ Get the current availability of the API
 
 
 
+# Group Tag
+Methods to retrieve tags.
+Use these methods to retrieve information about device tags for an application.
+Management of tags is exclusively made by our SDK libraries therefore you only get access to read operations.
+
+## Tags [/device/tags{?limit,skip}]
+
+### Get the list of all tags for this application [GET]
+Get the list of all tags for this application. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "tags":[
+                        {"tag":"toys", "deviceCount": 2},
+                        {"tag":"kitchen", "deviceCount": 5}
+                ],
+                "count": 2
+
+        }
+
+
+
+## Search Tags [/device/tags/{tag}]
+
+### Search device tags that match partially or totally a specific query [GET]
+Get all the tags that match match partially or totally a specific query.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + tag (required, string, `toys`)... The string to search for
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "tags":[
+                        {"tag":"toys", "deviceCount": 2},
+                        {"tag":"kitchen", "deviceCount": 5}
+                ],
+                "count": 2
+
+        }
+
+
 # Group Trigger
 Methods to manage your triggers. Triggers are used to send messages when a transition into or out of a region occurs.
 There are two types of triggers, Region triggers and Beacon triggers. They are used by regions and beacons to send notifications whenever a device enters/exits a Region or is in the proximity range of a Beacon.
@@ -6426,7 +6472,7 @@ There are two types of triggers, Region triggers and Beacon triggers. They are u
 | re.notifica.trigger.beacon.Exit | Device exited a beacon range |
 
 
-## Trigger Collection [/trigger{?limit,skip}]
+## Triggers [/trigger{?limit,skip}]
 
 ### Get all triggers for an application [GET]
 Get all triggers for an application.
@@ -6638,7 +6684,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 These methods let you manage files.
 All the files you upload to Notificare can be used as content of your notifications.
 
-## New File [/upload/{type}]
+## New Upload [/upload/{type}]
 
 ### Upload a file [POST]
 Upload a file to Notificare. The resulting filename is a path inside the notificare storage. This can be used as a reference to the file in further processing or deleting.
@@ -6666,7 +6712,7 @@ import
                 "filename": "/imports/9f.."
         }
 
-## Delete a file [/upload/{filename}]
+## Delete an Upload [/upload/{filename}]
 
 ### Delete a file [DELETE]
 Delete file from Notificare storage. This operation can not be undone.
@@ -6683,7 +6729,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 # Group User Segment
 These methods let you create, change and remove user segments as well as manage add, remove or clear all users from a segment.
 
-## User Segment Collection [/usersegment{?limit,skip}]
+## User Segments [/usersegment{?limit,skip}]
 
 ### Retrieve a list of segments [GET]
 Retrieve a list of segments. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6739,7 +6785,7 @@ Retrieve a list of segments with a name (starting with) `name`. This request is 
                 "count": 1
         }
 
-## New Segment [/usersegment]
+## New User Segment [/usersegment]
 
 ### Create a new user segment [POST]
 Create a new user segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6760,7 +6806,7 @@ Create a new user segment. This request is authenticated with the `applicationKe
         }
 
 
-## New Segment with a Batch [/usersegment/batch]
+## New User Segment with a Batch of Users [/usersegment/batch]
 
 ### Create a new user segment with a batch of userIDs [POST]
 Create a new user segment with a batch of userIDs. There is a limit of 1000 userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6782,7 +6828,7 @@ Create a new user segment with a batch of userIDs. There is a limit of 1000 user
         }
 
 
-## Add Batch of Users to Segment [/usersegment/{segment}/add]
+## Add Batch of Users to User Segment [/usersegment/{segment}/add]
 
 ### Add a batch of users to a segment [PUT]
 Add users to a segment using a batch of userIDs. There is a limit of 1000 userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6804,7 +6850,7 @@ Add users to a segment using a batch of userIDs. There is a limit of 1000 userID
                 "count": 2
         }
 
-## Remove Batch of Users from Segment [/usersegment/{segment}/remove]
+## Remove Batch of Users from User Segment [/usersegment/{segment}/remove]
 
 ### Remove a batch of users from a segment [PUT]
 Remove users from a segment using a batch of userIDs. There is a limit of 1000 userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6827,7 +6873,7 @@ Remove users from a segment using a batch of userIDs. There is a limit of 1000 u
         }
 
 
-## Get Users in Segment [/usersegment/{segment}/users{?limit,skip}]
+## Get Users in User Segment [/usersegment/{segment}/users{?limit,skip}]
 
 ### Get all users from a segment [GET]
 Get all the users in a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6866,7 +6912,7 @@ Get all the users in a segment. This request is authenticated with the `applicat
         }
 
 
-## Clear Users from Segment [/usersegment/{segment}/clear]
+## Clear Users from User Segment [/usersegment/{segment}/clear]
 
 ### Clear all users from a segment [PUT]
 Clear all the users from a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6883,7 +6929,7 @@ Clear all the users from a segment. This request is authenticated with the `appl
         }
 
 
-## Segment [/usersegment/{segment}]
+## User Segment [/usersegment/{segment}]
 
 ### Retrieve a segment [GET]
 Retrieve a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6902,7 +6948,7 @@ Retrieve a segment. This request is authenticated with the `applicationKey` and 
                 }
         }
 
-### Modify a segment [PUT]
+### Modify a user segment [PUT]
 Change `name` and/or `description` of a user segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -6923,7 +6969,7 @@ Change `name` and/or `description` of a user segment. This request is authentica
         }
 
 
-### Delete a segment [DELETE]
+### Delete a user segment [DELETE]
 Delete a user segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -6941,7 +6987,7 @@ Delete a user segment. This request is authenticated with the `applicationKey` a
 # Group User
 Methods for retrieving (groups of) users. Additionally you can also add and remove them from user segments.
 
-## User Collection [/user{?limit,skip}]
+## Users [/user{?limit,skip}]
 
 ### List all users for this app [GET]
 List all users for this app. This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -6970,9 +7016,9 @@ List all users for this app. This request is authenticated with the `application
                 "count": 1
         }
 
-## Retrieve users for a segment [/user/forsegment/{segment}{?limit,skip}]
+## Retrieve users for a user segment [/user/forsegment/{segment}{?limit,skip}]
 
-### Retrieve users for a segment [GET]
+### Retrieve users for a user segment [GET]
 Retrieve users for a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7001,7 +7047,7 @@ Retrieve users for a segment. This request is authenticated with the `applicatio
                 "count": 1
         }
 
-## Search users [/user/search/{search}{?limit,skip}]
+## Search Users [/user/search/{search}{?limit,skip}]
 
 ### Search users [GET]
 Search users by `userName` and `userID`. This request is authenticated with the `applicationKey` and  `masterSecret`.
