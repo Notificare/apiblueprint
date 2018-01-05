@@ -2025,6 +2025,31 @@ Used to export the list of users for an application.
 #### re.notifica.export.Device
 Used to export the list of devices for an application.
 
+#### re.notifica.export.UserData
+Used to export the all the data for a specific user.
+
+#### re.notifica.export.Region
+Used to export the list of regions for an application.
+
+#### re.notifica.export.Beacon
+Used to export the list of beacons for an application.
+
+#### re.notifica.export.Notification
+Used to export the list of notifications for an application.
+
+#### re.notifica.export.Reply
+Used to export the list of replies for a specific notification for an application.
+
+#### re.notifica.export.Event
+Used to export the list of events for an application.
+
+#### re.notifica.export.TriggerHistory
+Used to export the trigger history of a specific trigger for an application.
+
+#### re.notifica.export.Campaign
+Used to export the results of a specific campaign for an application.
+
+
 + Parameters
 
     + type (required, string, `re.notifica.export.User`)...The export type
@@ -2055,7 +2080,24 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "exportJob":{
                                                                "_id":"54fec699beb5cb2f6f9839ed",
                                                                "application":"5354f08474adc4183214c143",
-                                                               "data":null,
+                                                               "data": {
+                                                                  "all": true,
+                                                                  "includeTags": true,
+                                                                  "tagsSeparator": "|",
+                                                                  "useSegmentNames": true,
+                                                                  "showCombinedSegments":  true,
+                                                                  "showPreferences": true,
+                                                                  "showSegments": ["5354f08474adc4183214c143"],
+                                                                  "since": "2017-01-12",
+                                                                  "before": "2017-01-13",
+                                                                  "type": "re.notifica.event.application.Open",
+                                                                  "region": "5354f08474adc4183214c143",
+                                                                  "fence": "5354f08474adc4183214c143",
+                                                                  "serial": "5354f08474adc4183214c143",
+                                                                  "notification": "5354f08474adc4183214c143",
+                                                                  "campaign": "5354f08474adc4183214c143",
+                                                                  "userID": "5354f08474adc4183214c143"
+                                                               },
                                                                "result":"created export file export-user-1425983129369.csv (919 bytes)",
                                                                "date":"2015-03-10T10:25:29.340Z",
                                                                "status":"success",
@@ -2099,7 +2141,24 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                 {
                                    "_id":"54fec699beb5cb2f6f9839ed",
                                    "application":"5354f08474adc4183214c143",
-                                   "data":null,
+                                   "data": {
+                                     "all": true,
+                                     "includeTags": true,
+                                     "tagsSeparator": "|",
+                                     "useSegmentNames": true,
+                                     "showCombinedSegments":  true,
+                                     "showPreferences": true,
+                                     "showSegments": ["5354f08474adc4183214c143"],
+                                     "since": "2017-01-12",
+                                     "before": "2017-01-13",
+                                     "type": "re.notifica.event.application.Open",
+                                     "region": "5354f08474adc4183214c143",
+                                     "fence": "5354f08474adc4183214c143",
+                                     "serial": "5354f08474adc4183214c143",
+                                     "notification": "5354f08474adc4183214c143",
+                                     "campaign": "5354f08474adc4183214c143",
+                                     "userID": "5354f08474adc4183214c143"
+                                  },
                                    "result":"created export file export-user-1425983129369.csv (919 bytes)",
                                    "date":"2015-03-10T10:25:29.340Z",
                                    "status":"success",
