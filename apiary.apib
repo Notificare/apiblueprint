@@ -2180,6 +2180,23 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + export (required, string, `54fec699beb5cb2f6f9839ed`)...The id of a export job
 
 
+## Export Download Link [/export/download/{export}]
+
+### Create a download link for an export job [POST]
+Create a temporary download link of the export job results. This endpoint will only be available for export jobs with a status equal to success. Please also note that this link will only be available for 5 minutes. All export files will be located at https://push.notifica.re/export/download/{token}.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + export (required, string, `54fec699beb5cb2f6f9839ed`)...The id of a export job
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+           "token":"54fec699beb5cb2f6f9839ed/54fec699beb5cb2f6f9839ed",
+           "expires":"2015-03-10T10:25:29.340Z"
+        }
 
 # Group Geo
 Methods for retrieving information about timezone, country, forward and reverse geocoding.
