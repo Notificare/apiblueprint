@@ -2907,32 +2907,32 @@ The request accepts an array of Segment Ids. This request must be authenticated 
 
         {
                 "criteria":{
-                ? "segmentsCriteria":[{
-                ? ? "quantifier":"any",
-                ? ? "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
-                ? }],
-                ? "tagsCriteria":[{
-                ? ? "quantifier":"all",
-                ? ? "tags":["test","test2"]
-                ? }, {
-                ? ? "quantifier":"none",
-                ? ? "tags":["test3","test4"]
-                ? }],
-                ? "propertiesCriteria":[
-                ? ? [{
-                ? ? ? "property":"platform",
-                ? ? ? "operator":"in",
-                ? ? ? "value":["iOS","Android"]
-                ? ? }, {
-                ? ? ? "property":"sdkVersion",
-                ? ? ? "operator":"gte",
-                ? ? ? "value":"1.8.0"
-                ? ? }, {
-                ? ? ? "property":"language",
-                ? ? ? "operator":"in",
-                ? ? ? "value":["nl","en","en-US"]
-                ? ? }]
-                ? ]
+                    "segmentsCriteria":[{
+                        "quantifier":"any",
+                        "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                    }],
+                    "tagsCriteria":[{
+                        "quantifier":"all",
+                        "tags":["test","test2"]
+                    }, {
+                        "quantifier":"none",
+                        "tags":["test3","test4"]
+                    }],
+                    "propertiesCriteria":[
+                        [{
+                            "property":"platform",
+                            "operator":"in",
+                            "value":["iOS","Android"]
+                        }, {
+                            "property":"sdkVersion",
+                            "operator":"gte",
+                            "value":"1.8.0"
+                        }, {
+                            "property":"language",
+                            "operator":"in",
+                            "value":["nl","en","en-US"]
+                        }]
+                    ]
                 },
                 "title":"This is a title",
                 "subtitle":"This is a subtitle",
@@ -5188,17 +5188,17 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 + Parameters
-    + name = `"Flagship Store"` (required, string, `"Flagship Store"`)...The name for the region.
-    + tags = `["Street Store", "Flagship Store"]` (optional, array, `["Street Store", "Flagship Store"]`)...The list of tags this region should be associated with.
-    + icon = `"https://push.notifica.re/upload/..."` (optional, string, `"https://push.notifica.re/upload/..."`)...The icon used for this region. Must be a publicly accessible URL.
-    + category = `"fence"` (required, string, `"fence"`)...The category of this region. Regions should be categorised as fence to be used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
-    + major = `123456` (optional, number, `123456`)...The major identifier for the region. If you intend to use beacons this field must match the major identifier for your beacons.
-    + address = `"Marconistraat 16"` (optional, string, `"Marconistraat 16"`)...The address for this region. This field is merely informative.
-    + referenceKey = `"123456"` (optional, string, `"123456"`)...The foreign key for this region. This field is can be used to match regions in other systems.
-    + description = `"This is a nice text for a description"` (optional, string, `"This is a nice text for a description"`)...The description for this region. This field is merely informative.
-    + geometry = `{"type": "Point","coordinates": [4.2345,5.6789]}` (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
-    + advancedGeometry = `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}` (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
-    + distance = `200` (optional, number, `200`)...The radius of a circle for the region. This field is required if geometry is being passed. If advancedGeometry is used then this field will be automatically calculated for you.
+    + name (required, string, `"Flagship Store"`)...The name for the region.
+    + tags (optional, array, `["Street Store", "Flagship Store"]`)...The list of tags this region should be associated with.
+    + icon (optional, string, `"https://push.notifica.re/upload/..."`)...The icon used for this region. Must be a publicly accessible URL.
+    + category (required, string, `"fence"`)...The category of this region. Regions should be categorised as fence to be used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
+    + major (optional, number, `123456`)...The major identifier for the region. If you intend to use beacons this field must match the major identifier for your beacons.
+    + address (optional, string, `"Marconistraat 16"`)...The address for this region. This field is merely informative.
+    + referenceKey (optional, string, `"123456"`)...The foreign key for this region. This field is can be used to match regions in other systems.
+    + description (optional, string, `"This is a nice text for a description"`)...The description for this region. This field is merely informative.
+    + geometry (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
+    + advancedGeometry (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
+    + distance = `100` (optional, number, `200`)...The radius of a circle for the region. This field is required if geometry is being passed. If advancedGeometry is used then this field will be automatically calculated for you.
 
 + Request (application/json)
 
@@ -5256,17 +5256,17 @@ Modify a region.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
-    + name = `"Flagship Store"` (required, string, `"Flagship Store"`)...The name for the region.
-    + tags = `["Street Store", "Flagship Store"]` (optional, array, `["Street Store", "Flagship Store"]`)...The list of tags this region should be associated with.
-    + icon = `"https://push.notifica.re/upload/..."` (optional, string, `"https://push.notifica.re/upload/..."`)...The icon used for this region. Must be a publicly accessible URL.
-    + category = `"fence"` (optional, string, `"fence"`)...The category of this region. Regions should be categorised as fence to be used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
-    + major = `123456` (optional, number, `123456`)...The major identifier for the region. If you intend to use beacons this field must match the major identifier for your beacons.
-    + address = `"Marconistraat 16"` (optional, string, `"Marconistraat 16"`)...The address for this region. This field is merely informative.
-    + referenceKey = `123456` (optional, string, `123456`)...The foreign key for this region. This field is can be used to match regions in other systems.
-    + description = `"This is a nice text for a description"` (optional, string, `"This is a nice text for a description"`)...The description for this region. This field is merely informative.
-    + geometry = `{"type": "Point","coordinates": [4.2345,5.6789]}` (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
-    + advancedGeometry = `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}` (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
-    + distance = `200` (optional, number, `200`)...The radius of a circle for the region. This field is required if geometry is being passed. If advancedGeometry is used then this field will be automatically calculated for you.
+    + name (required, string, `"Flagship Store"`)...The name for the region.
+    + tags (optional, array, `["Street Store", "Flagship Store"]`)...The list of tags this region should be associated with.
+    + icon (optional, string, `"https://push.notifica.re/upload/..."`)...The icon used for this region. Must be a publicly accessible URL.
+    + category  (optional, string, `"fence"`)...The category of this region. Regions should be categorised as fence to be used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
+    + major (optional, number, `123456`)...The major identifier for the region. If you intend to use beacons this field must match the major identifier for your beacons.
+    + address (optional, string, `"Marconistraat 16"`)...The address for this region. This field is merely informative.
+    + referenceKey (optional, string, `123456`)...The foreign key for this region. This field is can be used to match regions in other systems.
+    + description (optional, string, `"This is a nice text for a description"`)...The description for this region. This field is merely informative.
+    + geometry (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
+    + advancedGeometry (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
+    + distance (optional, number, `200`)...The radius of a circle for the region. This field is required if geometry is being passed. If advancedGeometry is used then this field will be automatically calculated for you.
 
 
 + Request (application/json)
