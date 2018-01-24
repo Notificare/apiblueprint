@@ -2247,17 +2247,17 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "locations": [
                                {
                                   "license":"Data (c) OpenStreetMap...",
-                                  "displayName":"171, Meerum Terwogtlaan, Rotterdam, Netherlands",
+                                  "displayName":"16, Marconistraat, Rotterdam, Netherlands",
                                   "boundingBox": [52, 52, 2, 2],
-                                  "address":"Meerum Terwogtlaan 171",
+                                  "address":"Marconistraat 16",
                                   "latitude": 52,
                                   "longitude": 2
                                },
                                {
                                  "license":"Data (c) OpenStreetMap...",
-                                 "displayName":"171, Meerum Terwogtlaan, Rotterdam, Netherlands",
+                                 "displayName":"16, Marconistraat, Rotterdam, Netherlands",
                                  "boundingBox": [52, 52, 2, 2],
-                                 "address":"Meerum Terwogtlaan 171",
+                                 "address":"Marconistraat 16",
                                  "latitude": 52,
                                  "longitude": 2
                                }
@@ -2283,9 +2283,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "locations": {
                                    "license":"Data (c) OpenStreetMap...",
-                                   "displayName":"171, Meerum Terwogtlaan, Rotterdam, Netherlands",
+                                   "displayName":"16, Marconistraat, Rotterdam, Netherlands",
                                    "boundingBox": [52, 52, 2, 2],
-                                   "address":"Meerum Terwogtlaan 171"
+                                   "address":"Marconistraat 16"
                               }
 
         }
@@ -2355,14 +2355,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               }]
         }
 
-## Import [/import/{type}/{import}]
+## Import [/import/{import}]
 ### Get an import object [GET]
 Get an import object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
     + import (required, string, `5245bc5b3e66a3b01f0024d4`)...The import id of a previously created job.
 
 
@@ -5189,14 +5188,14 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 + Parameters
-    + name = `Flagship Store` (required, string, `Flagship Store`)...The name for the region.
+    + name = `"Flagship Store"` (required, string, `"Flagship Store"`)...The name for the region.
     + tags = `["Street Store", "Flagship Store"]` (optional, array, `["Street Store", "Flagship Store"]`)...The list of tags this region should be associated with.
-    + icon = `"https://push.notifica.re/upload/..."` (optional, string, `https://push.notifica.re/upload/...`)...The icon used for this region. Must be a publicly accessible URL.
-    + category = `"poi"` (optional, string, `poi`)...The category of this region. By default regions will be marked as fence and used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
+    + icon = `"https://push.notifica.re/upload/..."` (optional, string, `"https://push.notifica.re/upload/..."`)...The icon used for this region. Must be a publicly accessible URL.
+    + category = `"fence"` (required, string, `"fence"`)...The category of this region. Regions should be categorised as fence to be used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
     + major = `123456` (optional, number, `123456`)...The major identifier for the region. If you intend to use beacons this field must match the major identifier for your beacons.
-    + address = `Meerum Terwogtlaan 171` (optional, string, `Meerum Terwogtlaan 171`)...The address for this region. This field is merely informative.
-    + referenceKey = `123456` (optional, string, `123456`)...The foreign key for this region. This field is can be used to match regions in other systems.
-    + description = `This is a nice text for a description` (optional, string, `This is a nice text for a description`)...The description for this region. This field is merely informative.
+    + address = `"Marconistraat 16"` (optional, string, `"Marconistraat 16"`)...The address for this region. This field is merely informative.
+    + referenceKey = `"123456"` (optional, string, `"123456"`)...The foreign key for this region. This field is can be used to match regions in other systems.
+    + description = `"This is a nice text for a description"` (optional, string, `"This is a nice text for a description"`)...The description for this region. This field is merely informative.
     + geometry = `{"type": "Point","coordinates": [4.2345,5.6789]}` (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
     + advancedGeometry = `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}` (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
     + distance = `200` (optional, number, `200`)...The radius of a circle for the region. This field is required if geometry is being passed. If advancedGeometry is used then this field will be automatically calculated for you.
@@ -5257,14 +5256,14 @@ Modify a region.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
-    + name = `Flagship Store` (required, string, `Flagship Store`)...The name for the region.
+    + name = `"Flagship Store"` (required, string, `"Flagship Store"`)...The name for the region.
     + tags = `["Street Store", "Flagship Store"]` (optional, array, `["Street Store", "Flagship Store"]`)...The list of tags this region should be associated with.
-    + icon = `"https://push.notifica.re/upload/..."` (optional, string, `https://push.notifica.re/upload/...`)...The icon used for this region. Must be a publicly accessible URL.
-    + category = `"poi"` (optional, string, `poi`)...The category of this region. By default regions will be marked as fence and used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
+    + icon = `"https://push.notifica.re/upload/..."` (optional, string, `"https://push.notifica.re/upload/..."`)...The icon used for this region. Must be a publicly accessible URL.
+    + category = `"fence"` (optional, string, `"fence"`)...The category of this region. Regions should be categorised as fence to be used as monitored geo-zones. There's also the possibility to mark regions as poi, city and country. These type of regions will not be monitored.
     + major = `123456` (optional, number, `123456`)...The major identifier for the region. If you intend to use beacons this field must match the major identifier for your beacons.
-    + address = `Meerum Terwogtlaan 171` (optional, string, `Meerum Terwogtlaan 171`)...The address for this region. This field is merely informative.
+    + address = `"Marconistraat 16"` (optional, string, `"Marconistraat 16"`)...The address for this region. This field is merely informative.
     + referenceKey = `123456` (optional, string, `123456`)...The foreign key for this region. This field is can be used to match regions in other systems.
-    + description = `This is a nice text for a description` (optional, string, `This is a nice text for a description`)...The description for this region. This field is merely informative.
+    + description = `"This is a nice text for a description"` (optional, string, `"This is a nice text for a description"`)...The description for this region. This field is merely informative.
     + geometry = `{"type": "Point","coordinates": [4.2345,5.6789]}` (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
     + advancedGeometry = `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}` (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
     + distance = `200` (optional, number, `200`)...The radius of a circle for the region. This field is required if geometry is being passed. If advancedGeometry is used then this field will be automatically calculated for you.
