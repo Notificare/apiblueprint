@@ -2506,6 +2506,74 @@ Recognized columns:
 + notification, message  to be set for the beacon
 
 
+#### re.notificare.import.Pass
+
+Used to bulk import passes and optionally send them in a push notification. To send a notification, set data property `push` to `true` and set a `message` in the data or in the CSV.
+Set data property `passbook` to the passbook template Id to use.
+Data properties  `description`, `barcode.message`, `barcode.altText`, `location.latitude`, `location.longitude`, `location.altitude`, `location.regionMajor`, `location.regionId`, `location.relevantText`, `beacon.proximityUUID`, `beacon.major`, `beacon.minor`, `beacon.relevantText` will be used if not provided in the CSV.
+
+Recognized columns:
+
++ userID (to send push notification to)
+
++ pass_barcode (if barcode is unique, can be used for redeem)
+
++ pass_barcode_message (not unique, can not be together with pass_barcode)
+
++ pass_barcode_alt_text
+
++ pass_barcode_show_alt_text
+
++ pass_relevant_date
+
++ pass_expiration_date
+
++ pass_location_latitude
+
++ pass_location_longitude
+
++ pass_location_altitude
+
++ pass_location_relevant_text
+
++ pass_location_region_major
+
++ pass_location_region_id
+
++ pass_xxx (where xxx is any field defined in the Passbook Template)
+
+
+
+
+#### re.notifica.import.Notification
+Used to import a list of private messages to users or devices. Every row in the referenced CSV should contain at least a `userID` or a `deviceID`.
+Optionally, a Notification Template can be used to create the notifications. For that make sure you have previously created at least one template and then provide its Id in `notificationTemplate`.
+If no Template is provided, each row should contain a `message`. Values present in the CSV will overwrite corresponding fields from the template, if provided.
+
+Recognized columns:
+
++ userID / deviceID (if both are provided, userID is used)
+
++ title
+
++ subtitle
+
++ message
+
++ attachmentUri (lock screen image, publicly accessible image URL)
+
++ attachmentMimeType (`image/png`, `image/jpeg`)
+
++ ttl
+
++ sound
+
++ extra (JSON string)
+
++ notification_xxx (referring to a placeholder in the template)
+
+`title`, `subtitle`, and `message` can contain placeholders in the form of `{{notification_xxxx}}` or any of the default placeholders, e.g. `{{userID}}` or `{{userName}}`.
+
 
 
 + Parameters
