@@ -3694,7 +3694,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 # Group Notification Template
 Methods for retrieving, creating and edit notification templates
 
-## Templates [/notification/template{?limit,skip}]
+## Templates [/notification/template{?limit,skip,message}]
 
 ### List all templates for this app [GET]
 List all templates for this app
@@ -3703,6 +3703,7 @@ List all templates for this app
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
+    + message = `My great message` (optional, string, `My great message`)...The string to search for in title, subtitle and message
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -3754,7 +3755,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (required, string, `My Title`)...With SDK 1.9 and up, iOS 10 and up and Android 5 and up messages support a title which will be shown in the lock-screen or notification center.
+    + subtitle (required, string, `My Subtitle`)...With SDK 1.9 and up, iOS 10 and up and Android 5 and up messages support a title which will be shown in the lock-screen or notification center.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + push (optional, boolean, `false`)...Specify if this message should generate a remote notification. By default teh value of this property is true.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
@@ -3765,6 +3769,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + rate (optional, number, `20`)...Number of messages per second that should be sent using this template.
 
 
 + Request (application/json)
