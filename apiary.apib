@@ -2506,7 +2506,7 @@ Recognized columns:
 + notification, message  to be set for the beacon
 
 
-#### re.notificare.import.Pass
+#### re.notifica.import.Pass
 
 Used to bulk import passes and optionally send them in a push notification. To send a notification, set data property `push` to `true` and set a `message`, `title`, `subtitle` in the data or in the CSV.
 Set data property `passbook` to the passbook template Id to use.
@@ -3702,7 +3702,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 # Group Notification Template
 Methods for retrieving, creating and edit notification templates
 
-## Templates [/notification/template{?limit,skip}]
+## Templates [/notification/template{?limit,skip,message}]
 
 ### List all templates for this app [GET]
 List all templates for this app
@@ -3711,6 +3711,7 @@ List all templates for this app
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
+    + message = `My great message` (optional, string, `My great message`)...The string to search for in title, subtitle and message
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -3762,7 +3763,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + title (required, string, `My Title`)...With SDK 1.9 and up, iOS 10 and up and Android 5 and up messages support a title which will be shown in the lock-screen or notification center.
+    + subtitle (required, string, `My Subtitle`)...With SDK 1.9 and up, iOS 10 and up and Android 5 and up messages support a title which will be shown in the lock-screen or notification center.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
+    + push (optional, boolean, `false`)...Specify if this message should generate a remote notification. By default teh value of this property is true.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
@@ -3773,6 +3777,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + rate (optional, number, `20`)...Number of messages per second that should be sent using this template.
 
 
 + Request (application/json)
@@ -4081,7 +4086,6 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Parameters
 
     + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
-
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
 
@@ -4093,6 +4097,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                "_id":"5501894253058ca5269a9928",
                                "application":"5354f0bb3fa544452ff4c7c0",
                                "passbook":"54e135049c2cad772e7c0de0",
+                               "barcode":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
                                "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
                                "data":{
                                         "backgroundColor":"rgb(0,0,0)",
@@ -4129,9 +4134,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                   },
                                         "background":null,
                                         "thumbnail":null,
-                                        "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
-                                        "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
-                                        "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                                        "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                                        "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                                        "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
                                         "footer":null
 
                                }
@@ -4146,57 +4151,67 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 ## New Pass [/pass]
 
 ### Create a new pass [POST]
-Create a new pass.
+Create a new pass. You should first create a pass template to help you bootstrap a new pass. Please read the [Pass Template](http://docs.notificare.apiary.io/#reference/pass-templates) endpoints to learn how to create pass templates. Passes will require images, see also the [Uploads](http://docs.notificare.apiary.io/#reference/upload) endpoints to learn how to upload a file.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + passbook = `54e135049c2cad772e7c0de0` (required, string, `54e135049c2cad772e7c0de0`)...The passbook template used to create a pass.
+    + barcode = `1234567890` (optional, string, `1234567890`)...A custom string to be used as the pass barcode. We will generate one for you if this property is not present.
+    + redeem = `always` (required, string, `always`)...A pass supports one of 3 modes (always, once, limit) for redemption.
+    + limit = `10` (optional, number, `10`)...When using `limit` as a redeem option, you should provide the number of times the card can be redeemed.
+    + data = `{backgroundColor":"rgb(0,0,0)"}` (required, object, `{backgroundColor":"rgb(0,0,0)"....}`)...The data object from a passbook template, where the fields (headerFields, primaryFields, secondaryFields, auxiliaryFields, backFields) should contain a value property.
+    + active = `true` (optional, boolean, `true`)...A property flagging if the pass is active or not.
+
 
 + Request (application/json)
 
         {
-             "_id":"5501894253058ca5269a9928",
-             "application":"5354f0bb3fa544452ff4c7c0",
-             "passbook":"54e135049c2cad772e7c0de0",
-             "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
-             "data":{
-                       "backgroundColor":"rgb(0,0,0)",
-                       "foregroundColor":"rgb(255,255,255)",
-                       "suppressStripShine":false,
-                       "labelColor":"rgb(255,255,255)",
-                       "logoText":"lebkov",
-                       "description":"coupon example",
-                       "auxiliaryFields":[],
-                       "headerFields":[],
-                       "primaryFields":[
-                                         {
-                                            "string":true,
-                                            "key":"discount",
-                                            "label":"discount",
-                                            "textAlignment": "PKTextAlignmentLeft",
-                                            "value": "20% off"
-                                         }
-                                       ],
-                       "secondaryFields":[
-                                           {
-                                              "string":true,
-                                              "key":"expires",
-                                              "label":"expires",
-                                              "textAlignment":"PKTextAlignmentLeft",
-                                              "value": "31-12-2015"
-                                           }
-                                         ],
-                       "backFields":[],
-                       "transitType":null,
-                       "barcode":{
-                                   "format":"PKBarcodeFormatQR",
-                                   "messageEncoding":"iso-8859-1"
-                                 },
-                       "background":null,
-                       "thumbnail":null,
-                       "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
-                       "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
-                       "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
-                       "footer":null
-             }
-        }
+                 "passbook":"54e135049c2cad772e7c0de0",
+                 "barcode":"1234567890",
+                 "redeem":"always",
+                 "active":true,
+                 "data":{
+                           "backgroundColor":"rgb(0,0,0)",
+                           "foregroundColor":"rgb(255,255,255)",
+                           "suppressStripShine":false,
+                           "labelColor":"rgb(255,255,255)",
+                           "logoText":"lebkov",
+                           "description":"coupon example",
+                           "auxiliaryFields":[],
+                           "headerFields":[],
+                           "primaryFields":[
+                                             {
+                                                "string":true,
+                                                "key":"discount",
+                                                "label":"discount",
+                                                "textAlignment": "PKTextAlignmentLeft",
+                                                "value": "20% off"
+                                             }
+                                           ],
+                           "secondaryFields":[
+                                               {
+                                                  "string":true,
+                                                  "key":"expires",
+                                                  "label":"expires",
+                                                  "textAlignment":"PKTextAlignmentLeft",
+                                                  "value": "31-12-2015"
+                                               }
+                                             ],
+                           "backFields":[],
+                           "transitType":null,
+                           "barcode":{
+                                       "format":"PKBarcodeFormatQR",
+                                       "messageEncoding":"iso-8859-1"
+                                     },
+                           "background":null,
+                           "thumbnail":null,
+                           "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                           "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                           "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                           "footer":null
+                 }
+            }
 
 
 + Response 201 (application/json; charset=utf-8)
@@ -4225,51 +4240,52 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Response 200 (application/json; charset=utf-8)
 
         {
-                     "_id":"5501894253058ca5269a9928",
-                     "application":"5354f0bb3fa544452ff4c7c0",
-                     "passbook":"54e135049c2cad772e7c0de0",
-                     "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
-                     "data":{
-                               "backgroundColor":"rgb(0,0,0)",
-                               "foregroundColor":"rgb(255,255,255)",
-                               "suppressStripShine":false,
-                               "labelColor":"rgb(255,255,255)",
-                               "logoText":"lebkov",
-                               "description":"coupon example",
-                               "auxiliaryFields":[],
-                               "headerFields":[],
-                               "primaryFields":[
-                                                 {
-                                                    "string":true,
-                                                    "key":"discount",
-                                                    "label":"discount",
-                                                    "textAlignment": "PKTextAlignmentLeft",
-                                                    "value": "20% off"
-                                                 }
-                                               ],
-                               "secondaryFields":[
-                                                   {
-                                                      "string":true,
-                                                      "key":"expires",
-                                                      "label":"expires",
-                                                      "textAlignment":"PKTextAlignmentLeft",
-                                                      "value": "31-12-2015"
-                                                   }
-                                                 ],
-                               "backFields":[],
-                               "transitType":null,
-                               "barcode":{
-                                           "format":"PKBarcodeFormatQR",
-                                           "messageEncoding":"iso-8859-1"
-                                         },
-                               "background":null,
-                               "thumbnail":null,
-                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
-                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
-                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
-                               "footer":null
-                     }
-                }
+                 "_id":"5501894253058ca5269a9928",
+                 "application":"5354f0bb3fa544452ff4c7c0",
+                 "passbook":"54e135049c2cad772e7c0de0",
+                 "barcode":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                 "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                 "data":{
+                           "backgroundColor":"rgb(0,0,0)",
+                           "foregroundColor":"rgb(255,255,255)",
+                           "suppressStripShine":false,
+                           "labelColor":"rgb(255,255,255)",
+                           "logoText":"lebkov",
+                           "description":"coupon example",
+                           "auxiliaryFields":[],
+                           "headerFields":[],
+                           "primaryFields":[
+                                             {
+                                                "string":true,
+                                                "key":"discount",
+                                                "label":"discount",
+                                                "textAlignment": "PKTextAlignmentLeft",
+                                                "value": "20% off"
+                                             }
+                                           ],
+                           "secondaryFields":[
+                                               {
+                                                  "string":true,
+                                                  "key":"expires",
+                                                  "label":"expires",
+                                                  "textAlignment":"PKTextAlignmentLeft",
+                                                  "value": "31-12-2015"
+                                               }
+                                             ],
+                           "backFields":[],
+                           "transitType":null,
+                           "barcode":{
+                                       "format":"PKBarcodeFormatQR",
+                                       "messageEncoding":"iso-8859-1"
+                                     },
+                           "background":null,
+                           "thumbnail":null,
+                           "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                           "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                           "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                           "footer":null
+                 }
+            }
 
 ### Modify a pass [PUT]
 Modify a pass.
@@ -4278,55 +4294,61 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Parameters
 
     + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active pass.
+    + passbook = `54e135049c2cad772e7c0de0` (required, string, `54e135049c2cad772e7c0de0`)...The passbook template used to create a pass.
+    + barcode = `1234567890` (optional, string, `1234567890`)...A custom string to be used as the pass barcode. We will generate one for you if this property is not present.
+    + redeem = `always` (required, string, `always`)...A pass supports one of 3 modes (always, once, limit) for redemption.
+    + limit = `10` (optional, number, `10`)...When using `limit` as a redeem option, you should provide the number of times the card can be redeemed.
+    + data = `{backgroundColor":"rgb(0,0,0)"}` (required, object, `{backgroundColor":"rgb(0,0,0)"....}`)...The data object from a passbook template, where the fields (headerFields, primaryFields, secondaryFields, auxiliaryFields, backFields) should contain a value property.
+    + active = `true` (optional, boolean, `true`)...A property flagging if the pass is active or not.
 
 + Request (application/json)
 
         {
-                             "_id":"5501894253058ca5269a9928",
-                             "application":"5354f0bb3fa544452ff4c7c0",
-                             "passbook":"54e135049c2cad772e7c0de0",
-                             "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
-                             "data":{
-                                       "backgroundColor":"rgb(0,0,0)",
-                                       "foregroundColor":"rgb(255,255,255)",
-                                       "suppressStripShine":false,
-                                       "labelColor":"rgb(255,255,255)",
-                                       "logoText":"lebkov",
-                                       "description":"coupon example",
-                                       "auxiliaryFields":[],
-                                       "headerFields":[],
-                                       "primaryFields":[
-                                                         {
-                                                            "string":true,
-                                                            "key":"discount",
-                                                            "label":"discount",
-                                                            "textAlignment": "PKTextAlignmentLeft",
-                                                            "value": "20% off"
-                                                         }
-                                                       ],
-                                       "secondaryFields":[
-                                                           {
-                                                              "string":true,
-                                                              "key":"expires",
-                                                              "label":"expires",
-                                                              "textAlignment":"PKTextAlignmentLeft",
-                                                              "value": "31-12-2015"
-                                                           }
-                                                         ],
-                                       "backFields":[],
-                                       "transitType":null,
-                                       "barcode":{
-                                                   "format":"PKBarcodeFormatQR",
-                                                   "messageEncoding":"iso-8859-1"
-                                                 },
-                                       "background":null,
-                                       "thumbnail":null,
-                                       "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
-                                       "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
-                                       "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
-                                       "footer":null
-                             }
-                        }
+                 "passbook":"54e135049c2cad772e7c0de0",
+                 "barcode":"1234567890",
+                 "redeem":"always",
+                 "active":true,
+                 "data":{
+                           "backgroundColor":"rgb(0,0,0)",
+                           "foregroundColor":"rgb(255,255,255)",
+                           "suppressStripShine":false,
+                           "labelColor":"rgb(255,255,255)",
+                           "logoText":"lebkov",
+                           "description":"coupon example",
+                           "auxiliaryFields":[],
+                           "headerFields":[],
+                           "primaryFields":[
+                                             {
+                                                "string":true,
+                                                "key":"discount",
+                                                "label":"discount",
+                                                "textAlignment": "PKTextAlignmentLeft",
+                                                "value": "20% off"
+                                             }
+                                           ],
+                           "secondaryFields":[
+                                               {
+                                                  "string":true,
+                                                  "key":"expires",
+                                                  "label":"expires",
+                                                  "textAlignment":"PKTextAlignmentLeft",
+                                                  "value": "31-12-2015"
+                                               }
+                                             ],
+                           "backFields":[],
+                           "transitType":null,
+                           "barcode":{
+                                       "format":"PKBarcodeFormatQR",
+                                       "messageEncoding":"iso-8859-1"
+                                     },
+                           "background":null,
+                           "thumbnail":null,
+                           "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                           "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                           "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                           "footer":null
+                 }
+            }
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -4356,8 +4378,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 # Pass for Serial [/pass/forserial/{serial}]
 
-### Get a pass object using the serial number [GET]
-Get a pass object using the serial number.
+### Get a pass object using the serial string [GET]
+Get a pass object using the serial string.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -4407,23 +4429,83 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                          },
                                "background":null,
                                "thumbnail":null,
-                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
-                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
-                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "footer":null
+                     }
+                }
+
+# Pass for Barcode [/pass/forbarcode/{barcode}]
+
+### Get a pass object using the barcode string [GET]
+Get a pass object using the barcode string.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of pass.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                     "_id":"5501894253058ca5269a9928",
+                     "application":"5354f0bb3fa544452ff4c7c0",
+                     "passbook":"54e135049c2cad772e7c0de0",
+                     "serial":"402ab90b-65b5-4b4f-91fa-9823b2972f85",
+                     "data":{
+                               "backgroundColor":"rgb(0,0,0)",
+                               "foregroundColor":"rgb(255,255,255)",
+                               "suppressStripShine":false,
+                               "labelColor":"rgb(255,255,255)",
+                               "logoText":"lebkov",
+                               "description":"coupon example",
+                               "auxiliaryFields":[],
+                               "headerFields":[],
+                               "primaryFields":[
+                                                 {
+                                                    "string":true,
+                                                    "key":"discount",
+                                                    "label":"discount",
+                                                    "textAlignment": "PKTextAlignmentLeft",
+                                                    "value": "20% off"
+                                                 }
+                                               ],
+                               "secondaryFields":[
+                                                   {
+                                                      "string":true,
+                                                      "key":"expires",
+                                                      "label":"expires",
+                                                      "textAlignment":"PKTextAlignmentLeft",
+                                                      "value": "31-12-2015"
+                                                   }
+                                                 ],
+                               "backFields":[],
+                               "transitType":null,
+                               "barcode":{
+                                           "format":"PKBarcodeFormatQR",
+                                           "messageEncoding":"iso-8859-1"
+                                         },
+                               "background":null,
+                               "thumbnail":null,
+                               "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
                                "footer":null
                      }
                 }
 
 
-## Redeem Pass [/pass/redeem/{serial}]
+## Redeem Pass [/pass/redeem/{barcode}]
 
 ### Redeem a pass [PUT]
-Redeem a pass.
+Redeem a pass using a barcode string.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
+    + barcode (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The barcode string of an active pass.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -4436,17 +4518,17 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 ## Download Pass [/pass/pkpass/{serial}]
 
 ### Download Pass [GET]
-Download a pass.
+Download a pass using a serial UUID.
 This request does not require authentication.
 
 + Parameters
 
     + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
 
-## Generate Barcode [/pass/barcode/forserial/{serial}]
+## Generate Barcode For Serial [/pass/barcode/forserial/{serial}]
 
 ### Generate Barcode [GET]
-Generate a barcode for a specific pass.
+Generate a barcode for a specific pass using the serial UUID.
 This request does not require authentication.
 
 + Parameters
@@ -4455,7 +4537,7 @@ This request does not require authentication.
 
 + Response 200 (image/png)
 
-## Generate Barcode [/pass/barcode/{type}/{code}]
+## Generate a Barcode [/pass/barcode/{type}/{code}]
 
 ### Generate Barcode [GET]
 Generate a barcode for a specific type and code.
@@ -4483,7 +4565,7 @@ code128
 
 # Group Pass Templates
 Methods to manage your passbook templates. These templates should be created before you can start creating passes.
-They will help you pre-define the template styles your application needs and accelerate pass creation. To create and redeem passes see also the [Pass](http://docs.notificare.apiary.io/#pass) endpoints.
+They will help you pre-define the template styles your application needs and accelerate pass creation. To create and redeem passes see also the [Pass](http://docs.notificare.apiary.io/#reference/pass) endpoints. Pass templates will require images, see also the [Uploads](http://docs.notificare.apiary.io/#reference/upload) endpoints to learn how to upload a file.
 
 
 ## Pass Templates [/passbook{?limit,skip}]
@@ -4542,9 +4624,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                                   },
                                         "background":null,
                                         "thumbnail":null,
-                                        "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
-                                        "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
-                                        "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                                        "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                                        "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                                        "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
                                         "footer":null
 
                                },
@@ -4565,11 +4647,15 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 Create a new pass template.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
++ Parameters
+
+    + passStyle = `coupon` (required, string, `coupon`)...A pass template can have several styles. A style will define how your pass looks and behaves. This string will indicate what style to use (boarding, coupon, ticket, card, generic).
+    + data = `{backgroundColor":"rgb(0,0,0)"}` (required, object, `{backgroundColor":"rgb(0,0,0)"....}`)...The data object containing all the information, colours and fields for a pass.
+
+
 + Request (application/json)
 
         {
-             "_id":"5501894253058ca5269a9928",
-             "application":"5354f0bb3fa544452ff4c7c0",
              "passStyle":"coupon",
              "data":{
                        "backgroundColor":"rgb(0,0,0)",
@@ -4605,9 +4691,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                  },
                        "background":null,
                        "thumbnail":null,
-                       "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
-                       "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
-                       "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                       "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                       "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                       "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
                        "footer":null
              },
              "name":"coupon example"
@@ -4677,9 +4763,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                          },
                                "background":null,
                                "thumbnail":null,
-                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
-                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
-                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
                                "footer":null
                      },
                      "name":"coupon example"
@@ -4693,12 +4779,12 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Parameters
 
     + passbook (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of an active passbook template.
+    + passStyle = `coupon` (required, string, `coupon`)...A pass template can have several styles. A style will define how your pass looks and behaves. This string will indicate what style to use (boarding, coupon, ticket, card, generic).
+    + data = `{backgroundColor":"rgb(0,0,0)"}` (required, object, `{backgroundColor":"rgb(0,0,0)"....}`)...The data object containing all the information, colours and fields for a pass.
 
 + Request (application/json)
 
         {
-                     "_id":"5501894253058ca5269a9928",
-                     "application":"5354f0bb3fa544452ff4c7c0",
                      "passStyle":"coupon",
                      "data":{
                                "backgroundColor":"rgb(0,0,0)",
@@ -4734,9 +4820,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                          },
                                "background":null,
                                "thumbnail":null,
-                               "logo":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
-                               "icon":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
-                               "strip":"https://s3-eu-west-1.amazonaws.com/notificare-storage/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
+                               "logo":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/7e6166684680598ff63894fbc837db244a1d98ea02793b414845a23f876f31ef",
+                               "icon":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/aa2a7d561c6ba9f99f169a38a92dc0ac98d5f5a6cec0b4bea447e62e70e0ea96",
+                               "strip":"https://push.notifica.re/upload/passbook/3d99d18148e6f3dbcf4ff891c9a026463b0311feccc7b9d0c8c79fee9b4dde19/827a04cf2e5f8653f544432a72fc217409c57af0f0068fd0696f374e183e6b14",
                                "footer":null
                      },
                      "name":"coupon example"
@@ -6833,12 +6919,12 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 # Group Upload
 These methods let you manage files.
-All the files you upload to Notificare can be used as content of your notifications.
+All the files you upload to Notificare can be used as content of your notifications, replies, import jobs, WebPush icons and passes.
 
 ## New Upload [/upload/{type}]
 
 ### Upload a file [POST]
-Upload a file to Notificare. The resulting filename is a path inside the notificare storage. This can be used as a reference to the file in further processing or deleting.
+Upload a file to Notificare. The resulting filename is a path inside the notificare storage. This can be used as a reference to the file in other endpoints.
 The contents of the file should be in the body of the request and with the correct mime-type. So, e.g. an import should be of type `text/csv`, an image to go with a notification `image/png`, etc.  
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -6847,6 +6933,12 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 notification
 ***
 import
+***
+reply
+***
+passbook
+***
+website-push
 ***
 
 + Parameters
