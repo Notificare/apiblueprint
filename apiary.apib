@@ -2508,9 +2508,11 @@ Recognized columns:
 
 #### re.notificare.import.Pass
 
-Used to bulk import passes and optionally send them in a push notification. To send a notification, set data property `push` to `true` and set a `message` in the data or in the CSV.
+Used to bulk import passes and optionally send them in a push notification. To send a notification, set data property `push` to `true` and set a `message`, `title`, `subtitle` in the data or in the CSV.
 Set data property `passbook` to the passbook template Id to use.
-Data properties  `description`, `barcode.message`, `barcode.altText`, `location.latitude`, `location.longitude`, `location.altitude`, `location.regionMajor`, `location.regionId`, `location.relevantText`, `beacon.proximityUUID`, `beacon.major`, `beacon.minor`, `beacon.relevantText` will be used if not provided in the CSV.
+Data property `passData` can be used to set default values that will be set if not present in the CSV. Recognized properties in `passData` are
+ `description`, `barcode.message`, `barcode.altText`, `location.latitude`, `location.longitude`, `location.altitude`, `location.regionMajor`, `location.regionId`, `location.relevantText`, `beacon.proximityUUID`, `beacon.major`, `beacon.minor`, `beacon.relevantText`.
+The property `passFields` inside `passData` can be used to include default values for fields from the Passbook Template.
 
 Recognized columns:
 
@@ -2578,17 +2580,23 @@ Recognized columns:
 
 + Parameters
 
-    + type (required, string, `re.notifica.import.Device`)...The import type
+    + type (required, string, `re.notifica.import.Pass`)...The import type
 
 + Request (application/json; charset=utf-8)
 
         {
                 "path":"/imports/647431c4dc3798f2a5ae147411a787e8d52447e365d7972ec4d8535/dfeba0ade92ad65ec8619d4464333facc95f5c2feb55df98a92a78",
                 "data":{
-                        "appVersion": "1.0",
-                        "platform": "iOS",
-                        "language": "pt",
-                        "overwrite": true
+                        "passbook": "5245bc5b3e66a3b01fa66355",
+                        "push": true,
+                        "message": "This is your boarding pass",
+                        "passData": {
+                                "relevantDate": "2018-01-01T12:00:00",
+                                "passFields": {
+                                        "from": "AMS",
+                                        "to": "OPO"
+                                }
+                        }
                 }
         }
 
