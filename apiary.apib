@@ -2577,6 +2577,17 @@ Recognized columns:
 `title`, `subtitle`, and `message` can contain placeholders in the form of `{{notification_xxxx}}` or any of the default placeholders, e.g. `{{userID}}` or `{{userName}}`.
 
 
+#### re.notifica.import.GroupedNotification
+Used to import a list of users or devices to send a notification to. Every row in the referenced CSV should contain at least a `userID` or a `deviceID`.
+A Notification Template must be used to create the notifications. For that make sure you have previously created at least one template and then provide its Id in `notificationTemplate`.
+Values of columns prefixed with `notification_` in the CSV can be used as placeholders in the template
+
+Recognized columns:
+
++ userID / deviceID (if both are provided, userID is used)
+
++ notification_xxx (referring to a placeholder `{{notification_xxx}}` in the template)
+
 
 + Parameters
 
