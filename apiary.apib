@@ -4658,6 +4658,47 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 Create a new pass template.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
+Fields can not have a `key` that is a reserved property. Reserved keys are:
+
++ `relevant_date`
++ `expiration_date`
++ `voided`
++ `barcode_message`
++ `barcode_alt_text`
++ `barcode_show_alt_text`
++ `barcode_format`
++ `barcode_message_encoding`
++ `description`
++ `beacon_proximity_uuid`
++ `beacon_major`
++ `beacon_minor`
++ `beacon_relevant_text`
++ `location_latitude`
++ `location_longitude`
++ `location_altitude`
++ `location_relevant_text`
++ `location_region_id`
++ `location_region_major`
++ `message`
++ `title`
++ `subtitle`
++ `user_info`
++ `app_launch_url`
++ `associated_store_identifiers`
++ `max_distance`
++ `background_color`
++ `foreground_color`
++ `grouping_identifier`
++ `label_color`
++ `logo_text`
++ `suppress_strip_shine`
++ `nfc_message`
++ `nfc_encryption_public_key`
++ `transit_type`
++ `redeem_type`
++ `redeem_limit`
+
+
 + Parameters
 
     + passStyle = `coupon` (required, string, `coupon`)...A pass template can have several styles. A style will define how your pass looks and behaves. This string will indicate what style to use (boarding, coupon, ticket, card, generic).
