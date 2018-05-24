@@ -3651,7 +3651,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Notification Info [/notification/{id}/info]
+## Notification Info [/notification/{notification}/info]
 
 ### Get information about message performance [GET]
 Retrieve information about your message performance.
@@ -3659,7 +3659,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + id (required, string, `543d90d0f4e6e1we3ad6576`)...The user ID is the one the client device registered with, e.g., the user's email address.
+    + notification (required, string, `543d90d0f4e6e1we3ad6576`)...The notification ID given whenever you create or retrieve a notification object.
 
 + Response 200 (application/json; charset=utf-8)
 
