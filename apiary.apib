@@ -3432,6 +3432,154 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
+## Send a system message [/notification/system]
+
+### Send a system message [POST]
+System notifications are silent messages that will not generate any notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to all your devices. Optionally you can also provide one of the following parameters: criteria, a list of tags, a list of tags and segments, a list of segments or a location. This will allow you to filter the devices you are trying to reach. In iOS, your app must declare **remote-notification** background mode.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
+    + segments (optional, array, `["526f7a71dab9d70711000003","526f7a71dab9d70711000004"]`)...Only send to devices whose user is in one or more of these segments.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + type (required, string, `your.domain.system.type`)...Defines a type of for your silent message. Types of notifications are represented by namespaces. Custom notification types should a reverse domain style string: com.domain.*.
+    + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
+
++ Request (application/json)
+
+        {
+                "type":"your.domain.system.type",
+                "ttl":3600,
+                "content": [
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+## Send a system message to a specific user [/notification/system/user/{user}]
+
+### Send a system message to a specific user [POST]
+System notifications are silent messages that will not generate any notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to a specific user and its devices. In iOS, your app must declare **remote-notification** background mode.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `your.domain.system.type`)...Defines a type of for your silent message. Types of notifications are represented by namespaces. Custom notification types should a reverse domain style string: com.domain.*.
+    + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
+
++ Request (application/json)
+
+        {
+                "type":"your.domain.system.type",
+                "ttl":3600,
+                "content": [
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+## Send a system message to a specific device [/notification/system/device/{device}]
+
+### Send a system message to a specific device [POST]
+System notifications are silent messages that will not generate any notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to a specific device. In iOS, your app must declare **remote-notification** background mode.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `your.domain.system.type`)...Defines a type of for your silent message. Types of notifications are represented by namespaces. Custom notification types should a reverse domain style string: com.domain.*.
+    + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
+    + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+
+
++ Request (application/json)
+
+        {
+                "type":"your.domain.system.type",
+                "ttl":3600,
+                "content": [
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Because this long text will never fit inside a simple alert or toast, we send it along as content and it will be automatically displayed when the user opens the notification"
+                        }
+                ],
+                "actions":[
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Please come in",
+                                "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}]
+                        },
+                        {
+                                "type":"re.notifica.action.Callback",
+                                "label":"Go away",
+                                "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}]
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
 ## Notifications [/notification{?limit,skip,scope,scheduled,tag,segment,archived,draft}]
 
 ### Get a list of notifications [GET]
