@@ -7700,9 +7700,9 @@ Search users by `userName` and `userID`. This request is authenticated with the 
         }
 
 
-## User [/user/{user}]
+## Retrieve a User [/user/{user}]
 
-### Retrieve a user object [GET]
+### Retrieve a User [GET]
 Retrieve a user object. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7725,8 +7725,10 @@ Retrieve a user object. This request is authenticated with the `applicationKey` 
         }
 
 
-## Deactivate a user [DELETE]
-Deactivate a user. The user will not receive any more notifications. 
+## Deactivate a User [/user/{user}]
+
+### Deactivate a User [DELETE]
+Deactivate a user.  The user will no longer be visible in the dashboard.
 If the user registers again on one of his devices, he will be activated again. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7736,9 +7738,9 @@ If the user registers again on one of his devices, he will be activated again. T
 + Response 204
 
 
-## Delete a user [/user/{userid}/remove]
+## Delete a User [/user/{user}/remove]
 
-### Delete a user object by userID [DELETE]
+### Delete a User [DELETE]
 Delete a user. The user will be completely removed from our system.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -7746,13 +7748,17 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
     + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The Notificare ID of the user
 
-+ Response 202
++ Response 202 (application/json; charset=utf-8)
+
+        {
+            "message": "user removal is being processed"
+        }
 
 
-## Retrieve a user object by userID [/user/foruserid/{userid}]
+## Retrieve a User by userID [/user/foruserid/{userid}]
 
-### Retrieve a user object by userID [GET]
-Retrieve a user object by custom `userID`. This request is authenticated with the `applicationKey` and  `masterSecret`.
+### Retrieve a User by userID [GET]
+Retrieve a user object using the `userID`. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
@@ -7774,6 +7780,34 @@ Retrieve a user object by custom `userID`. This request is authenticated with th
         }
 
 
+## Deactivate a User by userID [/user/foruserid/{userid}]
+
+### Deactivate a User by userID [DELETE]
+Deactivate a user using the  `userID`. The user will no longer be visible in the dashboard.
+If the user registers again on one of his devices, he will be activated again. This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + userid (required, string, `12345`)...The userID of the user
+
++ Response 204
+
+
+## Delete a User by userID [/user/foruserid/{userid}/remove]
+
+### Delete a User by userID [DELETE]
+Delete a user using the  `userID`. The user will be completely removed from our system.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + userid (required, string, `12345`)...The userID of the user
+
++ Response 202 (application/json; charset=utf-8)
+
+        {
+            "message": "user removal is being processed"
+        }
 
 ## Add user to segment [/user/{user}/add/{segment}]
 
