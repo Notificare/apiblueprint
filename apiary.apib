@@ -2011,48 +2011,105 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## New Export [/export/{type}]
-
-### New Export [POST]
-Create a new export job for an application. This job might take some time to finish, depending on the number of users your application has.
+## Export Devices [/export/re.notifica.export.Device]
+### Export Devices [POST]
+Export all devices for an application. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-### Export types
-
-#### re.notifica.export.User (default)
-Used to export the list of users for an application.
-
-#### re.notifica.export.Device
-Used to export the list of devices for an application.
-
-#### re.notifica.export.UserData
-Used to export the all the data for a specific user.
-
-#### re.notifica.export.Region
-Used to export the list of regions for an application.
-
-#### re.notifica.export.Beacon
-Used to export the list of beacons for an application.
-
-#### re.notifica.export.Notification
-Used to export the list of notifications for an application.
-
-#### re.notifica.export.Reply
-Used to export the list of replies for a specific notification for an application.
-
-#### re.notifica.export.Event
-Used to export the list of events for an application.
-
-#### re.notifica.export.TriggerHistory
-Used to export the trigger history of a specific trigger for an application.
-
-#### re.notifica.export.Campaign
-Used to export the results of a specific campaign for an application.
-
 
 + Parameters
 
-    + type (required, string, `re.notifica.export.User`)...The export type
+    + all (optional, boolean, `true`)...Specify if export job should include all devices, including inactive ones
+    + includeTags (optional, boolean, `true`)...Specify if export job should include all device tags
+    + tagsSeparator (optional, string, `-`)...Specify if export jobs should use a different separator for the tags. By default we will use |
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "all": true,
+                    "includeTags": true,
+                    "tagsSeparator": "-"
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+
+## Export Users [/export/re.notifica.export.User]
+### Export Users [POST]
+Export all users for an application. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + all (optional, boolean, `true`)...Specify if export job should include all users, including inactive ones
+    + showSegments (optional, mixed, `true`)...Specify if export job should include all segments. This property can also be an array of segment IDs, if you are looking to include only certain segments. Please note that export jobs will fail if you have users with more than 2000 segments
+    + showCombinedSegments (optional, boolean, `re.notifica.export.Device`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should show all segments in one column or in separate columns.
+    + useSegmentNames (optional, boolean, `true`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should contain the name of the segments instead of their IDs
+    + showPreferences (optional, boolean, `true`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should also contain user selectable segments
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "all": true,
+                    "showSegments": [
+                        "5245bc5b3e66a3b01f0024d4",
+                        "5245bc5b3e66a3b01f0024d5"
+                    ],
+                    "showCombinedSegments": true
+                    "useSegmentNames": true
+                    "showPreferences": false
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+
+## Export User Data [/export/re.notifica.export.UserData]
+### Export User Data [POST]
+Export all the data of a specific user. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + userID (optional, string, `john@doe.com`)...Specify which user you want to export data from
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "userID": "john@doe.com"
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export Regions [/export/re.notifica.export.Region]
+### Export Regions [POST]
+Export all regions for an application. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 + Response 201 (application/json; charset=utf-8)
@@ -2062,6 +2119,141 @@ Used to export the results of a specific campaign for an application.
                         "id": "5245bc5b3e66a3b01f0024d4"
                 }
         }
+
+## Export Beacons [/export/re.notifica.export.Beacon]
+### Export Beacons [POST]
+Export all beacons for an application. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export Notifications [/export/re.notifica.export.Notification]
+### Export Notifications [POST]
+Export notifications for an application. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + all (optional, boolean, `true`)...Specify if export job should include all notifications, including archived ones
+    + since (optional, string, `YYYY-MM-DD`)...Specify if export job should only include notifications created after a certain date
+    + before (optional, string, `YYYY-MM-DD`)...Specify if export job should only include notifications created before a certain date
+    + useSegmentNames (optional, boolean, `true`)...Specify if export jobs should contain the name of the segments instead of their IDs
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "all": true,
+                    "since": "2018-01-01",
+                    "before": "2018-12-01"
+                    "useSegmentNames": true
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export Replies [/export/re.notifica.export.Reply]
+### Export Replies [POST]
+Export replies for a specific notification. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + notification (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of the notification you wish to export replies from
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "notification": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export Events [/export/re.notifica.export.Event]
+### Export Events [POST]
+Export all the events for a certain type. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `re.notifica.event.notification.Open`)...The type of the event you wish to export records from
+    + since (optional, string, `YYYY-MM-DD`)...Specify if export job should only include events created after a certain date
+    + before (optional, string, `YYYY-MM-DD`)...Specify if export job should only include events created before a certain date
+    + notification (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is any `re.notifica.event.notification.*`, optionally you can specify the ID of a notification to include only events for that notification
+    + region (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is `re.notifica.event.region.Session`, optionally you can specify the ID of a region to include only events for that region
+    + fence (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is `re.notifica.event.beacon.Session`, optionally you can specify the ID of a region (where the beacons are located) to include only events for those beacons
+    + serial (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is any `re.notifica.event.pass.*`, optionally you can specify the serial of a pass to include only events for that pass
+    + group (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is any `re.notifica.event.asset.*`, optionally you can specify the ID of an asset group to include only events for that asset group
+    + scannable (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is any `re.notifica.event.scannable.*`, optionally you can specify the ID of a scannable to include only events for that scannable
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "type": "re.notifica.event.notification.Open",
+                    "notification": "5245bc5b3e66a3b01f0024d4",
+                    "since": "2018-01-01",
+                    "before": "2018-12-01"
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export Campaigns [/export/re.notifica.export.Campaign]
+### Export Campaigns [POST]
+Export replies for a specific notification. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + campaign (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of the campaign you wish to export results from
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "campaign": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+
 
 ## Export [/export/{export}]
 
@@ -2106,7 +2298,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         }
 
-### Delete an export job [DELETE]
+### Delete Export [DELETE]
 Delete an export job. This operation can not be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
