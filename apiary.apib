@@ -1981,6 +1981,34 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         }
 
+## Custom Event [/event/custom/{type}/{userID}]
+
+### Generate Custom Event [POST]
+Generate Custom Event for a specific User. Data sent in the payload can be accessed as placeholder data in automated notifications. In the example below, a placeholder `{{test}}` in an automated notification would be replaced by `a test value`.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + type (required, string, `MyCustomEvent`)...The type of custom event. This event type is automatically prepended with `re.notifica.event.custom.` namespace to prevent collisions.
+    + userID (required, string, `test@example.com`)...The user this event is triggered for. All automations and notification will apply to all of the devices of this user.
+    + data (optional, object)...The data key,value pairs to be associated with this event. Data can be accessed as placeholder data in automated notifications.
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                        "test": "a test value"
+                }
+        }
+
++ Response 202 (application/json; charset=utf-8)
+
+        {
+                "message": "event is being processed"
+        }
+
 
 # Group Export
 Methods for exporting users and devices.
@@ -8053,4 +8081,29 @@ Remove user from segment. This request is authenticated with the `applicationKey
                 "message": "user removed from segment"
         }
 
+## Provisional user [/user/provisional]
+
+### Create a provisional user [POST]
+Create a provisional user, i.e., an inactive user with no devices. This allows you to later add the user to segments or refer to it in an import that adds users to a segment. The user will not be visible in the list of users until a device is registered for that user. This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + userID (required, string, `test@example.com`)...The user ID
+
+    + userName (optional, string, `John Doe`)...The user's name
+
++ Request (application/json)
+
+        {
+                "userID":"test@example.com",
+                "userName":"John Doe"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "user": {
+                        "_id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
 
