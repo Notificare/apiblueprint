@@ -2,9 +2,11 @@ FORMAT: 1A
 HOST: https://push.notifica.re/
 
 # Notificare REST API
-Unified remote push notifications and location services for iOS, Android and HTML5 apps. 
-Create user profiles, categorize your users and devices, create/schedule any content-rich and actionable notification. 
-Use Geo-Targeting, Geo-Fencing or iBeacon technology to provide the ultimate messaging experience. Sign up for free [here](https://dashboard.notifica.re/#/sign-up).
+Unified remote push notifications, location services, actionable analytics, loyalty and marketing automation for iOS, Android and Web apps.
+Create user profiles, categorize your users and devices, create & schedule any rich and interactive notification.
+Tap into millions of App Store and Google Play users with in-app products, run reward and loyalty programs with digital cards in Wallet and use Geo-Targeting, Geo-Fencing or iBeacon technology to provide the ultimate messaging experience.
+
+Sign up for free [here](https://dashboard.notifica.re/#/sign-up).
 
 The API calls below are all authenticated. There are 4 types of authentication credentials:
 
@@ -1814,17 +1816,15 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
     + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
+    + geometry (required, object, `[[4.2345, 5.6789],[4.2345, 5.6789],[4.2345, 5.6789]]`)...A simple polygon geoJSON object used to query the devices' location
 
 + Request (application/json; charset=utf-8)
 
         {
-                "geometry": [
-                              [4.2345, 5.6789],
-                              [4.2345, 5.6789],
-                              [4.2345, 5.6789],
-                              [4.2345, 5.6789],
-                              [4.2345, 5.6789]
-                            ]
+                "geometry": {
+                               "coordinates":[[4.2345,5.6789],[4.2345,5.6789],[4.2345,5.6789],[4.2345,5.6789]],
+                               "type":"Polygon"
+                            }
         }
 
 + Response 200 (application/json; charset=utf-8)
@@ -7310,10 +7310,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "type": "re.notifica.trigger.region.Enter",
                                   "frequency": "once",
                                   "interval": 8600,
-                                  "notBefore": "",
-                                  "notAfter": "",
-                                  "dayEnd": "",
-                                  "dayStart": "",
+                                  "notBefore": null,
+                                  "notAfter": null,
+                                  "dayEnd": null,
+                                  "dayStart": null,
                                   "notification": "5245bc5b3e66a3b01f0024d4",
                                   "rules": [],
                                   "skipDays": [],
@@ -7359,10 +7359,10 @@ Three special cases apply:
     + frequency = `time` (optional, string,)...How often the trigger should be fired. Can be `once`, `always` or `time`. The latter value requires an interval to be provided.
     + interval = 86400 (optional, number, `86400`)...Minimal interval in seconds before a trigger will be fired again.
     + delayMinutes = 0 (optional, number, `5`)...Trigger will fire after this amount of minutes, if not canceled by the opposite geo-transition.
-    + notBefore (optional, date, `2012-11-28T15:31:54`)...Triggers will not fire before this date.
-    + notAfter (optional, date, `2014-11-28T15:31:54`)...Triggers will not fire after this date.
-    + dayStart (optional, time, `08:00:00`)...Triggers will not fire before this time of day.
-    + dayEnd (optional, time, `19:00:00`)...Triggers will not fire after this time of day.
+    + notBefore (optional, string, `2012-11-28 15:31:54`)...Triggers will not fire before this date.
+    + notAfter (optional, string, `2014-11-28 15:31:54`)...Triggers will not fire after this date.
+    + dayStart (optional, string, `08:00`)...Triggers will not fire before this time of day.
+    + dayEnd (optional, string, `19:00`)...Triggers will not fire after this time of day.
     + skipDays (optional, array, `[1,2]`)...Triggers will not fire on any of these days. Sunday is `0`.
     + source (required, string, `5245bc5b3e66a3b01f0024d4`)...The region or beacon this trigger is attached to. See notes above.
     + active = `false` (optional, boolean, `true`)...This trigger is active or not.
@@ -7417,10 +7417,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "type": "re.notifica.trigger.region.Exit",
                                   "frequency": "always",
                                   "interval": 8600,
-                                  "notBefore": "2012-11-28T15:31:54",
-                                  "notAfter": "2014-11-28T15:31:54",
-                                  "dayEnd": "08:00:00",
-                                  "dayStart": "19:00:00",
+                                  "notBefore": "2012-11-28 15:31",
+                                  "notAfter": "2014-11-28 15:31",
+                                  "dayEnd": "08:00",
+                                  "dayStart": "19:00",
                                   "notification": "5245bc5b3e66a3b01f0024d4",
                                   "rules": [{"type":"re.notifica.rule.segment.Add", "params":["3445bc5b4563b01f0f5"]}],
                                   "skipDays": [0,6],
@@ -7443,10 +7443,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + frequency = `time` (optional, string,)...How often the trigger should be fired. Can be `once`, `always` or `time`. The latter value requires an interval to be provided.
     + interval = 86400 (optional, number, `86400`)...Minimal interval in seconds before a trigger will be fired again.
     + delayMinutes = 0 (optional, number, `5`)...Trigger will fire after this amount of minutes, if not canceled by the opposite geo-transition.
-    + notBefore (optional, date, `2012-11-28T15:31:54`)...Triggers will not fire before this date.
-    + notAfter (optional, date, `2014-11-28T15:31:54`)...Triggers will not fire after this date.
-    + dayStart (optional, time, `08:00:00`)...Triggers will not fire before this time of day.
-    + dayEnd (optional, time, `19:00:00`)...Triggers will not fire after this time of day.
+    + notBefore (optional, string, `2012-11-28 15:31:54`)...Triggers will not fire before this date.
+    + notAfter (optional, string, `2014-11-28 15:31:54`)...Triggers will not fire after this date.
+    + dayStart (optional, string, `08:00`)...Triggers will not fire before this time of day.
+    + dayEnd (optional, string, `19:00`)...Triggers will not fire after this time of day.
     + skipDays (optional, array, `[1,2]`)...Triggers will not fire on any of these days. Sunday is `0`.
     + source (required, string, `5245bc5b3e66a3b01f0024d4`)...The region or beacon this trigger is attached to. See notes above.
     + active = `false` (optional, boolean, `true`)...This trigger is active or not.
