@@ -1974,7 +1974,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Custom Event [/event/custom/{type}/{userID}]
 
-### Generate Custom Event [POST]
+### Create Custom Event [POST]
 Generate Custom Event for a specific User. Data sent in the payload can be accessed as placeholder data in automated notifications. In the example below, a placeholder `{{test}}` in an automated notification would be replaced by `a test value`.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -8052,9 +8052,9 @@ Remove user from segment. This request is authenticated with the `applicationKey
                 "message": "user removed from segment"
         }
 
-## Provisional user [/user/provisional]
+## Provisional User [/user/provisional]
 
-### Create a provisional user [POST]
+### Create Provisional User [POST]
 Create a provisional user, i.e., an inactive user with no devices. This allows you to later add the user to segments or refer to it in an import that adds users to a segment. The user will not be visible in the list of users until a device is registered for that user. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
