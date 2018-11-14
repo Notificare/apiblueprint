@@ -77,14 +77,11 @@ Delete account session. This request must be authenticated with the `token`.
 
 + Response 204 (application/json; charset=utf-8)
 
-        {
 
-        }
-
-## Two Step Verification [/account/login/totp]
+## Create TOTP [/account/login/totp]
 Once you enable a 2FA authentication method, the endpoint for account login will return the property `needsSecondFactor` as true. Whenever that is the case, you need to implement also this endpoint in order to provide us with the 6 digit code required to start a session. Failing to do this will result in HTTP errors for all endpoints using the session token.
 
-### 2nd Step [POST]
+### Create TOTP [POST]
 Provide the 6 digit code after retrieving session token with account credentials. This request must be authenticated with the `token`.
 
 + Parameters
@@ -102,10 +99,10 @@ Provide the 6 digit code after retrieving session token with account credentials
         }
 
 
-## 2FA [/account/2fa]
+## Check 2FA [/account/2fa]
 As an extra layer of security you can choose to enable Two Factor Authentication for your account. This feature currently supports only TOTP (Time-based One-Time Password) with the Google Authenticator app which generates one time codes that will be required every time you try to start a new session. Support for channels like U2F (Universal 2nd Factor Authentication) and SMS (Short Message Service) are currently being developed.
 
-### Check 2FA Status [GET]
+### Check 2FA [GET]
 Retrieve the account 2FA state. This should provide information about 2FA functionality for your account. This request must be authenticated with the `token`.
 
 + Response 200 (application/json; charset=utf-8)
@@ -114,7 +111,7 @@ Retrieve the account 2FA state. This should provide information about 2FA functi
             use2FA: false,
             totp: {
                 configured: false,
-                verified; false,
+                verified: false,
                 date: "2013-11-25T15:19:10.000Z"
             },
             u2f: {
@@ -122,10 +119,10 @@ Retrieve the account 2FA state. This should provide information about 2FA functi
             }
         }
 
-## Configuring TOTP [/account/2fa/totp]
+## Register TOTP [/account/2fa/totp]
 As part of the 2FA setup, registering for TOTP is required in order to obtained the URL required to open Google Authenticator app and configure, enable or disable a TOTP.
 
-### Register for TOTP [POST]
+### Register TOTP [POST]
 Register your account for TOTP. This endpoint will provide you a key (for manual setup) and URL (to create a QRCode) that allows you to configure the Google Authenticator app. This request must be authenticated with the `token`.
 
 + Response 200 (application/json; charset=utf-8)
@@ -141,14 +138,11 @@ Register your account for TOTP. This endpoint will provide you a key (for manual
                 "error":"authenticator already setup"
         }
 
-### Unregister for TOTP [DELETE]
+### Unregister TOTP [DELETE]
 Unregister your account for TOTP. This endpoint will delete the setup for the Google Authenticator app. This request must be authenticated with the `token`.
 
 + Response 204 (application/json; charset=utf-8)
 
-        {
-
-        }
 
 + Response 403 (application/json; charset=utf-8)
 
@@ -162,7 +156,7 @@ Unregister your account for TOTP. This endpoint will delete the setup for the Go
                 "error":"authenticator not setup"
         }
 
-## Enabling TOTP [/account/2fa/enable]
+## Enable TOTP [/account/2fa/enable]
 
 ### Enable TOTP [PUT]
 At any time when your account has been configured for 2FA, you can use this endpoint to enable it. This request must be authenticated with the `token`.
@@ -192,7 +186,7 @@ At any time when your account has been configured for 2FA, you can use this endp
         }
 
 
-## Disabling TOTP [/account/2fa/disable]
+## Disable TOTP [/account/2fa/disable]
 
 ### Disable TOTP [PUT]
 At any time when your account has been configured for 2FA and is enabled, you can disable it. This request must be authenticated with the `token`.
@@ -218,7 +212,7 @@ These keys will be used in by both your apps and this API to access your applica
 
 ## Applications [/application{?limit,skip}]
 
-### Get all applications [GET]
+### Applications [GET]
 Get your active applications. This request must be authenticated with the `token`.
 
 + Parameters
@@ -293,7 +287,7 @@ Get your active applications. This request must be authenticated with the `token
 
 ## Shared Applications [/application/shared{?limit,skip}]
 
-### Get all shared applications [GET]
+### Shared Applications [GET]
 Get all the active applications that are shared with your account. This request must be authenticated with the `token`.
 
 + Parameters
@@ -367,8 +361,8 @@ Get all the active applications that are shared with your account. This request 
         }
 
 
-## New Application [/application]
-### Create an application [POST]
+## Create Application [/application]
+### Create Application [POST]
 Create a new application. This request must be authenticated with the `token`.
 
 + Parameters
@@ -396,7 +390,7 @@ Create a new application. This request must be authenticated with the `token`.
         }
 
 ## Application [/application/{application}]
-### Get a specific application [GET]
+### Get Application [GET]
 Get an application object. This request must be authenticated with the `token`.
 
 + Parameters
@@ -425,22 +419,22 @@ Get an application object. This request must be authenticated with the `token`.
                                    "apnsConfig": {
                                                    "certificate": "raw certificate",
                                                    "info": {
-                                                   "serial": "xxxxxx",
-                                                   "subject": {
-                                                                "UID": "re.notifica.test",
-                                                                "CN": "Apple Development IOS Push Services: re.notifica.test",
-                                                                "OU": "XXXXXXXXXX",
-                                                                "C": "NL"
-                                                    },
-                                                    "issuer": {
-                                                                "C": "US",
-                                                                "O": "Apple Inc.",
-                                                                "OU": "Apple Worldwide Developer Relations",
-                                                                "CN": "Apple Worldwide Developer Relations Certification Authority"
-                                                    },
-                                                    "notBefore": "2013-11-25T15:19:10.000Z",
-                                                    "notAfter": "2014-11-25T15:19:10.000Z"
-                                                 }
+                                                       "serial": "xxxxxx",
+                                                       "subject": {
+                                                                    "UID": "re.notifica.test",
+                                                                    "CN": "Apple Development IOS Push Services: re.notifica.test",
+                                                                    "OU": "XXXXXXXXXX",
+                                                                    "C": "NL"
+                                                        },
+                                                        "issuer": {
+                                                                    "C": "US",
+                                                                    "O": "Apple Inc.",
+                                                                    "OU": "Apple Worldwide Developer Relations",
+                                                                    "CN": "Apple Worldwide Developer Relations Certification Authority"
+                                                        },
+                                                        "notBefore": "2013-11-25T15:19:10.000Z",
+                                                        "notAfter": "2014-11-25T15:19:10.000Z"
+                                                   }
                                     },
                                     "regionConfig": {
                                                       "proximityUUID": "f7826da6-4fa2-4e98-8024-bc5b71e0893e"
@@ -463,12 +457,11 @@ Get an application object. This request must be authenticated with the `token`.
                                     "blocked": false,
                                     "date": "2012-11-28T15:31:54.904Z",
                                     "category": "Other"
-                                  }
-                ]
+                }
         }
 
 
-### Modify a specific application [PUT]
+### Update Application [PUT]
 Modify an application. This request must be authenticated with the `token`.
 
 + Parameters
@@ -494,7 +487,7 @@ Modify an application. This request must be authenticated with the `token`.
 
 
 
-### Detele a specific application [DELETE]
+### Delete Application [DELETE]
 Destroy an application. This operation can not be undone. This request must be authenticated with the `token`.
 
 + Parameters
@@ -515,7 +508,7 @@ Storage is an add-on of Notificare. When active this add-on will let you manage 
 Therefore this add-on is divided in two different endpoints: assets and asset groups. Assets being the files you can upload to Notificare and asset groups being the groups of files that can be used in an application.
 
 ## Assets [/asset{?limit,skip}]
-### Get all the assets [GET]
+### Get Assets [GET]
 Get all the assets for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -559,7 +552,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-### New Asset [POST]
+### Create Asset [POST]
 Create an asset in a specific application. Uploads a file to Notificare. The resulting filename is the path of that file inside the notificare storage. This can be used as a reference to the file in further processing or deleting.
 The contents of the file should be in the body of the request and with the correct mime-type. So, e.g. an image should be of type `image/png`, `image/jpg` or `image/gif`, a pdf should be `application/pdf` and a video should be `video/mp4`.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -573,13 +566,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Response 201 (application/json; charset=utf-8)
 
         {
-                "_id": "570bff9ff09c7c399e721897"
+                "_id": "570bff9ff09c7c399e721897",
                 "key": "3d99d18148e6f3dbcf4ff891c9a02ffb0311feccc7b9d0c8c79fee9dddde19/51b73467c0665add7abfd4bc47ebfdff843f77f58dcb12cdeb3d0c094f0e9835"
         }
 
 ## Asset [/asset/{id}]
 
-### Modify an asset [PUT]
+### Update Asset [PUT]
 Modify a specific asset.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -601,7 +594,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-### Delete an asset [DELETE]
+### Delete Asset [DELETE]
 Delete an asset. This operation can not be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -614,7 +607,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 ## Asset Groups [/asset/group{?limit,skip}]
-### Get all the asset groups [GET]
+### Get Asset Groups [GET]
 Get all the asset groups for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -672,7 +665,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 ## Asset Groups By Name [/asset/group{?limit,skip}]
-### Get all the asset groups by name [GET]
+### Get Asset Groups By Name [GET]
 Get all the asset groups for an application. Because asset groups can share the same name you might need to get all asset groups with the same name. Use this endpoint to retrieve assets with the same name.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -730,7 +723,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-### New Asset Group [POST]
+### Create Asset Group [POST]
 Create an asset group in a specific application. This allows you to group assets in a group can then later be retrieved in your applications using the SDKs.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -786,7 +779,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Asset Group [/asset/group/{id}]
 
-### Get an asset group [GET]
+### Get Asset Group [GET]
 Get a specific asset group.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -820,7 +813,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
        }
 
 
-### Modify an asset group [PUT]
+### Update Asset Group [PUT]
 Modify a specific asset group.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -872,8 +865,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "message": "asset group updated"
         }
 
-### Delete an asset group [DELETE]
-Delete an asset group. This operation can not be undone.
+### Delete Asset Group [DELETE]
+Delete an asset group. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -891,7 +884,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 Automation is an add-on of Notificare. It will give you access to mechanisms that can automate how you send notifications.
 
 ## Datasources [/datasource]
-### Get all the datasources [GET]
+### Get Datasources [GET]
 Get all the datasources for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -940,7 +933,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-### New Datasource [POST]
+### Create Datasource [POST]
 Create a datasource.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -981,7 +974,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Datasource [/datasource/{id}]
 
-### Get a specific the datasource [GET]
+### Get Datasource [GET]
 Get a specific datasource.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1014,7 +1007,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-### Modify a datasource [PUT]
+### Update Datasource [PUT]
 Modify a datasource.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1051,13 +1044,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "message":"datasource updated"
         }
 
-### Delete a datasource [DELETE]
-Delete a datasource. This operation can not be undone.
+### Delete Datasource [DELETE]
+Delete a datasource. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + datasource (required, string, `5245bc5b3e66a3b01f0024d4`)...The source's id.
+    + id (required, string, `5245bc5b3e66a3b01f0024d4`)...The source's id.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -1067,9 +1060,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## New Datasource Test [/datasource/test]
+## Test Datasource [/datasource/test]
 
-### Test a new datasource feed [POST]
+### Test New Datasource [POST]
 Test a datasource feed before actually creating it.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1111,9 +1104,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## Existing Datasource Test [/datasource/{id}/test]
+## Test Existing Datasource [/datasource/{id}/test]
 
-### Test an existing datasource feed [PUT]
+### Test Existing Datasource [PUT]
 Test a datasource feed that is already created.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1152,7 +1145,7 @@ Also beacons require that you create a triggered message previously.
 
 
 ## Beacons [/beacon/forregion/{region}]
-### Get all beacons for a certain region [GET]
+### Get Beacons [GET]
 Get all beacons for a certain region.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1182,9 +1175,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 }]
         }
 
-## New Beacon [/beacon]
+## Create Beacon [/beacon]
 
-### Create a new beacon for a region [POST]
+### Create Beacon [POST]
 Create a new beacon for a region. To complete this request you must create a triggered Notification first. 
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1200,7 +1193,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + purpose (optional, string, `general`)...An object representing the purpose of the beacon. Accepts one of these: 'general', 'pay', 'info', 'staff', 'admin'.
     + latitude (optional, number, `5.435`)...An integer representing the beacon's latitude.
     + longitude (optional, number, `3.435`)...An integer representing the beacon's longitude.
-    + data (optional, mixed, `{"mykey":"myvalue"}`)...A free form object that can be assigned to a beacon.
+    + data (optional, object, `{"mykey":"myvalue"}`)...A free form object that can be assigned to a beacon.
     + triggers (optional, `boolean`)...Set to true if this beacon can be used in triggers. Max. number of beacons that can use triggers is limited to 10.
 
 
@@ -1225,13 +1218,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 ## Beacon [/beacon/{id}]
-### Get a beacon object [GET]
+### Get Beacon [GET]
 Get a beacon object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + beacon (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
+    + id (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -1244,17 +1237,18 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                    "major": "654321",
                                    "minor": "123456",
                                    "proximity": "immediate"
+                          }
         }
 
 
-### Modify a beacon [PUT]
+### Update Beacon [PUT]
 Modify a beacon.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 + Parameters
 
-    + beacon (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
+    + id (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
     + name (required, string, `My Beacon`)...Your beacon's name
     + major (required, number, `654321`)...Your beacon's major identifier (must match a previously created identifier of a region)
     + minor (required, number, `123456`)...Your beacon's minor identifier (must be unique per major)
@@ -1265,7 +1259,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + purpose (optional, string, `general`)...An object representing the purpose of the beacon. Accepts one of these: 'general', 'pay', 'info', 'staff', 'admin'.
     + latitude (optional, number, `5.435`)...An integer representing the beacon's latitude.
     + longitude (optional, number, `3.435`)...An integer representing the beacon's longitude.
-    + data (optional, mixed, `{"mykey":"myvalue"}`)...A free form object that can be assigned to a beacon.
+    + data (optional, object, `{"mykey":"myvalue"}`)...A free form object that can be assigned to a beacon.
     + triggers (optional, `boolean`)...Set to true if this beacon can be used in triggers. Max. number of beacons that can use triggers is limited to 10.
 
 
@@ -1287,13 +1281,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-### Delete a beacon [DELETE]
-Delete a beacon. This operation can not be undone.
+### Delete Beacon [DELETE]
+Delete a beacon. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + beacon (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
+    + id (required, string, `5245bc5b3e66a3b01f0024d4`)...The beacon id of an active beacon.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -1311,7 +1305,7 @@ Management of devices is exclusively made by our SDK libraries therefore you onl
 
 ## Devices [/device{?limit,skip}]
 
-### Get all the devices for a specific application [GET]
+### Get Devices [GET]
 Get all the devices for a specific application. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1325,7 +1319,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1376,7 +1370,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Device [/device/{deviceID}]
 
-### Get a specific device based on the deviceID [GET]
+### Get Device [GET]
 Get a specific device based on the deviceID.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1389,7 +1383,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "device":{
-                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1415,9 +1409,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## User Registration [/device/{deviceID}/user]
+## Register User [/device/{deviceID}/user]
 
-### Register User to Device [PUT]
+### Register User To Device [PUT]
 Register a userID and userName to a device. If you have the Users & Authentication add-on, you can delegate user registration to you back-end API. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to add a userID and userName to a device.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1438,9 +1432,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "message": "device updated"
         }
 
-## User Unregistration [/device/{deviceID}/user]
+## Unregister User [/device/{deviceID}/user]
 
-### Unregister User from a device [DELETE]
+### Unregister User From Device [DELETE]
 Unregister a userID and userName from a device. If you have the Users & Authentication add-on, you can delegate user registration to you back-end API. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to remove a userID and userName from a device.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1455,9 +1449,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Devices for User [/device/foruser/{user}{?limit,skip}]
+## Devices For User [/device/foruser/{user}{?limit,skip}]
 
-### Get all the devices for a specific user [GET]
+### Get Devices For User [GET]
 Get all the devices for a specific user. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1472,7 +1466,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1526,7 +1520,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Devices For Tag [/device/fortag/{tag}{?limit,skip}]
 
-### Get all the devices for a specific tag [GET]
+### Get Devices For Tag [GET]
 Get all the devices for a specific tag. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1541,7 +1535,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1554,15 +1548,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "timeZoneOffset":-5,
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
-                                  "tags":[
-                                          toys
-                                  ],
+                                  "tags":[],
                                   "location":{
                                                "coordinates":[4.2345,5.6789],
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "deviceString":"MacIntel
+                                  "deviceString":"MacIntel"
                               },
                                {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
@@ -1578,26 +1570,25 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "timeZoneOffset":-5,
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
-                                  "tags":[
-                                          toys
-                                  ],
+                                  "tags":[],
                                   "location":{
-                                               "coordinates":[],
+                                               "coordinates":[4.2345,5.6789],
                                                "type":"Point"
                                   },
                                   "language":"en",
-                                  "deviceString":"MacIntel
+                                  "deviceString":"MacIntel"
                               }
                 ],
                 "count": 2
-                          
+
         }
 
 
 
-## Devices for Location [/device/bylocation/{latitude}/{longitude}/{distance}{?limit,skip}]
 
-### Get all the devices in a specific location [GET]
+## Devices For Location [/device/bylocation/{latitude}/{longitude}/{distance}{?limit,skip}]
+
+### Get Devices For Location [GET]
 Get all the devices in a specific location. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1605,9 +1596,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + latitude (required, float, `4.2345`)...The desired latitude
-    + longitude (required, float, `5.6789`)...The desired longitude
-    + distance (required, float, `1.5`)...The distance in kilometers of your search area relative to the latitude and longitude
+    + latitude (required, number, `4.2345`)...The desired latitude
+    + longitude (required, number, `5.6789`)...The desired longitude
+    + distance (required, number, `1.5`)...The distance in kilometers of your search area relative to the latitude and longitude
     + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
@@ -1616,7 +1607,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1630,7 +1621,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
-                                          toys
+                                          "toys"
                                   ],
                                   "location":{
                                                "coordinates":[4.2345,5.6789],
@@ -1654,7 +1645,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
-                                          toys
+                                          "toys"
                                   ],
                                   "location":{
                                                "coordinates":[],
@@ -1669,9 +1660,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Devices within Bounds [/device/bylocation/{lat1}/{long1}/{lat2}/{long2}{?limit,skip}]
+## Devices For Bounds [/device/bylocation/{lat1}/{long1}/{lat2}/{long2}{?limit,skip}]
 
-### Get all the devices withing a specific bounds [GET]
+### Get Devices For Bounds [GET]
 Get all the devices withing a specific bounds. Bounds form a rectangle from the points at its south-west and north-east corners. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1679,10 +1670,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + lat1 (required, float, `4.2345`)...The desired south-east latitude
-    + long1 (required, float, `5.6789`)...The desired south-east longitude
-    + lat2 (required, float, `4.2345`)...The desired north-west latitude
-    + long2 (required, float, `5.6789`)...The desired north-west longitude
+    + lat1 (required, number, `4.2345`)...The desired south-east latitude
+    + long1 (required, number, `5.6789`)...The desired south-east longitude
+    + lat2 (required, number, `4.2345`)...The desired north-west latitude
+    + long2 (required, number, `5.6789`)...The desired north-west longitude
     + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
@@ -1691,7 +1682,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1705,7 +1696,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
-                                          toys
+                                          "toys"
                                   ],
                                   "location":{
                                                "coordinates":[4.2345,5.6789],
@@ -1729,7 +1720,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
-                                          toys
+                                          "toys"
                                   ],
                                   "location":{
                                                "coordinates":[],
@@ -1743,13 +1734,11 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         }
 
-## Devices for Region [/device/forregion/{region}{?limit,skip}]
+## Devices For Region [/device/forregion/{region}{?limit,skip}]
 
-### Get all the devices in a specific region [GET]
+### Get Devices For Region [GET]
 Get all the devices in a specific region. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-
 
 + Parameters
 
@@ -1762,7 +1751,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1776,7 +1765,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
-                                          toys
+                                          "toys"
                                   ],
                                   "location":{
                                                "coordinates":[4.2345,5.6789],
@@ -1800,7 +1789,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
-                                          toys
+                                          "toys"
                                   ],
                                   "location":{
                                                "coordinates":[],
@@ -1815,13 +1804,11 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Devices for Polygon [/device/bygeometry{?limit,skip}]
+## Devices For Polygon [/device/bygeometry{?limit,skip}]
 
-### Get all the devices in a specific geometric shape. [POST]
+### Get Devices For Polygon [POST]
 Get all the devices in a specific geometric shape. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
-
-
 
 + Parameters
 
@@ -1832,7 +1819,11 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         {
                 "geometry": [
-                              [4.2345,5.6789],[4.2345,5.6789],[4.2345,5.6789],[4.2345,5.6789],[4.2345,5.6789]
+                              [4.2345, 5.6789],
+                              [4.2345, 5.6789],
+                              [4.2345, 5.6789],
+                              [4.2345, 5.6789],
+                              [4.2345, 5.6789]
                             ]
         }
 
@@ -1841,7 +1832,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "devices":[
                               {
-                                  "_id":"5245bc5b3e66a3b01f0024d4"
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1855,7 +1846,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
-                                          toys
+                                          "toys"
                                   ],
                                   "location":{
                                                "coordinates":[4.2345,5.6789],
@@ -1879,7 +1870,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "lastActive":"2014-03-11T16:20:55.084Z",
                                   "active":true,
                                   "tags":[
-                                          toys
+                                          "toys"
                                   ],
                                   "location":{
                                                "coordinates":[],
@@ -1917,10 +1908,10 @@ Get all the Events stored for a specific application.
 | re.notifica.event.product.Buy.{store} | Stored whenever a purchase is done, where store is AppStore or GooglePlay. |
 | re.notifica.event.product.Buy.{store}.{identifier} | Stored whenever a purchase is done, where store is AppStore or GooglePlay. |
 
-## Event Collection [/event/fortype/{type}{?limit,skip,since,before,region}]
+## Events For Type [/event/fortype/{type}{?limit,skip,since,before,region}]
 
-### Get all the events for a specific application [GET]
-Get all the Events types stored for a specific application.
+### Get Events For Type [GET]
+Get all the events for a type for a specific application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -1958,7 +1949,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Event [/event/{id}]
 
-### Get an event object [GET]
+### Get Event [GET]
 Get a specific event object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -1985,9 +1976,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 # Group Export
 Methods for exporting users and devices.
 
-## Exports [/export]
+## Export Jobs [/export]
 
-### Get all export jobs for an application [GET]
+### Get Export Jobs [GET]
 Get all export jobs for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2050,8 +2041,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Parameters
 
     + all (optional, boolean, `true`)...Specify if export job should include all users, including inactive ones
-    + showSegments (optional, mixed, `true`)...Specify if export job should include all segments. This property can also be an array of segment IDs, if you are looking to include only certain segments. Please note that export jobs will fail if you have users with more than 2000 segments
-    + showCombinedSegments (optional, boolean, `re.notifica.export.Device`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should show all segments in one column or in separate columns.
+    + showSegments (optional, object, `true`)...Specify if export job should include all segments. This property can also be an array of segment IDs, if you are looking to include only certain segments. Please note that export jobs will fail if you have users with more than 2000 segments
+    + showCombinedSegments (optional, boolean, `true`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should show all segments in one column or in separate columns.
     + useSegmentNames (optional, boolean, `true`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should contain the name of the segments instead of their IDs
     + showPreferences (optional, boolean, `true`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should also contain user selectable segments
 
@@ -2255,15 +2246,15 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## Export [/export/{export}]
+## Export Job [/export/{export}]
 
-### Get an export job object [GET]
+### Get Export Job [GET]
 Get a specific export job object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + id (required, string, `542f1868d341d51284b`)...The export job Id.
+    + export (required, string, `542f1868d341d51284b`)...The export job Id.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -2298,8 +2289,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         }
 
-### Delete Export [DELETE]
-Delete an export job. This operation can not be undone.
+### Delete Export Job [DELETE]
+Delete an export job. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -2314,9 +2305,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Exports for Type [/export/fortype/{type}]
+## Exports For Type [/export/fortype/{type}]
 
-### Get all export jobs of a specific type [GET]
+### Get Exports For Type [GET]
 Get all export jobs of a specific type.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2362,7 +2353,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Export Result [/export/result/{export}]
 
-### Get a specific export job result [GET]
+### Get Export Result [GET]
 Get a specific export job result. This endpoint will only be available for export jobs with a status equal to success.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2374,7 +2365,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Export Download Link [/export/download/{export}]
 
-### Create a download link for an export job [POST]
+### Create Export Download Link [POST]
 Create a temporary download link of the export job results. This endpoint will only be available for export jobs with a status equal to success. Please also note that this link will only be available for 5 minutes. All export files will be located at https://push.notifica.re/export/download/{token}.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2393,9 +2384,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 # Group Geo
 Methods for retrieving information about timezone, country, forward and reverse geocoding.
 
-## Timezone & Country [/geo/timezone]
+## Timezone Information [/geo/timezone]
 
-### Get information about a timezone and country [GET]
+### Get Timezone Information [GET]
 Get information about a timezone and country for a given latitude or longitude.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2424,7 +2415,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Forward Geocoding [/geo/search]
 
-### Get latitude and longitude [GET]
+### Get Forward Geocoding [GET]
 Get information about latitude and longitude of a given address, place, city or country.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2460,7 +2451,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Reverse Geocoding [/geo/reverse]
 
-### Get address from latitude & longitude [GET]
+### Get Reverse Geocoding [GET]
 Get information about an address for a given latitude and longitude.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2488,16 +2479,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 Methods for importing collections of items. Files are assumed to be uploaded to Notificare Storage before they can be used in a new import. Use this [endpoint](http://docs.notificare.apiary.io/#reference/upload) to upload a file.
 
 
-## Imports [/import]
-### Get all the import objects [GET]
+## Import Jobs [/import]
+### Get Import Jobs [GET]
 Get all the import objects.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 + Response 200 (application/json; charset=utf-8)
-
-        {
-
 
         }
                 "importJobs":[{
@@ -2516,8 +2504,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               }]
         }
 
-## Import By Type [/import/{type}]
-### Get all the import objects by type [GET]
+## Import Jobs For Type [/import/{type}]
+### Get Import Jobs For Type [GET]
 Get all the import objects by type.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2526,8 +2514,6 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + type (required, string, `re.notifica.import.UserSegment`)...The import type of a previously created job.
 
 + Response 200 (application/json; charset=utf-8)
-
-        {
 
 
         }
@@ -2548,7 +2534,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 ## Import [/import/{import}]
-### Get a specific import object [GET]
+### Get Import [GET]
 Get an import object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -2839,7 +2825,7 @@ Recognized columns in your .csv file are:
 
 + pass_barcode (if barcode is unique, can be used for redeem)
 
-+ pass_barcode_message (not unique, can not be together with pass_barcode)
++ pass_barcode_message (not unique, cannot be together with pass_barcode)
 
 + pass_barcode_alt_text
 
@@ -3005,7 +2991,7 @@ You can also add an array `actions` to your notifications by simply providing on
 | re.notifica.notification.URL | Use this type to open any URL in a native WebView. It requires a Content object of type `re.notifica.content.URL`. You can additionally add Action objects to this type of Notification. |
 | re.notifica.notification.Image | Add one or more images to your notifications. It requires one or more Content objects of types `re.notifica.content.JPEG`, `re.notifica.content.PNG` or `re.notifica.content.GIF`. You can additionally add Action objects to this type of Notification. |
 | re.notifica.notification.Map | This type of notifications will use the device's native maps to display one or more locations. It requires one or more Content objects of type `re.notifica.content.Marker`. You can additionally add Action objects to this type of Notification. |
-| re.notifica.notification.Rate | This type is used exclusively to send a dialog window with three Action objects included. The user can then choose to rate the app in App Store/Google Play, to be remembered later to rate or to not rate at all. This type of Notification does not require any Content object. Also you can not add any more Action objects to this type of Notification. |
+| re.notifica.notification.Rate | This type is used exclusively to send a dialog window with three Action objects included. The user can then choose to rate the app in App Store/Google Play, to be remembered later to rate or to not rate at all. This type of Notification does not require any Content object. Also you cannot add any more Action objects to this type of Notification. |
 | re.notifica.notification.Passbook | Use this type to easily send .pkpass files in your push notifications. Distribute your Passbook Passes directly to your app users. This type does not allow any Action objects. |
 | re.notifica.notification.Video | This type of notifications is used to send video content to your users. It requires one of these three types of content: `re.notifica.content.YouTube`, `re.notifica.content.Vimeo` or `re.notifica.content.HTML5Video`. You can additionally add Action objects to this type of Notification. This type is only available for SDKs 1.8.0 and up. |
 | re.notifica.notification.URLScheme | Use this type of notifications to deep link messages to areas of your app. You will need to make sure your app responds to these URL Schemes by providing them in you app's Info.plist (iOS) or AndroidManifest.xml (Android). This type is only available for SDKs 1.8.0 and up. |
@@ -3045,9 +3031,9 @@ You can also add an array `actions` to your notifications by simply providing on
 | re.notifica.rule tag.Add | array of tags (eg.: ["tag_news","tag_press"]) |
 | re.notifica.rule tag.Remove | array of tags (eg.: ["tag_news","tag_press"]) |
 
-## Send to all [/notification/broadcast]
+## Notification Broadcast [/notification/broadcast]
 
-### Send a message to all devices [POST]
+### Create Notification Broadcast [POST]
 Send a message to **all** devices. 
 You can also schedule a broadcast, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -3115,10 +3101,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Send to one or more tags [/notification/tags]
+## Notification By Tags [/notification/tags]
 
-### Send a message to devices with any of the specified tags [POST]
-
+### Create Notification By Tags [POST]
 Send a message to devices with any of the specified `tags`. 
 You can also schedule these message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -3185,9 +3170,9 @@ The request accepts an array of tags. This request must be authenticated with th
                 "message":"notifications are queued"
         }
         
-## Send to one or more segments [/notification/segments]
+## Notification By Segments [/notification/segments]
 
-### Send a message to users in one or more of the specified segments [POST]
+### Create Notification By Segments [POST]
 Send a message to users in one or more of the specified `segments`. 
 You can also schedule these messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -3256,9 +3241,9 @@ The request accepts an array of Segment Ids. This request must be authenticated 
                 "message":"notifications are queued"
         }
 
-## Send to any device that executed an event [/notification/event]
+## Notification By Events [/notification/event]
 
-### Send a message to any device that executed an event [POST]
+### Create Notification By Events [POST]
 Send a message to any device that executed an event.
 You can also schedule a notification based on events, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -3338,9 +3323,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
 
-## Send to a custom criteria [/notification/criteria]
+## Notification By Criteria [/notification/criteria]
 
-### Send a message to devices that match a certain criteria [POST]
+### Create Notification By Criteria [POST]
 Send a message to devices that match a certain criteria.
 You can also schedule these messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
 The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -3436,9 +3421,9 @@ The request accepts an array of Segment Ids. This request must be authenticated 
         }
 
 
-## Send to a specific User [/notification/user/{user}]
+## Notification For User [/notification/user/{user}]
 
-### Send a message to one single user [POST]
+### Create Notification For User [POST]
 Send a message to one single `user`. 
 You can also schedule a private message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -3502,9 +3487,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "message":"notifications are queued"
         }
         
-## Send to a specific device [/notification/device/{device}]
+## Notification For Device [/notification/device/{device}]
 
-### Send a message to one single device [POST]
+### Create Notification For Device [POST]
 Send a message to a `device`. 
 You can also schedule this type of messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
@@ -3571,11 +3556,11 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
         
 
-## Create a triggered message [/notification/triggered]
+## Triggered Notification [/notification/triggered]
 
-### Create a triggered message [POST]
+### Create Triggered Notification [POST]
 Create a message that will not generate any notification. These kind of messages can be used by when creating a `Trigger` or `Beacon`. 
-You can not schedule a triggered message.
+You cannot schedule a triggered message.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -3640,9 +3625,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Send a system message [/notification/system]
+## System Notification [/notification/system]
 
-### Send a system message [POST]
+### Create System Notification [POST]
 System notifications are silent messages that will not generate any notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to all your devices. Optionally you can also provide one of the following parameters: criteria, a list of tags, a list of tags and segments, a list of segments or a location. This will allow you to filter the devices you are trying to reach. In iOS, your app must declare **remote-notification** background mode.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -3692,14 +3677,15 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "message":"notifications are queued"
         }
 
-## Send a system message to a specific user [/notification/system/user/{user}]
+## User System Notification  [/notification/system/user/{user}]
 
-### Send a system message to a specific user [POST]
+### Create User System Notification [POST]
 System notifications are silent messages that will not generate any notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to a specific user and its devices. In iOS, your app must declare **remote-notification** background mode.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
+    + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The userID you are targeting
     + type (required, string, `your.domain.system.type`)...Defines a type of for your silent message. Types of notifications are represented by namespaces. Custom notification types should a reverse domain style string: com.domain.*.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -3740,14 +3726,15 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Send a system message to a specific device [/notification/system/device/{device}]
+## Device System Notification [/notification/system/device/{device}]
 
-### Send a system message to a specific device [POST]
+### Create Device System Notification [POST]
 System notifications are silent messages that will not generate any notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to a specific device. In iOS, your app must declare **remote-notification** background mode.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
+    + device (required, string, `5245bc5b3e66a3b01f0024d4`)...The deviceID you are targeting
     + type (required, string, `your.domain.system.type`)...Defines a type of for your silent message. Types of notifications are represented by namespaces. Custom notification types should a reverse domain style string: com.domain.*.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
     + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
@@ -3790,7 +3777,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 ## Notifications [/notification{?limit,skip,scope,scheduled,tag,segment,archived,draft}]
 
-### Get a list of notifications [GET]
+### Get Notifications [GET]
 Retrieves a list of notifications sent as a broadcast, sent to tags and/or sent to segments.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -3864,9 +3851,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                           "count":2
         }
 
-## Notifications (All Types) [/notification/all{?limit,skip,since,archived}]
+## Notifications [/notification/all{?limit,skip,since,archived}]
 
-### Get a list of all notifications [GET]
+### Get All Notifications [GET]
 Retrieves a list of all notifications.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -3936,9 +3923,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                           "count":2
         }
 
-## Private Notifications [/notification/user/{userID}{?limit,skip}]
+## User Notifications [/notification/user/{userID}{?limit,skip}]
 
-### Get all notifications for a user [GET]
+### Get User Notifications [GET]
 Retrieves the list of notifications sent to a specific user.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4009,7 +3996,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 ## Notification Info [/notification/{notification}/info]
 
-### Get information about message performance [GET]
+### Get Notification Info [GET]
 Retrieve information about your message performance.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4021,24 +4008,24 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
         {
                 "info":{
-                             "application": "5354f0bb3fff5452ff4c7c0"
-                             "devices": 3
-                             "duration": 749
-                             "fails": 0
-                             "id": "543d90d0f4e6e1we3ad6576"
-                             "notification": "543d90d0wew6e10309ad6575"
-                             "opened": 0
-                             "queued": 3
-                             "replied": 0
-                             "sent": 3
-                             "status": "finished"
+                             "application": "5354f0bb3fff5452ff4c7c0",
+                             "devices": 3,
+                             "duration": 749,
+                             "fails": 0,
+                             "id": "543d90d0f4e6e1we3ad6576",
+                             "notification": "543d90d0wew6e10309ad6575",
+                             "opened": 0,
+                             "queued": 3,
+                             "replied": 0,
+                             "sent": 3,
+                             "status": "finished",
                              "users": 0
                         }
         }
 
 ## Notification Log [/notification/log{?limit,skip}]
 
-### Get all the errors related to APNS and GCM [GET]
+### Get Notification Log [GET]
 Retrieve information about errors related to APNS and GCM feedback service.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4054,15 +4041,15 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "log":{
                              "application": "5354f0bb3fff5452ff4c7c0",
                              "id": "543d90d0f4e6e1we3ad6576",
-                             "message": "Invalid token size"
+                             "message": "Invalid token size",
                              "notification": "56d421uu073cc157eu3137",
                              "transport": "APNS",
-                             "device_id": "d31b6529"
+                             "device_id": "d31b6529",
                              "date": "2016-02-29T10:46:00.111Z"
                         }
         }
 
-### Delete the list of errors [DELETE]
+### Delete Notification Log [DELETE]
 Clear the list of errors related to APNS and GCM feedback service.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4081,9 +4068,9 @@ A schedule can have a status of `scheduled`, `running`, `finished` or `canceled`
 These methods operate on existing notifications, so create a notification first with the `scheduled` property set.
 Use its `_id` property to refer to it in any of these methods.
 
-## New Scheduled Notification [/notification/schedule]
+## Scheduled Notification [/notification/schedule]
 
-### Create a schedule for a previously created message [POST]
+### Create Scheduled Notification [POST]
 Start a scheduled task for a previously created message.
 The property `local` determines if message should be sent on the device's local time or UTC.
 If `local` is true make sure the `time` is at least 14 hours from now to make sure the message will arrive in all timezones.
@@ -4114,7 +4101,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 ## Scheduled Notifications [/notification/schedule{?skip,limit}]
 
-### Get a list of schedules [GET]
+### Get Scheduled Notifications [GET]
 Returns a list of all schedules for your app
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4142,10 +4129,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Schedules [/notification/schedule/fornotification/{notification}{?skip,limit}]
+## Schedules For Notification [/notification/schedule/fornotification/{notification}{?skip,limit}]
 
-### Get a list of schedules for a notification [GET]
-
+### Get Schedules For Notification [GET]
 Returns a list of all schedules for a specific notification
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4177,7 +4163,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 ## Schedule [/notification/schedule/{schedule}]
 
-### Retrieve a notification schedule [GET]
+### Get Schedule [GET]
 Returns a schedule object.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4203,7 +4189,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count": 1
         }
 
-### Modify a notification schedule [PUT]
+### Update Schedule [PUT]
 Modifies a notification schedule. Can only be applied to a schedule that is currently `scheduled`. Attempts to modify a currently `running`, `finished` or `canceled` schedule result in a `400`.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4227,7 +4213,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "message": "schedule updated"
         }
 
-### Cancel a notification schedule [DELETE]
+### Cancel Schedule [DELETE]
 Cancels a currently `scheduled` or `running` schedule.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4249,7 +4235,7 @@ Methods for retrieving, creating and edit notification templates
 
 ## Templates [/notification/template{?limit,skip,message}]
 
-### List all templates for this app [GET]
+### Get Templates [GET]
 List all templates for this app
 
 + Parameters
@@ -4299,9 +4285,9 @@ List all templates for this app
                           "count":2
         }
 
-## New Template [/notification/template]
+## Create Template [/notification/template]
 
-### Create a template [POST]
+### Create Template [POST]
 Create a template object.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4366,7 +4352,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 ## Template [/notification/template/{template}]
 
-### Retrieve a template object [GET]
+### Get Template [GET]
 Retrieve a template object.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4414,7 +4400,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
 
-## Edit Template [PUT]
+## Update Template [PUT]
 Edit a template object
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4457,8 +4443,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Delete a template [DELETE]
-Destroy a template. This operation can not be undone.
+## Delete Template [DELETE]
+Destroy a template. This operation cannot be undone.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -4479,9 +4465,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 Methods to test audience selection. Retrieves current devices based on the specified selection. It does not send any notification.
 Combines User, Segments, Tags and the location of the devices the same way Notification does.
 
-## Test a message to all [/notification/test/broadcast]
+## Test Notification Broadcast [/notification/test/broadcast]
 
-### Test a message to all devices [POST]
+### Test Notification Broadcast [POST]
 Test a message to **all** devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -4514,9 +4500,9 @@ Test a message to **all** devices. This call must be authenticated with the `app
                 "count":"42"
         }
         
-## Test a message to one or more tags [/notification/test/tags]
+## Test Notification By Tags [/notification/test/tags]
 
-### Test a message to devices with any of the specified tags [POST]
+### Test Notification By Tags [POST]
 Test a message to devices with any of the specified `tags`. The call accepts an array of tags. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4552,9 +4538,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count":"42"
         }
         
-## Test a message to one or more segments [/notification/test/segments]
+## Test Notification By Segments [/notification/test/segments]
 
-### Test a message to users in one or more of the specified tags [POST]
+### Test Notification By Segments [POST]
 Send a message to users in one or more of the specified `segments`. The request accepts an array of IDs segments. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4572,9 +4558,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count":"42"
         }
         
-## Test a message for a specific user [/notification/test/user/{user}]
+## Test Notification For User [/notification/test/user/{user}]
 
-### Test a message to a user [POST]
+### Test Notification For User [POST]
 Test a message to a `user`. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4595,9 +4581,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count":"42"
         }
         
-## Test a message to a specific device [/notification/test/device/{device}]
+## Test Notification For Device [/notification/test/device/{device}]
 
-### Test a message to a device [POST]
+### Test Notification For Device [POST]
 Test a message to a `device`. 
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4625,7 +4611,7 @@ Methods to manage your passes. Before creating passes you must create passbook t
 
 ## Passes [/pass{?limit,skip}]
 
-### Get all passes for an application [GET]
+### Get Passes [GET]
 Get all passes for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -4695,9 +4681,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## New Pass [/pass]
+## Create Pass [/pass]
 
-### Create a new pass [POST]
+### Create Pass [POST]
 Create a new pass. You should first create a pass template to help you bootstrap a new pass. Please read the [Pass Template](http://docs.notificare.apiary.io/#reference/pass-templates) endpoints to learn how to create pass templates. Passes will require images, see also the [Uploads](http://docs.notificare.apiary.io/#reference/upload) endpoints to learn how to upload a file.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -4775,7 +4761,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Pass [/pass/{pass}]
 
-### Get a pass object [GET]
+### Get Pass [GET]
 Get a pass object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -4834,7 +4820,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                  }
             }
 
-### Modify a pass [PUT]
+### Update Pass [PUT]
 Modify a pass.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -4907,8 +4893,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-### Delete a pass [DELETE]
-Delete a pass. This operation can not be undone.
+### Delete Pass [DELETE]
+Delete a pass. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -4923,15 +4909,15 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-# Pass for Serial [/pass/forserial/{serial}]
+# Pass By Serial [/pass/forserial/{serial}]
 
-### Get a pass object using the serial string [GET]
+### Get Pass By Serial [GET]
 Get a pass object using the serial string.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of pass.
+    + serial (required, string, `5245bc5b3e66a3b01f0024d4`)...The serial of the pass.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -4983,15 +4969,15 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                      }
                 }
 
-# Pass for Barcode [/pass/forbarcode/{barcode}]
+# Pass By Barcode [/pass/forbarcode/{barcode}]
 
-### Get a pass object using the barcode string [GET]
+### Pass By Barcode [GET]
 Get a pass object using the barcode string.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
-    + pass (required, string, `5245bc5b3e66a3b01f0024d4`)...The id of pass.
+    + barcode (required, string, `5245bc5b3e66a3b01f0024d4`)...The barcode of the pass.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -5046,7 +5032,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Redeem Pass [/pass/redeem/{barcode}]
 
-### Redeem a pass [PUT]
+### Redeem Pass [PUT]
 Redeem a pass using a barcode string.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5072,9 +5058,9 @@ This request does not require authentication.
 
     + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
 
-## Generate Barcode For Serial [/pass/barcode/forserial/{serial}]
+## Generate Barcode By Serial [/pass/barcode/forserial/{serial}]
 
-### Generate Barcode [GET]
+### Generate Barcode By Serial [GET]
 Generate a barcode for a specific pass using the serial UUID.
 This request does not require authentication.
 
@@ -5084,9 +5070,9 @@ This request does not require authentication.
 
 + Response 200 (image/png)
 
-## Generate a Barcode [/pass/barcode/{type}/{code}]
+## Generate a Barcode By Barcode [/pass/barcode/{type}/{code}]
 
-### Generate Barcode [GET]
+### Generate a Barcode By Barcode [GET]
 Generate a barcode for a specific type and code.
 This request does not require authentication.
 
@@ -5117,7 +5103,7 @@ They will help you pre-define the template styles your application needs and acc
 
 ## Pass Templates [/passbook{?limit,skip}]
 
-### Get all pass templates for an application [GET]
+### Get Pass Templates [GET]
 Get all pass templates for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5188,13 +5174,13 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## New Pass Template [/passbook]
+## Create Pass Template [/passbook]
 
-### Create a new pass template [POST]
+### Create Pass Template [POST]
 Create a new pass template.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
-Fields can not have a `key` that is a reserved property. Reserved keys are:
+Fields cannot have a `key` that is a reserved property. Reserved keys are:
 
 + `relevant_date`
 + `expiration_date`
@@ -5302,7 +5288,7 @@ Fields can not have a `key` that is a reserved property. Reserved keys are:
 
 ## Pass Template [/passbook/{passbook}]
 
-### Get a pass template object [GET]
+### Get Pass Template [GET]
 Get a pass template object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5360,7 +5346,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-### Modify a pass template [PUT]
+### Update Pass Template [PUT]
 Modify a pass template.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5424,8 +5410,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-### Delete a pass template [DELETE]
-Delete a pass template. This operation can not be undone.
+### Delete Pass Template [DELETE]
+Delete a pass template. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -5496,9 +5482,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## New Product [/product]
+## Create Product [/product]
 
-### Create a new product [POST]
+### Create Product [POST]
 Create a new product.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5528,7 +5514,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Product [/product/{product}]
 
-### Get a product object [GET]
+### Get Product [GET]
 Get a product object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5550,7 +5536,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                    }
 
 
-### Modify a product [PUT]
+### Update Product [PUT]
 Modify a product.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5577,8 +5563,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-### Delete a product [DELETE]
-Delete a product. This operation can not be undone.
+### Delete Product [DELETE]
+Delete a product. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -5593,9 +5579,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Product by SKU [/product/foridentifier/{sku}]
+## Product By SKU [/product/foridentifier/{sku}]
 
-### Get a product object using the SKU [GET]
+### Get Product By SKU [GET]
 Get a product object using SKU.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5621,7 +5607,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Purchases [/purchase{?limit,skip}]
 
-### Get all purchases for an application [GET]
+### Get Purchases [GET]
 Get all purchases for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5670,7 +5656,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Purchase [/purchase/{purchase}]
 
-### Get a specific purchase [GET]
+### Get Purchase [GET]
 Get a specific purchase.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5709,9 +5695,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                               "currency":"EUR"
                                            }
 
-## Purchase by Transaction [/purchase/bytransaction/{transaction}]
+## Purchase By Transaction [/purchase/bytransaction/{transaction}]
 
-### Get a specific purchase using the transaction [GET]
+### Get Purchase By Transaction [GET]
 Get a specific purchase using the transaction.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5751,9 +5737,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                            }
 
 
-## Purchase by SKU [/purchase/byidentifier/{identifier}]
+## Purchase By SKU [/purchase/byidentifier/{identifier}]
 
-### Get a specific purchase using the SKU [GET]
+### Get Purchase By SKU [GET]
 Get a specific purchase using the SKU.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5764,33 +5750,33 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Response 200 (application/json; charset=utf-8)
 
         {
-                                              "_id":"5477c86387c552350c886d2f",
-                                              "data":{
-                                                        "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
-                                                        "purchase_date_ms":"1417136222704",
-                                                        "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
-                                                        "original_transaction_id":"1000000133399653",
-                                                        "bvrs":"1.0.36",
-                                                        "transaction_id":"1000000133399653",
-                                                        "quantity":"1",
-                                                        "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
-                                                        "item_id":"944702328",
-                                                        "product_id":"re.notifica.office.consumable",
-                                                        "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
-                                                        "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
-                                                        "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
-                                                        "bid":"re.notifica.office",
-                                                        "original_purchase_date_ms":"1417136222704"
-                                                     },
-                                              "date":"2014-11-28T00:57:02.704Z",
-                                              "identifier":"re.notifica.office.consumable",
-                                              "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
-                                              "userID":"joel@notifica.re",
-                                              "price":0.89,
-                                              "application":"5354f0bb3fa544452ff4c7c0",
-                                              "transactionIdentifier":"1000000133399653",
-                                              "currency":"EUR"
-                                           }
+              "_id":"5477c86387c552350c886d2f",
+              "data":{
+                        "original_purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                        "purchase_date_ms":"1417136222704",
+                        "unique_identifier":"d30aeae69ba81cd6077a062f721059b8f1c1ffe8",
+                        "original_transaction_id":"1000000133399653",
+                        "bvrs":"1.0.36",
+                        "transaction_id":"1000000133399653",
+                        "quantity":"1",
+                        "unique_vendor_identifier":"7F64F64E-8DAF-4445-93A2-B4632DDBAED3",
+                        "item_id":"944702328",
+                        "product_id":"re.notifica.office.consumable",
+                        "purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                        "original_purchase_date":"2014-11-28 00:57:02 Etc/GMT",
+                        "purchase_date_pst":"2014-11-27 16:57:02 America/Los_Angeles",
+                        "bid":"re.notifica.office",
+                        "original_purchase_date_ms":"1417136222704"
+                     },
+              "date":"2014-11-28T00:57:02.704Z",
+              "identifier":"re.notifica.office.consumable",
+              "deviceID":"1ebffb005c83b016e5dffafbf2755fabb79e4db87f0092dd30a903cdb0c44bad",
+              "userID":"joel@notifica.re",
+              "price":0.89,
+              "application":"5354f0bb3fa544452ff4c7c0",
+              "transactionIdentifier":"1000000133399653",
+              "currency":"EUR"
+           }
 
 
 # Group Region
@@ -5801,7 +5787,7 @@ You can have a combination of Triggers and Beacons or just one of them. Note tha
 
 ## Regions [/region{?limit,skip}]
 
-### Get all regions for an application [GET]
+### Get Regions [GET]
 Get all regions for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5832,7 +5818,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Search Regions [/region/search/{search}{?limit,skip}]
 
-### Search regions for an application [GET]
+### Search Regions [GET]
 Search regions for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5863,10 +5849,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 ]
         }
 
-## Regions by Timezone [/region/fortimezone/{timezone}{?limit,skip}]
+## Regions By Timezone [/region/fortimezone/{timezone}{?limit,skip}]
 
-### Search regions by timezone for an application [GET]
-Search regions by timezone for an application.
+### Get Regions By Timezone [GET]
+Get regions by timezone for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
@@ -5896,10 +5882,10 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 ]
         }
 
-## Regions by Country [/region/forcountry/{country}{?limit,skip}]
+## Regions By Country [/region/forcountry/{country}{?limit,skip}]
 
-### Search regions by timezone for an application [GET]
-Search regions by timezone for an application.
+### Get Regions By Country [GET]
+Get regions by timezone for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
@@ -5930,9 +5916,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## New Region [/region]
+## Create Region [/region]
 
-### Create a new region [POST]
+### Create Region [POST]
 Create a new region. To retrieve a timezone from the coordinates you can use https://developers.google.com/maps/documentation/timezone/.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -5946,8 +5932,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + address (optional, string, `"Marconistraat 16"`)...The address for this region. This field is merely informative.
     + referenceKey (optional, string, `"123456"`)...The foreign key for this region. This field is can be used to match regions in other systems.
     + description (optional, string, `"This is a nice text for a description"`)...The description for this region. This field is merely informative.
-    + geometry (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
-    + advancedGeometry (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
+    + geometry (optional, object, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
+    + advancedGeometry (optional, object, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
     + distance = `100` (optional, number, `200`)...The radius of a circle for the region. This field is required if geometry is being passed. If advancedGeometry is used then this field will be automatically calculated for you.
 
 + Request (application/json)
@@ -5976,7 +5962,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Region [/region/{region}]
 
-### Get a region object [GET]
+### Get Region [GET]
 Get a region object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -6001,11 +5987,12 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-### Modify a region [PUT]
+### Update Region [PUT]
 Modify a region.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
+    + region (required, string, `"5245bc5b3e66a3b01f0024d4"`)...The id for the region.
     + name (required, string, `"Flagship Store"`)...The name for the region.
     + tags (optional, array, `["Street Store", "Flagship Store"]`)...The list of tags this region should be associated with.
     + icon (optional, string, `"https://push.notifica.re/upload/..."`)...The icon used for this region. Must be a publicly accessible URL.
@@ -6014,8 +6001,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + address (optional, string, `"Marconistraat 16"`)...The address for this region. This field is merely informative.
     + referenceKey (optional, string, `123456`)...The foreign key for this region. This field is can be used to match regions in other systems.
     + description (optional, string, `"This is a nice text for a description"`)...The description for this region. This field is merely informative.
-    + geometry (optional, GeoJSON, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
-    + advancedGeometry (optional, GeoJSON, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
+    + geometry (optional, object, `{"type": "Point","coordinates": [4.2345,5.6789]}`)...The geometry for this region. If no advancedGeometry is used, this field is mandatory.
+    + advancedGeometry (optional, object, `{"type": "Polygon","coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]}`)...The advanced geometry for this region. If included, the geometry field is optional and will be automatically calculated for you.
     + distance (optional, number, `200`)...The radius of a circle for the region. This field is required if geometry is being passed. If advancedGeometry is used then this field will be automatically calculated for you.
 
 
@@ -6038,8 +6025,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-### Delete a region [DELETE]
-Delete a region. This operation can not be undone.
+### Delete Region [DELETE]
+Delete a region. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -6056,8 +6043,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Delete All Regions [/region/all]
 
-### Delete all regions [DELETE]
-Delete all regions, including attached triggers and beacons. This operation can not be undone.
+### Delete All Regions [DELETE]
+Delete all regions, including attached triggers and beacons. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Response 200 (application/json; charset=utf-8)
@@ -6074,7 +6061,7 @@ These objects hold every single interaction and data your users send you.
 
 ## Replies [/reply/fornotification/{notification}{?limit,skip}]
 
-### Get all replies for a specific notification [GET]
+### Get Replies [GET]
 Get all replies for a specific notification.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -6114,7 +6101,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Reply [/reply/{reply}]
 
-### Get a specific reply object [GET]
+### Get Reply [GET]
 Get a specific reply object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -6144,9 +6131,9 @@ Methods to retrieve usage reports of application resources in the API.
 These requests must be authenticated with the `applicationKey` and `masterSecret`.
 
 
-## Last month device stats based on specific dimensions [/stats/device/{dimension}/lastmonth]
+## Last Month Devices By Dimension [/stats/device/{dimension}/lastmonth]
 
-### Retrieve last 30 days devices by dimension [GET]
+### Get Last Month Devices By Dimension [GET]
 Retrieve the number of devices of a certain dimension for the last 30 days.
 
 ### Dimensions:
@@ -6185,15 +6172,14 @@ deviceString
                             "date":"2014-02-26T00:00:00.000Z",
                             "value":"2.3.6"
                           }
-                          ...
                 ]
         }
 
 
 
-## Retrieve one single year of device stats by dimension [/stats/device/{dimension}/{year}]
+## Yearly Devices By Dimension [/stats/device/{dimension}/{year}]
 
-### Retrieve one single year of device stats by dimension [GET]
+### Get Yearly Devices By Dimension [GET]
 Retrieve the number of devices of a certain dimension in a specific year.
 
 ### Dimensions:
@@ -6233,14 +6219,13 @@ deviceString
                             "date":"2014-02-26T00:00:00.000Z",
                             "value":"2.3.6"
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve one single month of device stats by dimension [/stats/device/{dimension}/{year}/{month}]
+## Monthly Devices By Dimension [/stats/device/{dimension}/{year}/{month}]
 
-### Retrieve one single month of device stats by dimension [GET]
+### Get Monthly Devices By Dimension [GET]
 Retrieve the number of devices of a certain dimension in a specific month.
 
 ### Dimensions:
@@ -6281,15 +6266,14 @@ deviceString
                             "date":"2014-02-26T00:00:00.000Z",
                             "value":"2.3.6"
                           }
-                          ...
                 ]
         }
 
 
 
-## Retrieve one single day of device stats by dimension [/stats/device/{dimension}/{year}/{month}/{day}]
+## Daily Devices By Dimension [/stats/device/{dimension}/{year}/{month}/{day}]
 
-### Retrieve one single day of device stats by dimension [GET]
+### Get Daily Devices By Dimension [GET]
 Retrieve the number of devices of a certain dimension in a specific day.
 
 ### Dimensions:
@@ -6331,13 +6315,12 @@ deviceString
                             "date":"2014-02-26T00:00:00.000Z",
                             "value":"2.3.6"
                           }
-                          ...
                 ]
         }
 
-## Retrieve total events of a certain type [/stats/event/{type}/total]
+## Total Events By Type [/stats/event/{type}/total]
 
-### Retrieve last month event stats of a certain type [GET]
+### Get Total Events By Type [GET]
 Retrieve the number of events of a certain type.
 
 
@@ -6375,13 +6358,12 @@ re.notifica.event.beacon.Session
                           {
                             "count":1000
                           }
-                          ...
                 ]
         }
 
-## Retrieve last month events of a certain type [/stats/event/{type}/lastmonth]
+## Last Month Events By Type [/stats/event/{type}/lastmonth]
 
-### Retrieve last month event stats of a certain type [GET]
+### Get Last Month Events By Type [GET]
 Retrieve the number of events of a certain type for the last 30 days.
 
 
@@ -6424,13 +6406,12 @@ re.notifica.event.beacon.Session
                             "count":2,
                             "date":"2014-02-26T00:00:00.000Z"
                           }
-                          ...
                 ]
         }
 
-## Retrieve last week events of a certain type [/stats/event/{type}/lastweek]
+## Last Week Events By Type [/stats/event/{type}/lastweek]
 
-### Retrieve last week event stats of a certain type [GET]
+### Get Last Week Events By Type [GET]
 Retrieve the number of events of a certain type for the last 7 days.
 
 
@@ -6473,62 +6454,13 @@ re.notifica.event.beacon.Session
                             "count":2,
                             "date":"2014-02-26T00:00:00.000Z"
                           }
-                          ...
                 ]
         }
 
-## Retrieve yearly event stats of a certain type [/stats/event/{type}]
 
-### Retrieve yearly event stats of a certain type [GET]
-Retrieve the number of events of a certain type per year.
+## Yearly Events By Type [/stats/event/{type}/{year}]
 
-### Events
-***
-re.notifica.event.application.Install
-***
-re.notifica.event.application.Uninstall
-***
-re.notifica.event.application.Open
-***
-re.notifica.event.application.Close
-***
-re.notifica.event.notification.Influenced
-***
-re.notifica.event.notification.Receive
-***
-re.notifica.event.notification.Open
-***
-re.notifica.event.region.Session
-***
-re.notifica.event.beacon.Session
-***
-
-
-+ Parameters
-
-    + type (required, string, `re.notifica.event.application.Install`)...The event type.
-    + year (required, string, `2014`)...The year you desire to get stats from.
-
-    
-+ Response 200 (application/json; charset=utf-8)
-
-        {
-                "stats":[
-                          {
-                            "count":2,
-                            "date":"2014-01-01T00:00:00.000Z"
-                          },
-                          {
-                            "count":2,
-                            "date":"2015-01-01T00:00:00.000Z"
-                          }
-                          ...
-                ]
-        }
-
-## Retrieve one single year event stats of a certain type [/stats/event/{type}/{year}]
-
-### Retrieve one single year event stats of a certain type [GET]
+### Get Yearly Events By Type [GET]
 Retrieve the number of events of a certain type for a specific year.
 
 ### Events
@@ -6571,14 +6503,13 @@ re.notifica.event.beacon.Session
                             "count":2,
                             "date":"2014-02-26T00:00:00.000Z"
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve one single month event stats of a certain type [/stats/event/{type}/{year}/{month}]
+## Monthly Events By Type [/stats/event/{type}/{year}/{month}]
 
-### Retrieve one single month event stats of a certain type [GET]
+### Get Monthly Events By Type [GET]
 Retrieve the number of events of a certain type for a specific month.
 
 
@@ -6623,14 +6554,13 @@ re.notifica.event.beacon.Session
                             "count":2,
                             "date":"2014-02-26T00:00:00.000Z"
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve one single year event stats of a certain type [/stats/event/{type}/{year}/{month}/{day}]
+## Daily Events By Type [/stats/event/{type}/{year}/{month}/{day}]
 
-### Retrieve one single year event stats of a certain type [GET]
+### Get Daily Events By Type [GET]
 Retrieve the number of events of a certain type for a specific day.
 
 ### Events
@@ -6674,14 +6604,13 @@ re.notifica.event.beacon.Session
                             "count":2,
                             "date":"2014-02-26T00:00:00.000Z"
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve last month notification stats [/stats/notification/application/lastmonth]
+## Last Month Notifications For Application [/stats/notification/application/lastmonth]
 
-### Retrieve last month notification stats [GET]
+### Get Last Month Notifications For Application [GET]
 Retrieve the number of notifications sent on the last 30 days.
 
     
@@ -6705,16 +6634,17 @@ Retrieve the number of notifications sent on the last 30 days.
                             "day":27,
                             "application":"50b62e6aebe6dd821d000003"
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve one single year notification stats [/stats/notification/application/{year}]
+## Yearly Notifications For Application [/stats/notification/application/{year}]
 
-### Retrieve one single year of notification stats [GET]
+### Get Yearly Notifications For Application [GET]
 Retrieve the number of notifications sent on a specific year.
 
++ Parameters
+    + year (required, string, `2014`)...The year you desire to get stats from.
     
 + Response 200 (application/json; charset=utf-8)
 
@@ -6734,14 +6664,18 @@ Retrieve the number of notifications sent on a specific year.
                             "month":2,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
-## Retrieve one single month notification stats [/stats/notification/application/{year}/{month}]
+## Monthly Notifications For Application [/stats/notification/application/{year}/{month}]
 
-### Retrieve one single month of notification stats [GET]
+### Get Monthly Notifications For Application [GET]
 Retrieve the number of notifications sent on a specific month.
+
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
 
     
 + Response 200 (application/json; charset=utf-8)
@@ -6764,14 +6698,19 @@ Retrieve the number of notifications sent on a specific month.
                             "month":1,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
-## Retrieve one single day notification stats [/stats/notification/application/{year}/{month}/{day}]
+## Daily Notifications For Application [/stats/notification/application/{year}/{month}/{day}]
 
-### Retrieve one single day of notification stats [GET]
+### Get Daily Notifications For Application [GET]
 Retrieve the number of notifications sent on a specific day.
+
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
+    + day (required, string, `01`)...The day you desire to get stats from.
 
     
 + Response 200 (application/json; charset=utf-8)
@@ -6796,14 +6735,13 @@ Retrieve the number of notifications sent on a specific day.
                             "month":1,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve total number of users in an application [/stats/user/application]
+## Total Users For Application [/stats/user/application]
 
-### Retrieve total number of user in an application [GET]
+### Get Total Users For Application [GET]
 Retrieve the total number of users in an application.
 
 
@@ -6822,9 +6760,9 @@ Retrieve the total number of users in an application.
 
 
 
-## Retrieve last month user stats for an application [/stats/user/application/lastmonth]
+## Last Month Users For Application [/stats/user/application/lastmonth]
 
-### Retrieve last month user stats for an application [GET]
+### Get Last Month Users For Application [GET]
 Retrieve the number of users in an application on the last 30 days.
 
 
@@ -6848,15 +6786,18 @@ Retrieve the number of users in an application on the last 30 days.
                             "day":27,
                             "application":"50b62e6aebe6dd821d000003"
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve one single year of user stats for an application [/stats/user/application/{year}]
+## Yearly Users For Application  [/stats/user/application/{year}]
 
-### Retrieve one single year of user stats for an application [GET]
+### Get Yearly Users For Application [GET]
 Retrieve the number of users in an application for a specific year.
+
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -6877,15 +6818,18 @@ Retrieve the number of users in an application for a specific year.
                             "month":2,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
-## Retrieve one single month of user stats for an application [/stats/user/application/{year}/{month}]
+## Monthly Users For Application [/stats/user/application/{year}/{month}]
 
-### Retrieve one single month of user stats for an application [GET]
+### Get Monthly Users For Application [GET]
 Retrieve the number of users in an application for a specific month.
 
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -6907,15 +6851,19 @@ Retrieve the number of users in an application for a specific month.
                             "month":1,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
-## Retrieve one single day user stats for an application [/stats/user/application/{year}/{month}/{day}]
+## Daily Users For Application [/stats/user/application/{year}/{month}/{day}]
 
-### Retrieve one single day of user stats for an application [GET]
+### Get Daily Users For Application [GET]
 Retrieve the number of user in an application for a specific day.
 
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
+    + day (required, string, `01`)...The day you desire to get stats from.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -6939,7 +6887,6 @@ Retrieve the number of user in an application for a specific day.
                             "month":1,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
@@ -6948,9 +6895,9 @@ Retrieve the number of user in an application for a specific day.
 Methods to retrieve usage reports of account resources in the API. 
 These requests must be authenticated with the `token`.
 
-## Retrieve last month notification stats [/stats/notification/account/lastmonth]
+## Last Month Notifications For Account [/stats/notification/account/lastmonth]
 
-### Retrieve last month notification stats [GET]
+### Get Last Month Notifications For Account [GET]
 Retrieve the number of notifications sent on the last 30 days.
 
     
@@ -6974,15 +6921,18 @@ Retrieve the number of notifications sent on the last 30 days.
                             "day":27,
                             "application":"50b62e6aebe6dd821d000003"
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve one single year notification stats [/stats/notification/account/{year}]
+## Yearly Notifications For Account [/stats/notification/account/{year}]
 
-### Retrieve one single year of notification stats [GET]
+### Get Yearly Notifications For Account [GET]
 Retrieve the number of notifications sent on a specific year.
+
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
 
     
 + Response 200 (application/json; charset=utf-8)
@@ -7003,16 +6953,19 @@ Retrieve the number of notifications sent on a specific year.
                             "month":2,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
-## Retrieve one single month notification stats [/stats/notification/account/{year}/{month}]
+## Monthly Notifications For Account [/stats/notification/account/{year}/{month}]
 
-### Retrieve one single month of notification stats [GET]
+### Get Monthly Notifications For Account [GET]
 Retrieve the number of notifications sent on a specific month.
 
-    
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
+
 + Response 200 (application/json; charset=utf-8)
 
         {
@@ -7033,16 +6986,20 @@ Retrieve the number of notifications sent on a specific month.
                             "month":1,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
-## Retrieve one single day notification stats [/stats/notification/account/{year}/{month}/{day}]
+## Daily Notifications For Account [/stats/notification/account/{year}/{month}/{day}]
 
-### Retrieve one single day of notification stats [GET]
+### Get Daily Notifications For Account [GET]
 Retrieve the number of notifications sent on a specific day.
 
-    
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
+    + day (required, string, `01`)...The day you desire to get stats from.
+
 + Response 200 (application/json; charset=utf-8)
 
         {
@@ -7065,14 +7022,13 @@ Retrieve the number of notifications sent on a specific day.
                             "month":1,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve total number of users [/stats/user/account]
+## Total Users For Account [/stats/user/account]
 
-### Retrieve last month user stats [GET]
+### Get Total Users For Account [GET]
 Retrieve the total number of users in your account.
 
 
@@ -7090,9 +7046,9 @@ Retrieve the total number of users in your account.
 
 
 
-## Retrieve last month user stats [/stats/user/account/lastmonth]
+## Last Month Users For Account [/stats/user/account/lastmonth]
 
-### Retrieve last month user stats [GET]
+### Get Last Month Users For Account [GET]
 Retrieve the number of users in your account on the last 30 days.
 
 
@@ -7116,16 +7072,18 @@ Retrieve the number of users in your account on the last 30 days.
                             "day":27,
                             "application":"50b62e6aebe6dd821d000003"
                           }
-                          ...
                 ]
         }
 
 
-## Retrieve one single year of user stats [/stats/user/account/{year}]
+## Yearly Users For Account [/stats/user/account/{year}]
 
-### Retrieve one single year of user stats [GET]
+### Get Yearly Users For Account [GET]
 Retrieve the number of users in your account for a specific year.
 
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -7145,15 +7103,18 @@ Retrieve the number of users in your account for a specific year.
                             "month":2,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
-## Retrieve one single month of user stats [/stats/user/account/{year}/{month}]
+## Monthly Users For Account [/stats/user/account/{year}/{month}]
 
-### Retrieve one single month of user stats [GET]
+### Get Monthly Users For Account [GET]
 Retrieve the number of users in your account for a specific month.
 
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -7175,15 +7136,19 @@ Retrieve the number of users in your account for a specific month.
                             "month":1,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
-## Retrieve one single day user stats [/stats/user/account/{year}/{month}/{day}]
+## Daily Users For Account [/stats/user/account/{year}/{month}/{day}]
 
-### Retrieve one single day of user stats [GET]
+### Get Daily Users For Account [GET]
 Retrieve the number of user in your account for a specific day.
 
++ Parameters
+
+    + year (required, string, `2014`)...The year you desire to get stats from.
+    + month (required, string, `03`)...The month you desire to get stats from.
+    + day (required, string, `01`)...The day you desire to get stats from.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -7207,7 +7172,6 @@ Retrieve the number of user in your account for a specific day.
                             "month":1,
                             "year":2014
                           }
-                          ...
                 ]
         }
 
@@ -7215,9 +7179,9 @@ Retrieve the number of user in your account for a specific day.
 # Group Status
 Public methods to retrieve information about the status and health of the API 
 
-## Check API Status [/status]
+## API Status [/status]
 
-### Get the current availability of the API [GET]
+### Get API Status [GET]
 Get the current availability of the API
 
 
@@ -7236,7 +7200,7 @@ Management of tags is exclusively made by our SDK libraries therefore you only g
 
 ## Tags [/device/tags{?limit,skip}]
 
-### Get the list of all tags for this application [GET]
+### Get Tags [GET]
 Get the list of all tags for this application. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -7263,7 +7227,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Search Tags [/device/tags/{tag}]
 
-### Search device tags that match partially or totally a specific query [GET]
+### Search Tags [GET]
 Get all the tags that match match partially or totally a specific query.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -7299,7 +7263,7 @@ There are two types of triggers, Region triggers and Beacon triggers. They are u
 
 ## Triggers [/trigger{?limit,skip}]
 
-### Get all triggers for an application [GET]
+### Get Triggers [GET]
 Get all triggers for an application.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -7350,9 +7314,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-## New Trigger [/trigger]
+## Create Trigger [/trigger]
 
-### Create a new trigger [POST]
+### Create Trigger [POST]
 Create a new trigger. This request expects at least `name`, `type` and `source`.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -7408,7 +7372,7 @@ Three special cases apply:
 
 ## Trigger [/trigger/{trigger}]
 
-### Get a trigger object [GET]
+### Get Trigger [GET]
 Get a trigger object.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -7439,7 +7403,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 
-### Modify a trigger [PUT]
+### Update Trigger [PUT]
 Modify a trigger.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -7490,7 +7454,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 
 ### Delete Trigger [DELETE]
-Delete a trigger. This operation can not be undone.
+Delete a trigger. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7509,9 +7473,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 These methods let you manage files.
 All the files you upload to Notificare can be used as content of your notifications, replies, import jobs, WebPush icons and passes.
 
-## New Upload [/upload/{type}]
+## Upload [/upload/{type}]
 
-### Upload a file [POST]
+### Create Upload [POST]
 Upload a file to Notificare. The resulting filename is a path inside the notificare storage. This can be used as a reference to the file in other endpoints.
 The contents of the file should be in the body of the request and with the correct mime-type. So, e.g. an import should be of type `text/csv`, an image to go with a notification `image/png`, etc.  
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -7543,10 +7507,10 @@ website-push
                 "filename": "/imports/9f.."
         }
 
-## Delete an Upload [/upload/{filename}]
+## Delete Upload [/upload/{filename}]
 
-### Delete a file [DELETE]
-Delete file from Notificare storage. This operation can not be undone.
+### Delete Upload [DELETE]
+Delete file from Notificare storage. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7562,7 +7526,7 @@ These methods let you create, change and remove user segments as well as manage 
 
 ## User Segments [/usersegment{?limit,skip}]
 
-### Retrieve a list of segments [GET]
+### Get User Segments [GET]
 Retrieve a list of segments. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7589,9 +7553,9 @@ Retrieve a list of segments. This request is authenticated with the `application
                 "count": 2
         }
 
-## Retrieve a list of segments by name [/usersegment/forname/{name}{?limit,skip}]
+## User Segments By Name [/usersegment/forname/{name}{?limit,skip}]
 
-### Retrieve a list of segments by name [GET]
+### Get User Segments By Name [GET]
 Retrieve a list of segments with a name (starting with) `name`. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7609,16 +7573,16 @@ Retrieve a list of segments with a name (starting with) `name`. This request is 
                         {
                                 "_id": "5245bc5b3e66a3b01f0024d4",
                                 "name": "fans",
-                                "description": "people who like our page on Facebook"
+                                "description": "people who like our page on Facebook",
                                 "userSelectable": "people who like our page on Facebook"
                         }
                 ],
                 "count": 1
         }
 
-## New User Segment [/usersegment]
+## Create User Segment [/usersegment]
 
-### Create a new user segment [POST]
+### Create User Segment [POST]
 Create a new user segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Request (application/json)
@@ -7637,9 +7601,9 @@ Create a new user segment. This request is authenticated with the `applicationKe
         }
 
 
-## New User Segment with a Batch of Users [/usersegment/batch]
+## Create User Segment With Batch of Users [/usersegment/batch]
 
-### Create a new user segment with a batch of userIDs [POST]
+### Create User Segment With Batch of Users [POST]
 Create a new user segment with a batch of userIDs. There is a limit of 1000 userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Request (application/json)
@@ -7647,7 +7611,10 @@ Create a new user segment with a batch of userIDs. There is a limit of 1000 user
         {
                 "name":"fans",
                 "description":"people who like our page on Facebook",
-                "users":["user1@notifica.re","user2@notifica.re"]
+                "users":[
+                            "user1@notifica.re",
+                            "user2@notifica.re"
+                        ]
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -7659,9 +7626,9 @@ Create a new user segment with a batch of userIDs. There is a limit of 1000 user
         }
 
 
-## Add Batch of Users to User Segment [/usersegment/{segment}/add]
+## Add Batch of Users To User Segment [/usersegment/{segment}/add]
 
-### Add a batch of users to a segment [PUT]
+### Add Batch of Users To User Segment [PUT]
 Add users to a segment using a batch of userIDs. There is a limit of 1000 userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7671,19 +7638,23 @@ Add users to a segment using a batch of userIDs. There is a limit of 1000 userID
 + Request (application/json)
 
         {
-                "users":["user1@notifica.re","user2@notifica.re"]
+                "users":
+                        [
+                            "user1@notifica.re",
+                            "user2@notifica.re"
+                        ]
         }
 
 + Response 200 (application/json; charset=utf-8)
 
         {
-                "message": 'added users to segment',
+                "message": "added users to segment",
                 "count": 2
         }
 
-## Remove Batch of Users from User Segment [/usersegment/{segment}/remove]
+## Remove Batch of Users From User Segment [/usersegment/{segment}/remove]
 
-### Remove a batch of users from a segment [PUT]
+### Remove Batch of Users From User Segment [PUT]
 Remove users from a segment using a batch of userIDs. There is a limit of 1000 userIDs. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7699,14 +7670,14 @@ Remove users from a segment using a batch of userIDs. There is a limit of 1000 u
 + Response 200 (application/json; charset=utf-8)
 
         {
-                "message": 'removed users from segment',
+                "message": "removed users from segment",
                 "count": 2
         }
 
 
-## Get Users in User Segment [/usersegment/{segment}/users{?limit,skip}]
+## Get Users In User Segment [/usersegment/{segment}/users{?limit,skip}]
 
-### Get all users from a segment [GET]
+### Get Users In User Segment [GET]
 Get all the users in a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7738,14 +7709,14 @@ Get all the users in a segment. This request is authenticated with the `applicat
 + Response 200 (application/json; charset=utf-8)
 
         {
-                "message": 'removed users from segment',
+                "message": "removed users from segment",
                 "count": 2
         }
 
 
-## Clear Users from User Segment [/usersegment/{segment}/clear]
+## Delete Users From User Segment [/usersegment/{segment}/clear]
 
-### Clear all users from a segment [PUT]
+### Delete Users From User Segment [PUT]
 Clear all the users from a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7762,7 +7733,7 @@ Clear all the users from a segment. This request is authenticated with the `appl
 
 ## User Segment [/usersegment/{segment}]
 
-### Retrieve a segment [GET]
+### Get User Segment [GET]
 Retrieve a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7779,7 +7750,7 @@ Retrieve a segment. This request is authenticated with the `applicationKey` and 
                 }
         }
 
-### Modify a user segment [PUT]
+### Update User Segment [PUT]
 Change `name` and/or `description` of a user segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7800,7 +7771,7 @@ Change `name` and/or `description` of a user segment. This request is authentica
         }
 
 
-### Delete a user segment [DELETE]
+### Delete User Segment [DELETE]
 Delete a user segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7820,7 +7791,7 @@ Methods for retrieving (groups of) users. Additionally you can also add and remo
 
 ## Users [/user{?limit,skip}]
 
-### List all users for this app [GET]
+### Get Users [GET]
 List all users for this app. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7847,9 +7818,9 @@ List all users for this app. This request is authenticated with the `application
                 "count": 1
         }
 
-## Retrieve users for a user segment [/user/forsegment/{segment}{?limit,skip}]
+## Users By User Segment [/user/forsegment/{segment}{?limit,skip}]
 
-### Retrieve users for a user segment [GET]
+### Get Users By User Segment [GET]
 Retrieve users for a segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7880,7 +7851,7 @@ Retrieve users for a segment. This request is authenticated with the `applicatio
 
 ## Search Users [/user/search/{search}{?limit,skip}]
 
-### Search users [GET]
+### Search Users [GET]
 Search users by `userName` and `userID`. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7910,9 +7881,9 @@ Search users by `userName` and `userID`. This request is authenticated with the 
         }
 
 
-## Retrieve a User [/user/{user}]
+## User [/user/{user}]
 
-### Retrieve a User [GET]
+### Get User [GET]
 Retrieve a user object. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7935,9 +7906,9 @@ Retrieve a user object. This request is authenticated with the `applicationKey` 
         }
 
 
-## Deactivate a User [/user/{user}]
+## Deactivate User [/user/{user}]
 
-### Deactivate a User [DELETE]
+### Deactivate User [DELETE]
 Deactivate a user.  The user will no longer be visible in the dashboard.
 If the user registers again on one of his devices, he will be activated again. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -7948,9 +7919,9 @@ If the user registers again on one of his devices, he will be activated again. T
 + Response 204
 
 
-## Delete a User [/user/{user}/remove]
+## Delete User [/user/{user}/remove]
 
-### Delete a User [DELETE]
+### Delete User [DELETE]
 Delete a user. The user will be completely removed from our system.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -7965,9 +7936,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Retrieve a User by userID [/user/foruserid/{userid}]
+## User By userID [/user/foruserid/{userid}]
 
-### Retrieve a User by userID [GET]
+### Get User By userID [GET]
 Retrieve a user object using the `userID`. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -7990,9 +7961,9 @@ Retrieve a user object using the `userID`. This request is authenticated with th
         }
 
 
-## Deactivate a User by userID [/user/foruserid/{userid}]
+## Deactivate User By userID [/user/foruserid/{userid}]
 
-### Deactivate a User by userID [DELETE]
+### Deactivate User By userID [DELETE]
 Deactivate a user using the  `userID`. The user will no longer be visible in the dashboard.
 If the user registers again on one of his devices, he will be activated again. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -8003,9 +7974,9 @@ If the user registers again on one of his devices, he will be activated again. T
 + Response 204
 
 
-## Delete a User by userID [/user/foruserid/{userid}/remove]
+## Delete User By userID [/user/foruserid/{userid}/remove]
 
-### Delete a User by userID [DELETE]
+### Delete User By userID [DELETE]
 Delete a user using the  `userID`. The user will be completely removed from our system.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
@@ -8019,9 +7990,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
             "message": "user removal is being processed"
         }
 
-## Add user to segment [/user/{user}/add/{segment}]
+## Add User To User Segment [/user/{user}/add/{segment}]
 
-### Add user to segment [PUT]
+### Add User To User Segment [PUT]
 Add user to segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -8036,9 +8007,9 @@ Add user to segment. This request is authenticated with the `applicationKey` and
                 "message": "user added to segment"
         }
 
-## Remove user from segment [/user/{user}/remove/{segment}]
+## Remove User From User Segment [/user/{user}/remove/{segment}]
 
-### Remove user from segment [PUT]
+### Remove User From User Segment [PUT]
 Remove user from segment. This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
