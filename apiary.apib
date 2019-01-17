@@ -1897,6 +1897,7 @@ Get all the Events stored for a specific application.
 | re.notifica.event.application.Open | Stored whenever the application becomes active. |
 | re.notifica.event.application.Close | Stored whenever the application goes to background. |
 | re.notifica.event.notification.Influenced | Stored whenever a notification when app is not active. |
+| re.notifica.event.notification.Sent | Stored whenever a notification is sent. |
 | re.notifica.event.notification.Receive | Stored whenever a notification arrives. |
 | re.notifica.event.notification.Open | Stored whenever a notification is open. |
 | re.notifica.event.region.Session | Stored whenever a user enters and leaves a region. |
@@ -1904,11 +1905,13 @@ Get all the Events stored for a specific application.
 | re.notifica.event.pass.Add | Stored whenever a pass is added to a device's wallet. |
 | re.notifica.event.pass.Remove | Stored whenever a pass is removed from a device's wallet. |
 | re.notifica.event.pass.Redeem | Stored whenever a pass is redeemed. |
+| re.notifica.event.asset.Load | Stored whenever an asset group is loaded. |
+| re.notifica.event.scannable.Scan | Stored whenever a scannable is scanned. |
 | re.notifica.event.product.Buy | Stored whenever a purchase is done. |
 | re.notifica.event.product.Buy.{store} | Stored whenever a purchase is done, where store is AppStore or GooglePlay. |
 | re.notifica.event.product.Buy.{store}.{identifier} | Stored whenever a purchase is done, where store is AppStore or GooglePlay. |
 
-## Events For Type [/event/fortype/{type}{?limit,skip,since,before,region}]
+## Events For Type [/event/fortype/{type}{?limit,skip,since,before,region,fence,pass,serial,group,scannable,notification,userID,deviceID}]
 
 ### Get Events For Type [GET]
 Get all the events for a type for a specific application.
@@ -1921,7 +1924,15 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + skip = `0` (optional, number, `0`)...The number of results to skip
     + since =  (optional, date, `2014-10-03`)...When provided will only retrieve events after this date
     + before =  (optional, date, `2014-10-04`)...When provided will only retrieve events before this date (only available when a since date is provided)
+    + userID = (optional, string, `user@example.com`)...When provided will only retrieve events for the userID. Requires since and before to be set as well.
+    + deviceID = (optional, string, `bbff2ce9b547d2df4731bac277xxx`)...When provided will only retrieve events for the deviceID. Requires since and before to be set as well.
     + region = (optional, string, `542f1868d341d51284b`)...The region's id of an event of type re.notifica.event.region.Session or re.notifica.event.beacon.Session
+    + fence = (optional, string, `542f1868d341d51284b`)...The beacon's fence region id of an event of type re.notifica.event.beacon.Session
+    + pass = (optional, string, `542f1868d341d51284b`)...The pass id of an event of type re.notifica.event.pass.Add, re.notifica.event.pass.Remove or re.notifica.event.pass.Redeem
+    + serial = (optional, string, `111111-aaaa-bbbb-2222-333344445555`)...The pass serial of an event of type re.notifica.event.pass.Add, re.notifica.event.pass.Remove or re.notifica.event.pass.Redeem
+    + group = (optional, string, `542f1868d341d51284b`)...The asset group's id of an event of type re.notifica.event.asset.Load
+    + scannable = (optional, string, `542f1868d341d51284b`)...The scannable's id of an event of type re.notifica.event.scannable.Scan
+    + notification = (optional, string, `542f1868d341d51284b`)...The notification's id of an event of type re.notifica.event.notification.Sent, re.notifica.event.notification.Receive, re.notifica.event.notification.Open or re.notifica.event.notification.Influenced
 
 + Response 200 (application/json; charset=utf-8)
 
