@@ -3099,7 +3099,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to process soon the notification arrives.
-    + group (optional, string, `ABC1234`)...A group identifier to be used by the operating systems in order to group notifications in the lock screen and notification center. Only support in iOS 12 and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3169,7 +3169,7 @@ The request accepts an array of tags. This request must be authenticated with th
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
-    + group (optional, string, `ABC1234`)...A group identifier to be used by the operating systems in order to group notifications in the lock screen and notification center. Only support in iOS 12 and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3241,7 +3241,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
-    + group (optional, string, `ABC1234`)...A group identifier to be used by the operating systems in order to group notifications in the lock screen and notification center. Only support in iOS 12 and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3311,7 +3311,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to process soon the notification arrives.
-    + group (optional, string, `ABC1234`)...A group identifier to be used by the operating systems in order to group notifications in the lock screen and notification center. Only support in iOS 12 and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 
@@ -3395,7 +3395,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
-    + group (optional, string, `ABC1234`)...A group identifier to be used by the operating systems in order to group notifications in the lock screen and notification center. Only support in iOS 12 and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3493,7 +3493,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
-    + group (optional, string, `ABC1234`)...A group identifier to be used by the operating systems in order to group notifications in the lock screen and notification center. Only support in iOS 12 and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 + Request (application/json)
 
@@ -3560,7 +3560,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
-    + group (optional, string, `ABC1234`)...A group identifier to be used by the operating systems in order to group notifications in the lock screen and notification center. Only support in iOS 12 and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3630,7 +3630,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
-    + group (optional, string, `ABC1234`)...A group identifier to be used by the operating systems in order to group notifications in the lock screen and notification center. Only support in iOS 12 and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
