@@ -3014,6 +3014,108 @@ Recognized columns in your .csv file are:
         }
 
 
+# Group Links
+Methods to create short links in Notificare. Links can be used to redirec users to existing web pages or to server HTML markup hosted in Notificare.
+
+
+## Links [/link]
+### Get Links [GET]
+Get all the links objects.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        }
+                "links":[{
+                                   "_id":"545cc517ff584870b89fb98",
+                                   "account":"50d771ff87e53afff2600001c",
+                                   "hash":"50fUr-56",
+                                   "application":"5354f0bbdddd4452ff4c7c0",
+                                   "name":"Test",
+                                   "type":"re.notifica.link.Redirect",
+                                   "target: {
+                                                 "web": "https://notifica.re/example",
+                                                 "ios": "https://notifica.re/example-ios",
+                                                 "android": "https://notifica.re/example-android"
+                                               },
+                                   "opened": 10,
+                                   "uniqueOpened": 5,
+                                   "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}],
+                                   "customEvents": []
+                              }]
+        }
+
+
+## Create Link [/link]
+
+### Create Link [POST]
+Create a new link. This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Request (application/json)
+
+        {
+              "name":"Another Link",
+              "type":"re.notifica.link.Redirect",
+              "target: {
+                            "web": "https://notifica.re/example",
+                            "ios": "https://notifica.re/example-ios",
+                            "android": "https://notifica.re/example-android"
+                          },
+              "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}],
+              "customEvents": []
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "link": {
+                        "id":"5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+### Update Link [PUT]
+Update all the data of a link. This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + link (required, string, `12345`)...The ID of the link
+
++ Request (application/json)
+
+        {
+              "name":"Another Link",
+              "type":"re.notifica.link.Redirect",
+              "target: {
+                            "web": "https://notifica.re/example",
+                            "ios": "https://notifica.re/example-ios",
+                            "android": "https://notifica.re/example-android"
+                          },
+              "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}],
+              "customEvents": []
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "user segment updated"
+        }
+
+
+### Delete Link [DELETE]
+Delete a link. This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + link (required, string, `5245bc5b3e66a3b01f0024d4`)...The ID of the link
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "link removed"
+        }
+
+
 
 # Group Notification
 Methods to create, send and schedule notifications to a specific target audience, user or device.
