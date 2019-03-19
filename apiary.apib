@@ -2260,7 +2260,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Export Campaigns [/export/re.notifica.export.Campaign]
 ### Export Campaigns [POST]
-Export replies for a specific notification. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+Export the results of a specific Location Based Campaign. This will include all the trigger history for the duration of the campaign (if applicable). This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -2272,6 +2272,56 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "data": {
                     "campaign": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export Campaigns Summary [/export/re.notifica.export.CampaignSummary]
+### Export Campaigns Summary [POST]
+Export the stats summary for one or more campaigns. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + campaigns (required, array, `["5245bc5b3e66a3b01f0024d4"]`)...The ids of the campaigns you wish to export summary from
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "campaigns": ["5245bc5b3e66a3b01f0024d4","5245bc5b3e66a3b01f0024d5"]
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export Automation Connectors Summary [/export/re.notifica.export.AutomationSummary]
+### Export Automation Connectors Summary [POST]
+Export the stats summary for one or more automation connectors. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + automations (required, array, `["5245bc5b3e66a3b01f0024d4"]`)...The ids of the automation connectors you wish to export summary from
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "automations": ["5245bc5b3e66a3b01f0024d4","5245bc5b3e66a3b01f0024d5"]
                 }
         }
 
