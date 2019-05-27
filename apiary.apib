@@ -2924,7 +2924,8 @@ Recognized columns in your .csv file are:
 ### Import Private Messages [POST]
 Used to import a list of private messages to users or devices. Every row in the referenced CSV should contain at least a `userID` or a `deviceID`.
 Optionally, a Notification Template can be used to create the notifications. For that make sure you have previously created at least one template and then provide its Id in `notificationTemplate`.
-If no template is provided, each row should contain a `message`. Values present in the CSV will overwrite corresponding fields from the template, if provided.
+If no template is provided, each row should contain at least a `message`. Values present in the CSV will overwrite corresponding fields from the template, if provided.
+The notifications can also be scheduled by providing a `notificationSchedule` with `time` and `timezone`, defaulting to 'UTC'.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 Recognized columns in your .csv file are:
@@ -2935,7 +2936,7 @@ Recognized columns in your .csv file are:
 
 + subtitle
 
-+ message
++ message (if no template is set, this is mandatory)
 
 + attachmentUri (lock screen image, publicly accessible image URL)
 
@@ -2960,8 +2961,11 @@ Recognized columns in your .csv file are:
         {
                 "path":"/imports/647431c4dc3798f2a5ae147411a787e8d52447e365d7972ec4d8535/dfeba0ade92ad65ec8619d4464333facc95f5c2feb55df98a92a78",
                 "data":{
-                        "notificationTemplate": null,
-                        "message": "This is my private message"
+                        "notificationTemplate": "dfeba0ade92ad65ec8619d4464333",
+                        "notificationSchedule: {
+                                "time": "YYYY-MM-DD HH:mm"",
+                                "timezone": "Europe/Amsterdam",
+                        }
                 }
         }
 
@@ -2977,6 +2981,7 @@ Recognized columns in your .csv file are:
 ### Import Grouped Messages [POST]
 Used to import a list of users or devices to send a notification to. Every row in the referenced CSV should contain at least a `userID` or a `deviceID`.
 A Notification Template must be used to create the notifications. For that make sure you have previously created at least one template and then provide its Id in `notificationTemplate`.
+The notification can also be scheduled by providing a `notificationSchedule` with `time` and `timezone`, defaulting to 'UTC'.
 Values of columns prefixed with `notification_` in the CSV can be used as placeholders in the template
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
