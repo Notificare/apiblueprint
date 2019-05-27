@@ -2260,7 +2260,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Export Campaigns [/export/re.notifica.export.Campaign]
 ### Export Campaigns [POST]
-Export replies for a specific notification. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+Export the results of a specific Location Based Campaign. This will include all the trigger history for the duration of the campaign (if applicable). This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -2272,6 +2272,56 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "data": {
                     "campaign": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export Campaigns Summary [/export/re.notifica.export.CampaignSummary]
+### Export Campaigns Summary [POST]
+Export the stats summary for one or more campaigns. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + campaigns (required, array, `["5245bc5b3e66a3b01f0024d4"]`)...The ids of the campaigns you wish to export summary from
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "campaigns": ["5245bc5b3e66a3b01f0024d4","5245bc5b3e66a3b01f0024d5"]
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+## Export Automation Connectors Summary [/export/re.notifica.export.AutomationSummary]
+### Export Automation Connectors Summary [POST]
+Export the stats summary for one or more automation connectors. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + automations (required, array, `["5245bc5b3e66a3b01f0024d4"]`)...The ids of the automation connectors you wish to export summary from
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "automations": ["5245bc5b3e66a3b01f0024d4","5245bc5b3e66a3b01f0024d5"]
                 }
         }
 
@@ -3019,6 +3069,108 @@ Recognized columns in your .csv file are:
         }
 
 
+# Group Links
+Methods to create short links in Notificare. Links can be used to redirec users to existing web pages or to server HTML markup hosted in Notificare.
+
+
+## Links [/link]
+### Get Links [GET]
+Get all the links objects.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+        }
+                "links":[{
+                                   "_id":"545cc517ff584870b89fb98",
+                                   "account":"50d771ff87e53afff2600001c",
+                                   "hash":"50fUr-56",
+                                   "application":"5354f0bbdddd4452ff4c7c0",
+                                   "name":"Test",
+                                   "type":"re.notifica.link.Redirect",
+                                   "target: {
+                                                 "web": "https://notifica.re/example",
+                                                 "ios": "https://notifica.re/example-ios",
+                                                 "android": "https://notifica.re/example-android"
+                                               },
+                                   "opened": 10,
+                                   "uniqueOpened": 5,
+                                   "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}],
+                                   "customEvents": []
+                              }]
+        }
+
+
+## Create Link [/link]
+
+### Create Link [POST]
+Create a new link. This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Request (application/json)
+
+        {
+              "name":"Another Link",
+              "type":"re.notifica.link.Redirect",
+              "target: {
+                            "web": "https://notifica.re/example",
+                            "ios": "https://notifica.re/example-ios",
+                            "android": "https://notifica.re/example-android"
+                          },
+              "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}],
+              "customEvents": []
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "link": {
+                        "id":"5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+### Update Link [PUT]
+Update all the data of a link. This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + link (required, string, `12345`)...The ID of the link
+
++ Request (application/json)
+
+        {
+              "name":"Another Link",
+              "type":"re.notifica.link.Redirect",
+              "target: {
+                            "web": "https://notifica.re/example",
+                            "ios": "https://notifica.re/example-ios",
+                            "android": "https://notifica.re/example-android"
+                          },
+              "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}],
+              "customEvents": []
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "user segment updated"
+        }
+
+
+### Delete Link [DELETE]
+Delete a link. This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + link (required, string, `5245bc5b3e66a3b01f0024d4`)...The ID of the link
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "link removed"
+        }
+
+
 
 # Group Notification
 Methods to create, send and schedule notifications to a specific target audience, user or device.
@@ -3104,7 +3256,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to process soon the notification arrives.
-
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3174,6 +3326,7 @@ The request accepts an array of tags. This request must be authenticated with th
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3245,6 +3398,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3314,6 +3468,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to process soon the notification arrives.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 
@@ -3397,6 +3552,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3494,6 +3650,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 + Request (application/json)
 
@@ -3560,6 +3717,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
@@ -3629,6 +3787,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
 
 
 + Request (application/json)
