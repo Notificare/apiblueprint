@@ -5396,7 +5396,7 @@ Test a message to **all** push devices. This call must be authenticated with the
 
 + Parameters
 
-    + message (required, string, `Hello World`)...Dummy test to be used in your test.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target area you want to test.
 
 
@@ -5421,7 +5421,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + tags (required, array, `["test"]`)...An array of tags which you wish to test.
-    + message (required, string, `Hello World`)...Dummy test to be used in your test.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
 
 
 
@@ -5447,7 +5447,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + segments (required, array, `["526f7a71dab9d70711000003"]`)...An array of segment Ids which you wish to test.
-    + message (required, string, `Hello World`)...Dummy test to be used in your test.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
 
 
 + Request (application/json)
@@ -5466,14 +5466,14 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 ## Test Push to Events [/notification/test/push/event]
 
 ### Test Push Message to Events [POST]
-Test a message to push that executed a specific event. The request requires an eventCriteria object.
+Test a message to push devices that executed a specific event. The request requires an eventCriteria object.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
     + eventCriteria (required, object, `{"type": "re.notifica.event.application.Open", "startDate": "2019-06-21 00:00", "endDate": "2019-06-22 00:00", "data": {"region": null, "fence": null, "serial": null, "notification": null, "scannable": null, "group": null}`)...The event criteria to use.
     + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
-    + message (required, string, `Hello World`)...Dummy test to be used in your test.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
 
 
 + Request (application/json)
@@ -5510,7 +5510,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
-    + message (required, string, `Hello World`)...Dummy test to be used in your test.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
 
 
 + Request (application/json)
@@ -5586,6 +5586,416 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
+
++ Request (application/json)
+
+        {
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+
+## Test Email Broadcast [/notification/test/email/broadcast]
+
+### Test Email Message Broadcast [POST]
+Test a message to **all** email contacts. This call must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + subject (required, string, `Hello World`)...Dummy text to be used in your test.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target area you want to test.
+
+
++ Request (application/json)
+
+        {
+                "subject":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+## Test Email to Tags [/notification/test/email/tags]
+
+### Test Email Message to Tags [POST]
+Test a message to email contacts with any of the specified `tags`. This request requires an array of tags.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + tags (required, array, `["test"]`)...An array of tags which you wish to test.
+    + subject (required, string, `Hello World`)...Dummy text to be used in your test.
+
+
+
++ Request (application/json)
+
+        {
+                "tags":["test1","test2"],
+                "subject":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+## Test Email to Segments [/notification/test/push/segments]
+
+### Test Email Message to Segments [POST]
+Test a message to users with email contacts with any of the specified `segments`. The request requires an array of segment IDs.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + segments (required, array, `["526f7a71dab9d70711000003"]`)...An array of segment Ids which you wish to test.
+    + subject (required, string, `Hello World`)...Dummy text to be used in your test.
+
+
++ Request (application/json)
+
+        {
+                "segments":["526f7a71dab9d70711000003","526f7a71dab9d70711000004"],
+                "subject":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+## Test Email to Events [/notification/test/email/event]
+
+### Test Email Message to Events [POST]
+Test a message to email contacts that executed a specific event. The request requires an eventCriteria object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + eventCriteria (required, object, `{"type": "re.notifica.event.notification.Open", "startDate": "2019-06-21 00:00", "endDate": "2019-06-22 00:00", "data": {"region": null, "fence": null, "serial": null, "notification": null, "scannable": null, "group": null}`)...The event criteria to use.
+    + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + subject (required, string, `Hello World`)...Dummy text to be used in your test.
+
+
++ Request (application/json)
+
+        {
+               "eventCriteria": {
+                      "type": "re.notifica.notification.Open",
+                      "startDate": "01-01-2017 01:00",
+                      "endDate": "01-02-2017 01:00",
+                      "data": {
+                                "notification": "3445bc5b4563b01f0f5",
+                                "region": null,
+                                "fence": null,
+                                "serial": null
+                      }
+                },
+                "subject":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+
+
+## Test Email to Criteria [/notification/test/email/criteria]
+
+### Test Email Message to Criteria [POST]
+Test a message using a specific custom criteria. The request requires an eventCriteria object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + subject (required, string, `Hello World`)...Dummy text to be used in your test.
+
+
++ Request (application/json)
+
+        {
+                "criteria":{
+                    "segmentsCriteria":[{
+                        "quantifier":"any",
+                        "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                    }],
+                    "tagsCriteria":[{
+                        "quantifier":"all",
+                        "tags":["test","test2"]
+                    }, {
+                        "quantifier":"none",
+                        "tags":["test3","test4"]
+                    }],
+                    "propertiesCriteria":[
+                        [{
+                            "property":"language",
+                            "operator":"in",
+                            "value":["nl","en","en-US"]
+                        }]
+                    ]
+                },
+                "subject":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+
+
+## Test Email to User [/notification/test/email/user/{user}]
+
+### Test Email Message to User [POST]
+Test a message to a user and its email contacts.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + user (required, string, `testuser@example.com`)...The userID assigned to an email contact.
+    + subject (required, string, `Hello World`)...Dummy text to be used in your test.
+
++ Request (application/json)
+
+        {
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+## Test Email to Device [/notification/test/email/device/{device}]
+
+### Test Email Message to Contact [POST]
+Test a message to a single email contact.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The contactID generated for an email address.
+    + subject (required, string, `Hello World`)...Dummy text to be used in your test.
+
++ Request (application/json)
+
+        {
+                "subject":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+
+## Test SMS Broadcast [/notification/test/sms/broadcast]
+
+### Test SMS Message Broadcast [POST]
+Test a message to **all** phone numbers. This call must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target area you want to test.
+
+
++ Request (application/json)
+
+        {
+                "message":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+## Test SMS to Tags [/notification/test/sms/tags]
+
+### Test SMS Message to Tags [POST]
+Test a message to phone numbers with any of the specified `tags`. This request requires an array of tags.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + tags (required, array, `["test"]`)...An array of tags which you wish to test.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
+
+
+
++ Request (application/json)
+
+        {
+                "tags":["test1","test2"],
+                "message":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+## Test SMS to Segments [/notification/test/sms/segments]
+
+### Test SMS Message to Segments [POST]
+Test a message to users with phone numbers with any of the specified `segments`. The request requires an array of segment IDs.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + segments (required, array, `["526f7a71dab9d70711000003"]`)...An array of segment Ids which you wish to test.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
+
+
++ Request (application/json)
+
+        {
+                "segments":["526f7a71dab9d70711000003","526f7a71dab9d70711000004"],
+                "message":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+## Test SMS to Events [/notification/test/sms/event]
+
+### Test SMS Message to Events [POST]
+Test a message to phone numbers that executed a specific event. The request requires an eventCriteria object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + eventCriteria (required, object, `{"type": "re.notifica.event.notification.Open", "startDate": "2019-06-21 00:00", "endDate": "2019-06-22 00:00", "data": {"region": null, "fence": null, "serial": null, "notification": null, "scannable": null, "group": null}`)...The event criteria to use.
+    + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
+
+
++ Request (application/json)
+
+        {
+               "eventCriteria": {
+                      "type": "re.notifica.notification.Open",
+                      "startDate": "01-01-2017 01:00",
+                      "endDate": "01-02-2017 01:00",
+                      "data": {
+                                "notification": "3445bc5b4563b01f0f5",
+                                "region": null,
+                                "fence": null,
+                                "serial": null
+                      }
+                },
+                "message":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+
+
+## Test SMS to Criteria [/notification/test/sms/criteria]
+
+### Test SMS Message to Criteria [POST]
+Test a message using a specific custom criteria. The request requires an eventCriteria object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
+
+
++ Request (application/json)
+
+        {
+                "criteria":{
+                    "segmentsCriteria":[{
+                        "quantifier":"any",
+                        "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                    }],
+                    "tagsCriteria":[{
+                        "quantifier":"all",
+                        "tags":["test","test2"]
+                    }, {
+                        "quantifier":"none",
+                        "tags":["test3","test4"]
+                    }],
+                    "propertiesCriteria":[
+                        [{
+                            "property":"language",
+                            "operator":"in",
+                            "value":["nl","en","en-US"]
+                        }]
+                    ]
+                },
+                "message":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+
+
+## Test SMS to User [/notification/test/sms/user/{user}]
+
+### Test SMS Message to User [POST]
+Test a message to a user and its phone numbers.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + user (required, string, `testuser@example.com`)...The userID assigned to an email contact.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
+
++ Request (application/json)
+
+        {
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+## Test SMS to Device [/notification/test/sms/device/{device}]
+
+### Test SMS Message to Phone [POST]
+Test a message to a single phone number.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The numberID generated for a phone number.
+    + message (required, string, `Hello World`)...Dummy text to be used in your test.
 
 + Request (application/json)
 
