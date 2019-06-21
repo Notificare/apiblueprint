@@ -3785,7 +3785,7 @@ The request requires a deviceID. This request must be authenticated with the `ap
 ## Triggered Push [/notification/push/triggered]
 
 ### Create Triggered Push Message [POST]
-Create a message that will not generate any notification. These kind of messages should be used when creating a `Connector`, `Trigger` or `Beacon`.
+Create a message to be used in automation connector or geo-trigger.
 You cannot schedule a triggered message.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4365,7 +4365,7 @@ The request requires a deviceID. This request must be authenticated with the `ap
 ## Triggered Email [/notification/email/triggered]
 
 ### Create Triggered Email Message [POST]
-Create a message that will not generate any notification. These kind of messages should be used when creating a `Connector`.
+Create a message to be used in automation connector.
 You cannot schedule a triggered message.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4398,6 +4398,287 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                 "data":"Hello World"
                         }
                 ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+
+## SMS Broadcast [/notification/sms/broadcast]
+
+### Create SMS Message Broadcast [POST]
+Send a message to **all** phone numbers.
+You can also schedule a broadcast, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + message (required, string, `Hello World`)...The text (140 characters) of your message.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
++ Request (application/json)
+
+        {
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+## SMS to Tags [/notification/sms/tags]
+
+### Create SMS Message to Tags [POST]
+Send a message to a sms number in any of the specified `tags`.
+You can also schedule these message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + tags (optional, array, `["test"]`)...Only send to contacts that have any of these tags.
+    + message (required, string, `Hello World`)...The text (140 characters) of your message.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
++ Request (application/json)
+
+        {
+                "tags":["test1","test2"],
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+## SMS to Segments [/notification/sms/segments]
+
+### Create SMS Message to Segments [POST]
+Send a message to users in any of the specified `segments`.
+You can also schedule these messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires an array of segment IDs. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + segments (required, array, `["526f7a71dab9d70711000003","526f7a71dab9d70711000004"]`)...The segments of users to send to.
+    + tags (optional, array, `["test"]`)...Only send to contacts that have any of these tags.
+    + message (required, string, `Hello World`)...The text (140 characters) of your message.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
++ Request (application/json)
+
+        {
+                "segments":["526f7a71dab9d70711000003","526f7a71dab9d70711000004"],
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+## SMS to Events [/notification/sms/event]
+
+### Create SMS Message to Events [POST]
+Send a message to any sms number that executed an event.
+You can also schedule a message based on events, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
+The request requires an eventCriteria object. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + eventCriteria (required, object, `{"type": "re.notifica.event.application.Open", "startDate": "2019-06-21 00:00", "endDate": "2019-06-22 00:00", "data": {"region": null, "fence": null, "serial": null, "notification": null, "scannable": null, "group": null}`)...The event criteria to use.
+    + criteria (optional, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + message (required, string, `Hello World`)...The text (140 characters) of your message.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
++ Request (application/json)
+
+        {
+               "eventCriteria": {
+                      "type": "re.notifica.notification.Open",
+                      "startDate": "01-01-2017 01:00",
+                      "endDate": "01-02-2017 01:00",
+                      "data": {
+                                "notification": "3445bc5b4563b01f0f5",
+                                "region": null,
+                                "fence": null,
+                                "serial": null
+                      }
+                }
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+
+## SMS to Criteria [/notification/sms/criteria]
+
+### Create SMS Message to Criteria [POST]
+Send a message to sms numbers that match a certain criteria.
+You can also schedule these messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires a criteria object. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + message (required, string, `Hello World`)...The text (140 characters) of your message.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
++ Request (application/json)
+
+        {
+                "criteria":{
+                    "segmentsCriteria":[{
+                        "quantifier":"any",
+                        "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                    }],
+                    "tagsCriteria":[{
+                        "quantifier":"all",
+                        "tags":["test","test2"]
+                    }, {
+                        "quantifier":"none",
+                        "tags":["test3","test4"]
+                    }],
+                    "propertiesCriteria":[
+                        [{
+                            "property":"language",
+                            "operator":"in",
+                            "value":["nl","en","en-US"]
+                        }]
+                    ]
+                },
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+## SMS to User [/notification/sms/user/{user}]
+
+### Create SMS Message to User [POST]
+Send a message to one single user and its email contacts.
+You can also schedule a private message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires an userID. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+    + user (required, string, `NL1234567890`)...The user ID used when registering a contact.
+    + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
+    + message (required, string, `Hello World`)...The text (140 characters) of your message.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
++ Request (application/json)
+
+        {
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+## SMS to Phone [/notification/sms/device/{device}]
+
+### Create SMS Message to Phone [POST]
+Send a message to a single sms number.
+You can also schedule this type of messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires a deviceID. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The contactID generated for this email contact.
+    + message (required, string, `Hello World`)...The text (140 characters) of your message.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
++ Request (application/json)
+
+        {
+                "message":"Hello world!"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+## Triggered SMS [/notification/sms/triggered]
+
+### Create Triggered SMS Message [POST]
+Create a message to be used in automation connector.
+You cannot schedule a triggered message.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + criteria (optional, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + message (required, string, `Hello World`)...The text (140 characters) of your message.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
++ Request (application/json)
+
+        {
+                "triggered":true,
+                "message":"Hello world!"
         }
 
 + Response 201 (application/json; charset=utf-8)
