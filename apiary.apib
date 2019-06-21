@@ -3172,26 +3172,24 @@ Delete a link. This request is authenticated with the `applicationKey` and  `mas
 
 
 
-# Group Notification
-Methods to create, send and schedule notifications to a specific target audience, user or device.
-Combines User, Segments, Tags and the location of the devices to provide you a powerful device selection query for your campaigns.
-The 3 most important things to have in consideration when creating a new message is that `message` is always mandatory, the property `type` defines which type of content should be presented to the user and the combination of `message`, `extra`, `sound`, `badge` should be no bigger than 200 bytes.
-You can send several types of content in your message. The array `content` should contain one or more objects according to the `type` of message. 
-You can also add an array `actions` to your notifications by simply providing one or more objects. 
+# Group Messages
+Methods to create, send and schedule messages to your audience. We support several channels: Push (iOS, Android & Web), Email and SMS.
+You can send a broadcast, select a group of users (Segments), select a group of devices (Tags), select devices that executed certain events or combine segments, tags, location and device properties in a powerful criteria for fine-grained results.
 
-## Notification Types:
+# Push
+## Message Types:
 | type | description | 
 |:---------:|-------------|
-| re.notifica.notification.Alert | The simplest form of notifications, it will display the message in a dialog/alert window. It does not require a content object. You can although add Action objects to it, actions will be added to the window as buttons. |
-| re.notifica.notification.WebView | This type allows you to show any piece of HTML in a native WebView. It requires a Content object of type `re.notifica.content.HTML`. You can additionally add Action objects to this type of Notification. |
-| re.notifica.notification.URL | Use this type to open any URL in a native WebView. It requires a Content object of type `re.notifica.content.URL`. You can additionally add Action objects to this type of Notification. |
-| re.notifica.notification.Image | Add one or more images to your notifications. It requires one or more Content objects of types `re.notifica.content.JPEG`, `re.notifica.content.PNG` or `re.notifica.content.GIF`. You can additionally add Action objects to this type of Notification. |
-| re.notifica.notification.Map | This type of notifications will use the device's native maps to display one or more locations. It requires one or more Content objects of type `re.notifica.content.Marker`. You can additionally add Action objects to this type of Notification. |
-| re.notifica.notification.Rate | This type is used exclusively to send a dialog window with three Action objects included. The user can then choose to rate the app in App Store/Google Play, to be remembered later to rate or to not rate at all. This type of Notification does not require any Content object. Also you cannot add any more Action objects to this type of Notification. |
+| re.notifica.notification.Alert | The simplest form of push messages, it will display the message in a dialog/alert window. It does not require a content object. You can although add Action objects to it, actions will be added to the window as buttons. |
+| re.notifica.notification.WebView | This type allows you to show any piece of HTML. It requires a Content object of type `re.notifica.content.HTML`. You can additionally add Action objects to this type of push message. |
+| re.notifica.notification.URL | Use this type to open any URL. It requires a Content object of type `re.notifica.content.URL`. You can additionally add Action objects to this type of push message. |
+| re.notifica.notification.Image | Add one or more images to your push messages. It requires one or more Content objects of types `re.notifica.content.JPEG`, `re.notifica.content.PNG` or `re.notifica.content.GIF`. You can additionally add Action objects to this type of push message. |
+| re.notifica.notification.Map | This type of push message will use the device's native maps (iOS & Android) or any map library (Web) to display one or more locations. It requires one or more Content objects of type `re.notifica.content.Marker`. You can additionally add Action objects to this type of push message. |
+| re.notifica.notification.Rate | This type is used exclusively to send a dialog window with three Action objects included. The user can then choose to rate the app in App Store/Google Play, to be remembered later to rate or to not rate at all. This type of push message does not require any Content object. Also you cannot add any more Action objects to this type of push message. |
 | re.notifica.notification.Passbook | Use this type to easily send .pkpass files in your push notifications. Distribute your Passbook Passes directly to your app users. This type does not allow any Action objects. |
-| re.notifica.notification.Video | This type of notifications is used to send video content to your users. It requires one of these three types of content: `re.notifica.content.YouTube`, `re.notifica.content.Vimeo` or `re.notifica.content.HTML5Video`. You can additionally add Action objects to this type of Notification. This type is only available for SDKs 1.8.0 and up. |
-| re.notifica.notification.URLScheme | Use this type of notifications to deep link messages to areas of your app. You will need to make sure your app responds to these URL Schemes by providing them in you app's Info.plist (iOS) or AndroidManifest.xml (Android). This type is only available for SDKs 1.8.0 and up. |
-| re.notifica.notification.None | Use this type if you do not wish to show any UI in Notificare but still make sure we log the open notification event and be able to see these in the dashboard. When using this type you can still handle the notifications yourself so it is possible to still include content, actions or extra parameters. This type is only available for SDKs 1.8.0 and up. |
+| re.notifica.notification.Video | This type of push message is used to send video content to your users. It requires one of these three types of content: `re.notifica.content.YouTube`, `re.notifica.content.Vimeo` or `re.notifica.content.HTML5Video`. You can additionally add Action objects to this type of push message. This type is only available for SDKs 1.8.0 and up. |
+| re.notifica.notification.URLScheme | Use this type of push message to deep link messages to areas of your mobile app (iOS & Android) or web pages (Web). You will need to make sure your app responds to these URL Schemes by providing them in you app's Info.plist (iOS) or AndroidManifest.xml (Android). This type is only available for SDKs 1.8.0 and up. |
+| re.notifica.notification.None | Use this type if you do not wish to show any UI in Notificare but still make sure we gather metrics. When using this type you can still handle the notifications yourself so it is possible to still include content, actions or extra parameters. This type is only available for SDKs 1.8.0 and up. |
 
 
 ## Content Objects:
@@ -3227,21 +3225,44 @@ You can also add an array `actions` to your notifications by simply providing on
 | re.notifica.rule tag.Add | array of tags (eg.: ["tag_news","tag_press"]) |
 | re.notifica.rule tag.Remove | array of tags (eg.: ["tag_news","tag_press"]) |
 
-## Notification Broadcast [/notification/broadcast]
 
-### Create Notification Broadcast [POST]
-Send a message to **all** devices. 
+# Email
+## Email Message Types:
+| type | description |
+|:---------:|-------------|
+| re.notifica.notification.email.HTML | The most flexible type of email messages. You can should your own HTML to design your email messages. |
+| re.notifica.notification.email.Notificare | This type is reserved for messages designed in our dashboard. It will expect a certain structure to be compatible with our email designer composer and therefore should only be used via these endpoints if you are familiar with it.  |
+
+## Content Objects:
+| type | data |
+|:---------:|-------------|
+| re.notifica.content.Text | string (eg.: "Hello World!") |
+| re.notifica.content.HTML | string (eg.: "\<h1>Hello World!\</h1>") |
+
+## Rules Objects:
+| type | params |
+|:---------:|-------------|
+| re.notifica.rule segment.Add | array of segment Ids (eg.: ["532434df434657df4664","532434df434657df4664"]) |
+| re.notifica.rule segment.Remove | array of segment Ids (eg.: ["532434df434657df4664","532434df434657df4664"]) |
+| re.notifica.rule tag.Add | array of tags (eg.: ["tag_news","tag_press"]) |
+| re.notifica.rule tag.Remove | array of tags (eg.: ["tag_news","tag_press"]) |
+
+
+## Push Broadcast [/notification/push/broadcast]
+
+### Create Push Message Broadcast [POST]
+Send a message to **all** push devices.
 You can also schedule a broadcast, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.*. Please refer to Message Types for all available types.
     + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
@@ -3252,7 +3273,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is an iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to process soon the notification arrives.
@@ -3297,21 +3318,22 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Notification By Tags [/notification/tags]
+## Push to Tags [/notification/push/tags]
 
-### Create Notification By Tags [POST]
-Send a message to devices with any of the specified `tags`. 
+### Create Push Message to Tags [POST]
+Send a message to devices in any of the specified `tags`.
 You can also schedule these message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
-The request accepts an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
+The request requires an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + tags (required, array, `["test"]`)...Only send to devices that have any these tags.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.*. Please refer to Message Types for all available types.
     + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
@@ -3322,7 +3344,7 @@ The request accepts an array of tags. This request must be authenticated with th
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
@@ -3367,23 +3389,23 @@ The request accepts an array of tags. This request must be authenticated with th
                 "message":"notifications are queued"
         }
         
-## Notification By Segments [/notification/segments]
+## Push to Segments [/notification/push/segments]
 
-### Create Notification By Segments [POST]
-Send a message to users in one or more of the specified `segments`. 
+### Create Push Message to Segments [POST]
+Send a message to users in any of the specified `segments`.
 You can also schedule these messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
-The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`.
+The request requires an array of segment IDs. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
     + segments (required, array, `["526f7a71dab9d70711000003","526f7a71dab9d70711000004"]`)...The segments of users to send to.
     + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
-    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.*. Please refer to Message Types for all available types.
     + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
@@ -3394,7 +3416,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
@@ -3439,21 +3461,23 @@ The request accepts an array of Segment Ids. This request must be authenticated 
                 "message":"notifications are queued"
         }
 
-## Notification By Events [/notification/event]
+## Push to Events [/notification/push/event]
 
-### Create Notification By Events [POST]
-Send a message to any device that executed an event.
-You can also schedule a notification based on events, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
-This request must be authenticated with the `applicationKey` and `masterSecret`.
+### Create Push Message to Events [POST]
+Send a message to any push device that executed an event.
+You can also schedule a push message based on events, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
+The request requires an eventCriteria object. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + eventCriteria (required, object, `{"type": "re.notifica.event.application.Open", "startDate": "2019-06-21 00:00", "endDate": "2019-06-22 00:00", "data": {"region": null, "fence": null, "serial": null, "notification": null, "scannable": null, "group": null}`)...The event criteria to use.
+    + criteria (optional, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.*. Please refer to Message Types for all available types.
     + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
@@ -3464,7 +3488,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is an iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to process soon the notification arrives.
@@ -3478,8 +3502,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                "title":"This is a title",
                "subtitle":"This is a subtitle",
                "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
-                "eventCriteria": {
+               "type":"re.notifica.notification.Alert",
+               "eventCriteria": {
                       "type": "re.notifica.notification.Open",
                       "startDate": "01-01-2017 01:00",
                       "endDate": "01-02-2017 01:00",
@@ -3522,22 +3546,22 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
 
-## Notification By Criteria [/notification/criteria]
+## Push to Criteria [/notification/push/criteria]
 
-### Create Notification By Criteria [POST]
+### Create Push Message to Criteria [POST]
 Send a message to devices that match a certain criteria.
 You can also schedule these messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
-The request accepts an array of Segment Ids. This request must be authenticated with the `applicationKey` and `masterSecret`.
+The request requires a criteria object. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
     + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
-    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.*. Please refer to Message Types for all available types.
     + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
@@ -3548,7 +3572,7 @@ The request accepts an array of Segment Ids. This request must be authenticated 
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
@@ -3621,22 +3645,22 @@ The request accepts an array of Segment Ids. This request must be authenticated 
         }
 
 
-## Notification For User [/notification/user/{user}]
+## Push to User [/notification/push/user/{user}]
 
-### Create Notification For User [POST]
-Send a message to one single `user`. 
+### Create Push Message to User [POST]
+Send a message to one single user and its devices.
 You can also schedule a private message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
-This request must be authenticated with the `applicationKey` and `masterSecret`.
+The request requires an userID. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
     + user (required, string, `testuser@example.com`)...The user ID is the one the client device registered with, e.g., the user's email address.
     + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
-    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.*. Please refer to Message Types for all available types.
     + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
@@ -3647,7 +3671,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
     + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
@@ -3688,22 +3712,22 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "message":"notifications are queued"
         }
         
-## Notification For Device [/notification/device/{device}]
+## Push to Device [/notification/push/device/{device}]
 
-### Create Notification For Device [POST]
-Send a message to a `device`. 
+### Create Push Message to Device [POST]
+Send a message to a single device.
 You can also schedule this type of messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
-This request must be authenticated with the `applicationKey` and `masterSecret`.
+The request requires a deviceID. This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The deviceID is the ID as registered by the device, e.g. APNS token or GCM registration ID.
-    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The deviceID is the ID as registered by the device, e.g. APNS, FCM or Web Push token.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.*. Please refer to Message Types for all available types.
     + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
@@ -3714,7 +3738,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
     + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
     + push (optional, boolean, `true`)...This property is only available for SDKs 1.8.0 and up. When false it will only create a message in the app's inbox and not generate a remote notification. By default this property will be true. Please note that this property will be ignored if Inbox is not being used.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
     + group (optional, string, `ABC1234`)...An identifier to be used by the operating systems in order to group specific notifications in the lock screen and notification center. Only supported in iOS 12 or higher and Android 6 or higher. In Android you must use our Notificare's SDK 2.1 or higher.
@@ -3758,23 +3782,22 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
         
 
-## Triggered Notification [/notification/triggered]
+## Triggered Push [/notification/push/triggered]
 
-### Create Triggered Notification [POST]
-Create a message that will not generate any notification. These kind of messages can be used by when creating a `Trigger` or `Beacon`. 
+### Create Triggered Push Message [POST]
+Create a message that will not generate any notification. These kind of messages should be used when creating a `Connector`, `Trigger` or `Beacon`.
 You cannot schedule a triggered message.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
-    + segments (optional, array, `["526f7a71dab9d70711000003","526f7a71dab9d70711000004"]`)...Only send to devices whose user is in one or more of these segments.
-    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + criteria (optional, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.*. Please refer to Message Types for all available types.
     + title (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + subtitle (optional, string, `Hello World`)...Small text shown in the device's lock screen or notification center. This field should be used as an helper text to the message. Please note that this is only supported by iOS 10 or higher or Android 5 or higher devices.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actionCategory (optional, string, `My Template`)...Use a previously created Rich Push template for your message. Use the name of the template for this property and the actions in that template as the actions for this notification. This will enable actionable notifications from the notification center in both iOS and Android.
@@ -3828,10 +3851,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## System Notification [/notification/system]
+## System Push [/notification/system]
 
-### Create System Notification [POST]
-System notifications are silent messages that will not generate any notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to all your devices. Optionally you can also provide one of the following parameters: criteria, a list of tags, a list of tags and segments, a list of segments or a location. This will allow you to filter the devices you are trying to reach. In iOS, your app must declare **remote-notification** background mode.
+### Create System Push Message [POST]
+System push messages are silent messages that will not generate any remote notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to all your devices. Optionally you can also provide one of the following parameters: criteria, a list of tags, a list of tags and segments, a list of segments or a location. This will allow you to filter the devices you are trying to reach. In iOS, your app must declare **remote-notification** background mode.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -3842,7 +3865,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + type (required, string, `your.domain.system.type`)...Defines a type of for your silent message. Types of notifications are represented by namespaces. Custom notification types should a reverse domain style string: com.domain.*.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
     + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
@@ -3880,10 +3903,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "message":"notifications are queued"
         }
 
-## User System Notification  [/notification/system/user/{user}]
+## System Push to User  [/notification/system/user/{user}]
 
-### Create User System Notification [POST]
-System notifications are silent messages that will not generate any notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to a specific user and its devices. In iOS, your app must declare **remote-notification** background mode.
+### System Push to User[POST]
+System push messages are silent messages that will not generate any remote notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to a specific user and its devices. In iOS, your app must declare **remote-notification** background mode.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -3891,7 +3914,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + user (required, string, `5245bc5b3e66a3b01f0024d4`)...The userID you are targeting
     + type (required, string, `your.domain.system.type`)...Defines a type of for your silent message. Types of notifications are represented by namespaces. Custom notification types should a reverse domain style string: com.domain.*.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
@@ -3929,10 +3952,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Device System Notification [/notification/system/device/{device}]
+## System Push to Device [/notification/system/device/{device}]
 
-### Create Device System Notification [POST]
-System notifications are silent messages that will not generate any notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to a specific device. In iOS, your app must declare **remote-notification** background mode.
+### System Push to Device [POST]
+System push messages are silent messages that will not generate any remote notification in the device's lock-screen or notification center. This endpoint will send a silent notifications to a specific device. In iOS, your app must declare **remote-notification** background mode.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -3940,7 +3963,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + device (required, string, `5245bc5b3e66a3b01f0024d4`)...The deviceID you are targeting
     + type (required, string, `your.domain.system.type`)...Defines a type of for your silent message. Types of notifications are represented by namespaces. Custom notification types should a reverse domain style string: com.domain.*.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
+    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of push message. Please refer to Content types for all available types.
     + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
 
@@ -3978,16 +4001,424 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Notifications [/notification{?limit,skip,scope,scheduled,tag,segment,archived,draft}]
 
-### Get Notifications [GET]
-Retrieves a list of notifications sent as a broadcast, sent to tags and/or sent to segments.
+## Email Broadcast [/notification/email/broadcast]
+
+### Create Email Message Broadcast [POST]
+Send a message to **all** email contacts.
+You can also schedule a broadcast, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + type (required, string, `re.notifica.notification.email.HTML`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.email.*. Please refer to Message Types for all available types.
+    + subject (required, string, `Hello World`)...Subject of your email message.
+    + content (required, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects with at least a `re.notifica.content.HTML` object. When `re.notifica.content.Text` object is not provided, we will automatically generate a text-only fallback. Please refer to Content types for all available types.
+    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
++ Request (application/json)
+
+        {
+                "subject":"Hello world!",
+                "type":"re.notifica.notification.email.HTML",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"<h1>Hello World</h1>"
+                        },
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Hello World"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+## Email to Tags [/notification/email/tags]
+
+### Create Email Message to Tags [POST]
+Send a message to contacts in any of the specified `tags`.
+You can also schedule these message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires an array of tags. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + tags (optional, array, `["test"]`)...Only send to contacts that have any of these tags.
+    + type (required, string, `re.notifica.notification.email.HTML`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.email.*. Please refer to Message Types for all available types.
+    + subject (required, string, `Hello World`)...Subject of your email message.
+    + content (required, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects with at least a `re.notifica.content.HTML` object. When `re.notifica.content.Text` object is not provided, we will automatically generate a text-only fallback. Please refer to Content types for all available types.
+    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
++ Request (application/json)
+
+        {
+                "tags":["test1","test2"],
+                "subject":"Hello world!",
+                "type":"re.notifica.notification.email.HTML",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"<h1>Hello World</h1>"
+                        },
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Hello World"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+## Email to Segments [/notification/email/segments]
+
+### Create Email Message to Segments [POST]
+Send a message to users in any of the specified `segments`.
+You can also schedule these messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires an array of segment IDs. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + segments (required, array, `["526f7a71dab9d70711000003","526f7a71dab9d70711000004"]`)...The segments of users to send to.
+    + tags (optional, array, `["test"]`)...Only send to contacts that have any of these tags.
+    + type (required, string, `re.notifica.notification.email.HTML`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.email.*. Please refer to Message Types for all available types.
+    + subject (required, string, `Hello World`)...Subject of your email message.
+    + content (required, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects with at least a `re.notifica.content.HTML` object. When `re.notifica.content.Text` object is not provided, we will automatically generate a text-only fallback. Please refer to Content types for all available types.
+    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
++ Request (application/json)
+
+        {
+                "segments":["526f7a71dab9d70711000003","526f7a71dab9d70711000004"],
+                "subject":"Hello world!",
+                "type":"re.notifica.notification.email.HTML",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"<h1>Hello World</h1>"
+                        },
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Hello World"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+## Email to Events [/notification/email/event]
+
+### Create Email Message to Events [POST]
+Send a message to any contact that executed an event.
+You can also schedule a message based on events, if `scheduled` is true you should immediately use /notification/schedule to create the schedule task.
+The request requires an eventCriteria object. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + eventCriteria (required, object, `{"type": "re.notifica.event.application.Open", "startDate": "2019-06-21 00:00", "endDate": "2019-06-22 00:00", "data": {"region": null, "fence": null, "serial": null, "notification": null, "scannable": null, "group": null}`)...The event criteria to use.
+    + criteria (optional, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + type (required, string, `re.notifica.notification.email.HTML`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.email.*. Please refer to Message Types for all available types.
+    + subject (required, string, `Hello World`)...Subject of your email message.
+    + content (required, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects with at least a `re.notifica.content.HTML` object. When `re.notifica.content.Text` object is not provided, we will automatically generate a text-only fallback. Please refer to Content types for all available types.
+    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
+
++ Request (application/json)
+
+        {
+               "eventCriteria": {
+                      "type": "re.notifica.notification.Open",
+                      "startDate": "01-01-2017 01:00",
+                      "endDate": "01-02-2017 01:00",
+                      "data": {
+                                "notification": "3445bc5b4563b01f0f5",
+                                "region": null,
+                                "fence": null,
+                                "serial": null
+                      }
+                }
+                "subject":"Hello world!",
+                "type":"re.notifica.notification.email.HTML",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"<h1>Hello World</h1>"
+                        },
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Hello World"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+
+## Email to Criteria [/notification/email/criteria]
+
+### Create Email Message to Criteria [POST]
+Send a message to contacts that match a certain criteria.
+You can also schedule these messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires a criteria object. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + type (required, string, `re.notifica.notification.email.HTML`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.email.*. Please refer to Message Types for all available types.
+    + subject (required, string, `Hello World`)...Subject of your email message.
+    + content (required, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects with at least a `re.notifica.content.HTML` object. When `re.notifica.content.Text` object is not provided, we will automatically generate a text-only fallback. Please refer to Content types for all available types.
+    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
++ Request (application/json)
+
+        {
+                "criteria":{
+                    "segmentsCriteria":[{
+                        "quantifier":"any",
+                        "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                    }],
+                    "tagsCriteria":[{
+                        "quantifier":"all",
+                        "tags":["test","test2"]
+                    }, {
+                        "quantifier":"none",
+                        "tags":["test3","test4"]
+                    }],
+                    "propertiesCriteria":[
+                        [{
+                            "property":"language",
+                            "operator":"in",
+                            "value":["nl","en","en-US"]
+                        }]
+                    ]
+                },
+                "subject":"Hello world!",
+                "type":"re.notifica.notification.email.HTML",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"<h1>Hello World</h1>"
+                        },
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Hello World"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+## Email to User [/notification/email/user/{user}]
+
+### Create Email Message to User [POST]
+Send a message to one single user and its email contacts.
+You can also schedule a private message, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires an userID. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+    + user (required, string, `NL1234567890`)...The user ID used when registering a contact.
+    + tags (optional, array, `["test"]`)...Only send to devices that have one or more of these tags.
+    + type (required, string, `re.notifica.notification.email.HTML`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.email.*. Please refer to Message Types for all available types.
+    + subject (required, string, `Hello World`)...Subject of your email message.
+    + content (required, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects with at least a `re.notifica.content.HTML` object. When `re.notifica.content.Text` object is not provided, we will automatically generate a text-only fallback. Please refer to Content types for all available types.
+    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
++ Request (application/json)
+
+        {
+                "subject":"Hello world!",
+                "type":"re.notifica.notification.email.HTML",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"<h1>Hello World</h1>"
+                        },
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Hello World"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+## Email to Contact [/notification/email/device/{device}]
+
+### Create Email Message to Contact [POST]
+Send a message to a single email contact.
+You can also schedule this type of messages, if `scheduled` is true you should immediately use /notification/schedule to create a schedule task.
+The request requires a deviceID. This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + device (required, string, `bbff2ce9b547d2df4731bac277xxx`)...The contactID generated for this email contact.
+    + type (required, string, `re.notifica.notification.email.HTML`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.email.*. Please refer to Message Types for all available types.
+    + subject (required, string, `Hello World`)...Subject of your email message.
+    + content (required, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects with at least a `re.notifica.content.HTML` object. When `re.notifica.content.Text` object is not provided, we will automatically generate a text-only fallback. Please refer to Content types for all available types.
+    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+    + scheduled (optional, boolean, `true`)...When true will prevent the message from being sent. Additionally you will have to create a schedule task by calling the /notification/schedule.
+    + rate (optional, number, `100`)...The rate at which we will send notifications in seconds. If provided, we will not send more than x messages per second.
+
+
++ Request (application/json)
+
+        {
+                "subject":"Hello world!",
+                "type":"re.notifica.notification.email.HTML",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"<h1>Hello World</h1>"
+                        },
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Hello World"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+## Triggered Email [/notification/email/triggered]
+
+### Create Triggered Email Message [POST]
+Create a message that will not generate any notification. These kind of messages should be used when creating a `Connector`.
+You cannot schedule a triggered message.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + criteria (optional, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + type (required, string, `re.notifica.notification.email.HTML`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.email.*. Please refer to Message Types for all available types.
+    + subject (required, string, `Hello World`)...Subject of your email message.
+    + content (required, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects with at least a `re.notifica.content.HTML` object. When `re.notifica.content.Text` object is not provided, we will automatically generate a text-only fallback. Please refer to Content types for all available types.
+    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
+    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
+    + languages (optional, array, `['en-US','en-GB']`)...The list of localized content language identifiers used in localizedContent. When included, you must also provide a list of localizedContent objects in the same order.
+    + localizedContent (optional, array, `[{"subject":"My Subject", "content":[], "attachments":[]}, {"subject":"My Subtitle", "content":[], "attachments":[]}]`)...Provides content for all the language identifiers provided in languages.
+
+
++ Request (application/json)
+
+        {
+                "triggered":true,
+                "subject":"Hello world!",
+                "type":"re.notifica.notification.email.HTML",
+                "content": [
+                        {
+                                "type":"re.notifica.content.HTML",
+                                "data":"<h1>Hello World</h1>"
+                        },
+                        {
+                                "type":"re.notifica.content.Text",
+                                "data":"Hello World"
+                        }
+                ]
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "_id":"5245bc5b3e66a3b01f0024d4",
+                "message":"notifications are queued"
+        }
+
+
+## Messages [/notification{?limit,skip,medium,scope,scheduled,tag,segment,archived,draft}]
+
+### Get Messages [GET]
+Retrieves the list of messages sent by this app (excluding triggered, campaigns or private messages).
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
     + limit = `10` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
+    + medium = `push` (optional, string, `push`)...The medium of the messages (it can be one of the following: push, email, sms)
     + scope = `application` (optional, string, `application`)...The scope of the messages (it can be one of the following: application, segments, tags)
     + scheduled = `0` (optional, boolean, `1`)...Filter by messages that have been scheduled
     + tag = `tag_news` (optional, string, `tag_news`)...Filter messages by tag (scope must be set to tags)
@@ -4004,6 +4435,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "id": "566acc80cbe343d7136ec9bf",
                                     "application": "5489b42ff23e5815132b492a",
                                     "account": "548985629f634350713ec9ee",
+                                    "medium": "push",
                                     "user_id": null,
                                     "device_id": null,
                                     "ttl": null,
@@ -4054,18 +4486,17 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                           "count":2
         }
 
-## Notifications [/notification/all{?limit,skip,since,archived}]
+## All Messages [/notification/all{?limit,skip,since,archived}]
 
-### Get All Notifications [GET]
-Retrieves a list of all notifications.
+### Get All Messages [GET]
+Retrieves the list of all messages sent by this app. This endpoint accepts the If-Modified-Since HTTP header.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
     + limit = `10` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
-    + since = `0` (optional, date, `2016-01-01T12:00:00`)...Notifications since a specific date, overrides header
-    + If-Modified-Since (optional, date, `2016-01-01T12:00:00`)...Notifications since a specific date, as a HTTP header
+    + since = `0` (optional, date, `2016-01-01T12:00:00`)...Notifications since a specific date, overrides `If-Modified-Since` HTTP header
     + archived = `0` (optional, boolean, `1`)...Filter by messages that have been archived
 
 + Response 200 (application/json; charset=utf-8)
@@ -4076,6 +4507,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "id": "566acc80cbe343d7136ec9bf",
                                     "application": "5489b42ff23e5815132b492a",
                                     "account": "548985629f634350713ec9ee",
+                                    "medium": "push",
                                     "user_id": null,
                                     "device_id": null,
                                     "ttl": null,
@@ -4126,10 +4558,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                           "count":2
         }
 
-## User Notifications [/notification/user/{userID}{?limit,skip}]
+## User Messages [/notification/user/{userID}{?limit,skip}]
 
-### Get User Notifications [GET]
-Retrieves the list of notifications sent to a specific user.
+### Get User Messages [GET]
+Retrieves the list of messages sent to a specific user.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -4146,7 +4578,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "id": "566acc80cbe343d7136ec9bf",
                                     "application": "5489b42ff23e5815132b492a",
                                     "account": "548985629f634350713ec9ee",
-                                    "user_id": null,
+                                    "medium": "push",
+                                    "user_id": "testuser@example.com",
                                     "device_id": null,
                                     "ttl": null,
                                     "title":"This is a title",
@@ -4197,15 +4630,15 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Notification Info [/notification/{notification}/info]
+## Message Info [/notification/{notification}/info]
 
-### Get Notification Info [GET]
+### Get Message Info [GET]
 Retrieve information about your message performance.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + notification (required, string, `543d90d0f4e6e1we3ad6576`)...The notification ID given whenever you create or retrieve a notification object.
+    + notification (required, string, `543d90d0f4e6e1we3ad6576`)...The notification ID given whenever you create or retrieve a message object.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -4226,10 +4659,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                         }
         }
 
-## Notification Log [/notification/log{?limit,skip}]
+## Message Log [/notification/log{?limit,skip}]
 
-### Get Notification Log [GET]
-Retrieve information about errors related to APNS and GCM feedback service.
+### Get Message Log [GET]
+Retrieve information about errors related to APNS, FCM, Web Push, Email and SMS feedback service.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -4252,7 +4685,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                         }
         }
 
-### Delete Notification Log [DELETE]
+### Delete Message Log [DELETE]
 Clear the list of errors related to APNS and GCM feedback service.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4264,16 +4697,16 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-# Group Notification Schedule
-Methods to create, list, modify or cancel notification schedules. Schedules can be set according to a specific time (in UTC) or according to the local timezone on the device.
+# Group Message Schedule
+Methods to create, list, modify or cancel scheduled messages. Schedule tasks can be set according to a specific time (in UTC) or according to the local timezone on the device.
 In the first case, the schedule will only run once, in the latter case, the schedule will run until all timezones have passed the time in the schedule.
-A schedule can have a status of `scheduled`, `running`, `finished` or `canceled`. Only `scheduled` schedules can be modified.
+A schedule can have a status of `scheduled`, `running`, `finished` or `canceled`. Only when in the `scheduled` status messages or its scheduled date can be modified.
 These methods operate on existing notifications, so create a notification first with the `scheduled` property set.
 Use its `_id` property to refer to it in any of these methods.
 
-## Scheduled Notification [/notification/schedule]
+## Scheduled Message [/notification/schedule]
 
-### Create Scheduled Notification [POST]
+### Create Scheduled Message [POST]
 Start a scheduled task for a previously created message.
 The property `local` determines if message should be sent on the device's local time or UTC.
 If `local` is true make sure the `time` is at least 14 hours from now to make sure the message will arrive in all timezones.
@@ -4281,8 +4714,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + notification (required, string, `5245bc5b3e66a3b01f0024d4`)...The notification Id of the notification to be schedule.
-    + time (required, string, `2014-12-25 10:00`)...The date and time (YYYY-MM-DD hh:mm) in which the notification should be sent.
+    + notification (required, string, `5245bc5b3e66a3b01f0024d4`)...The notification Id of the message to be schedule.
+    + time (required, string, `2014-12-25 10:00`)...The date and time (YYYY-MM-DD hh:mm) in which the message should be sent.
     + local (required, `boolean`)...Defines if message should be sent on date and time of the device. If false time will be considered UTC.
 
 + Request (application/json)
@@ -4302,9 +4735,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Scheduled Notifications [/notification/schedule{?skip,limit}]
+## Scheduled Messages [/notification/schedule{?skip,limit}]
 
-### Get Scheduled Notifications [GET]
+### Get Scheduled Tasks  [GET]
 Returns a list of all schedules for your app
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
@@ -4332,15 +4765,15 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         }
 
 
-## Schedules For Notification [/notification/schedule/fornotification/{notification}{?skip,limit}]
+## Schedule Tasks For Message [/notification/schedule/fornotification/{notification}{?skip,limit}]
 
-### Get Schedules For Notification [GET]
-Returns a list of all schedules for a specific notification
+### Get Scheduled Tasks For Message [GET]
+Returns a list of all scheduled tasks for a specific message
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + notification (required, string, `56d421uu073cc157eu3137`)...The notification Id
+    + notification (required, string, `56d421uu073cc157eu3137`)...The notification Id for the message
     + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
@@ -4364,10 +4797,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
 
-## Schedule [/notification/schedule/{schedule}]
+## Scheduled Task [/notification/schedule/{schedule}]
 
-### Get Schedule [GET]
-Returns a schedule object.
+### Get Schedule Task [GET]
+Returns a schedule task object.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -4392,14 +4825,14 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count": 1
         }
 
-### Update Schedule [PUT]
-Modifies a notification schedule. Can only be applied to a schedule that is currently `scheduled`. Attempts to modify a currently `running`, `finished` or `canceled` schedule result in a `400`.
+### Update Schedule Task [PUT]
+Modifies a schedule task for a message. Can only be applied to a schedule that is currently `scheduled`. Attempts to modify a currently `running`, `finished` or `canceled` schedule result in a `400`.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
     + schedule (required, string, `56d421uu073cc157eu3137`)...The schedule Id of the schedule to be canceled.
-    + time (optional, string, `2014-12-25 10:00`)...The date and time (YYYY-MM-DD hh:mm) in which the notification should be sent.
+    + time (optional, string, `2014-12-25 10:00`)...The date and time (YYYY-MM-DD hh:mm) in which the message should be sent.
     + local (optional, `boolean`)...Defines if message should be sent on date and time of the device. If false time will be considered UTC.
 
 
@@ -4433,10 +4866,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
 
-# Group Notification Template
-Methods for retrieving, creating and edit notification templates
+# Group Message Template
+Methods for retrieving, creating and edit message templates. Templates can be created for different types of channels. Supported channels are: push, email and sms.
 
-## Templates [/notification/template{?limit,skip,message}]
+## Templates [/notification/template{?limit,skip,name}]
 
 ### Get Templates [GET]
 List all templates for this app
@@ -4445,7 +4878,7 @@ List all templates for this app
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
-    + message = `My great message` (optional, string, `My great message`)...The string to search for in title, subtitle and message
+    + search = `My great template` (optional, string, `My great template`)...The string to search for in name, title, subtitle and message
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -4455,7 +4888,8 @@ List all templates for this app
                                     "id": "566acc80cbe343d7136ec9bf",
                                     "application": "5489b42ff23e5815132b492a",
                                     "account": "548985629f634350713ec9ee",
-                                    "ttl": null,
+                                    "medium": "push",
+                                    "name": My great template",
                                     "message": "Ready for beers?",
                                     "sound": "default",
                                     "badge": null,
@@ -4496,9 +4930,12 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
+    + medium (required, string, `push`)...The channel which the template was created for. Accepted mediums are: push, email and sms.
+    + type (required, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of messages are represented by namespaces. Message types should match the following namespace: re.notifica.notification.*. Please refer to Message Types for all available types.
+    + name (required, string, `My Template`)...The name for your template.
     + title (required, string, `My Title`)...With SDK 1.9 and up, iOS 10 and up and Android 5 and up messages support a title which will be shown in the lock-screen or notification center.
     + subtitle (required, string, `My Subtitle`)...With SDK 1.9 and up, iOS 10 and up and Android 5 and up messages support a title which will be shown in the lock-screen or notification center.
+    + subject (required, string, `My Subject`)...The subject for an email template.
     + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
     + push (optional, boolean, `false`)...Specify if this message should generate a remote notification. By default teh value of this property is true.
     + ttl (optional, number, `3600`)...Number of seconds the message will be attempted to be delivered by APNS or GCM.
@@ -4514,15 +4951,17 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
     + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
     + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
     + rate (optional, number, `20`)...Number of messages per second that should be sent using this template.
+    + sender (optional, object, `{"name":"Sales","address":"sales"}`)...An object containing the sender name and address for this template. Applicable only for email templates.
 
 
 + Request (application/json)
 
         {
+                "message":"My Push Template",
+                "medium":"push",
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
-                "triggered":true,
                 "sound":"default",
                 "content": [
                         {
@@ -4570,7 +5009,8 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                 "id": "566acc80cbe343d7136ec9bf",
                                 "application": "5489b42ff23e5815132b492a",
                                 "account": "548985629f634350713ec9ee",
-                                "ttl": null,
+                                "name": "My Push Template",
+                                "medium": "push",
                                 "message": "Ready for beers?",
                                 "sound": "default",
                                 "badge": null,
@@ -4604,7 +5044,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
 ## Update Template [PUT]
-Edit a template object
+Modify a template object.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -4614,10 +5054,11 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Request (application/json)
 
         {
+                "medium":"push",
+                "name":"My Push Template",
                 "message":"Hello world!",
                 "type":"re.notifica.notification.Alert",
                 "ttl":3600,
-                "triggered":true,
                 "sound":"default",
                 "content": [
                         {
@@ -4664,37 +5105,24 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 
 
-# Group Notification Test
-Methods to test audience selection. Retrieves current devices based on the specified selection. It does not send any notification.
-Combines User, Segments, Tags and the location of the devices the same way Notification does.
+# Group Message Test
+Methods to test audience selection. Retrieves information about the current number of users or devices your selection will reach. These endpoints execute a dry-run for your audience selection and will not send any message.
 
-## Test Notification Broadcast [/notification/test/broadcast]
+## Test Push Broadcast [/notification/test/push/broadcast]
 
-### Test Notification Broadcast [POST]
-Test a message to **all** devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
+### Test Push Message Broadcast [POST]
+Test a message to **all** push devices. This call must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + type (optional, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
-    + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
-    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
-    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
-    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
-    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
-    + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
-    + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
-    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
-    + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
-
+    + message (required, string, `Hello World`)...Dummy test to be used in your test.
+    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target area you want to test.
 
 
 + Request (application/json)
 
         {
-                "message":"Hello world!",
-                "type":"re.notifica.notification.Alert"
+                "message":"Dummy Text"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -4703,27 +5131,16 @@ Test a message to **all** devices. This call must be authenticated with the `app
                 "count":"42"
         }
         
-## Test Notification By Tags [/notification/test/tags]
+## Test Push to Tags [/notification/test/push/tags]
 
-### Test Notification By Tags [POST]
-Test a message to devices with any of the specified `tags`. The call accepts an array of tags. 
+### Test Push Message to Tags [POST]
+Test a message to push devices with any of the specified `tags`. This request requires an array of tags.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
 
-    + tags (required, array, `["test"]`)...Only send to devices that have one or more of these tags.
-    + type (optional, string, `re.notifica.notification.Alert`)...Defines the type of content to show. Types of notifications are represented by namespaces. Notification types should be match the following namespace: re.notifica.notification.*. Please refer to Notification Types for all available types.
-    + message (required, string, `Hello World`)...Short and concise message. This is the first thing your user sees, make sure it is relevant and that somehow summarizes what you intend to say.
-    + content (optional, array, `[{"type":"re.notifica.content.HTML",data:"<h1>Hello</h1>"}]`)...An array of Content objects according to the type of Notification. Please refer to Content types for all available types.
-    + attachments (optional, object, `[{"uri":"https://domain.com/image","mimeType":"image/jpg"}]`)...An object containing the URL to an image either uploaded into our platform or hosted in any public web server.
-    + location (optional, object, `{"latitude":2.3455,"longitude":4.5667, distance: 10}`)...An object representing the geo-target. Where distance is represented in kilometers. When location is provided only devices in that location will receive the notification.
-    + actions (optional, array, `[{"type":"re.notifica.action.Callback", "label":"Yes", "target": null, "keyboard": false, "camera": false, rules": [{"type":"re.notifica.rule.segment.Add", params: ["532434df434657df4664"]}]}]`)...Adds one or more interactions to a notification. An array of Action objects. Please refer to Action objects for all types available.
-    + rules (optional, array, `[{"type":"re.notifica.rule.segment.Add",params:["532434df434657df4664"]}]`)...Adds one or more rules to a notification. An array of rules objects. Please refer to Rules objects for all types available.
-    + sound (optional, string, `default`)...Name of sound to play. `default` means use the default sound as set by the user, any other string will be looked up as sound file on the device (`mp3` on Android, `aiff` on iOS).
-    + lights (optional, object, `{"color":"","on":"","off":""}`)...An object containing a color string ("white", "red", "#rrggbb", "#aarrggbb") and the on/off time in milliseconds. Colors are only applicable to Android and will be displayed by hardware as accurately as possible.
-    + badge (optional, number, `2`)...This is a iOS only property. A badge will be displayed over your app icon whenever a notification arrives. Use a number from 1 to 9999.
-    + schedule (optional, `boolean`)...When true will prevent the message from being sent. Additionaly you will have to create a schedule task by calling the /notification/schedule.
-    + extra (optional, object, `{"mykey":"myvalue"}`)...A valid one-level JSON object. This is useful if you need to send extra data that you will need to proccess soon the notification arrives.
+    + tags (required, array, `["test"]`)...An array of tags which you wish to test.
+    + message (required, string, `Hello World`)...Dummy test to be used in your test.
 
 
 
@@ -4731,8 +5148,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
         {
                 "tags":["test1","test2"],
-                "message":"Hello world!",
-                "type":"re.notifica.notification.Alert",
+                "message":"Dummy Text"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -4741,18 +5157,23 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count":"42"
         }
         
-## Test Notification By Segments [/notification/test/segments]
+## Test Push to Segments [/notification/test/push/segments]
 
-### Test Notification By Segments [POST]
-Send a message to users in one or more of the specified `segments`. The request accepts an array of IDs segments. 
+### Test Push Message to Segments [POST]
+Test a message to users with push devices with any of the specified `segments`. The request requires an array of segment IDs.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + segments (required, array, `["526f7a71dab9d70711000003"]`)...An array of segment Ids which you wish to test.
+    + message (required, string, `Hello World`)...Dummy test to be used in your test.
+
 
 + Request (application/json)
 
         {
                 "segments":["526f7a71dab9d70711000003","526f7a71dab9d70711000004"],
-                "message":"Hello world!",
-                "type":"re.notifica.notification.Alert"
+                "message":"Dummy Text"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -4760,11 +5181,103 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         {
                 "count":"42"
         }
-        
-## Test Notification For User [/notification/test/user/{user}]
 
-### Test Notification For User [POST]
-Test a message to a `user`. 
+## Test Push to Events [/notification/test/push/event]
+
+### Test Push Message to Events [POST]
+Test a message to push that executed a specific event. The request requires an eventCriteria object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + eventCriteria (required, object, `{"type": "re.notifica.event.application.Open", "startDate": "2019-06-21 00:00", "endDate": "2019-06-22 00:00", "data": {"region": null, "fence": null, "serial": null, "notification": null, "scannable": null, "group": null}`)...The event criteria to use.
+    + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + message (required, string, `Hello World`)...Dummy test to be used in your test.
+
+
++ Request (application/json)
+
+        {
+               "eventCriteria": {
+                      "type": "re.notifica.notification.Open",
+                      "startDate": "01-01-2017 01:00",
+                      "endDate": "01-02-2017 01:00",
+                      "data": {
+                                "notification": "3445bc5b4563b01f0f5",
+                                "region": null,
+                                "fence": null,
+                                "serial": null
+                      }
+                },
+                "message":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+
+
+## Test Push to Criteria [/notification/test/push/criteria]
+
+### Test Push Message to Criteria [POST]
+Test a message using a specific custom criteria. The request requires an eventCriteria object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + criteria (required, object, `{"segmentsCriteria":[{"quantifier":"any","segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]}]}`)...The criteria to use.
+    + message (required, string, `Hello World`)...Dummy test to be used in your test.
+
+
++ Request (application/json)
+
+        {
+                "criteria":{
+                    "segmentsCriteria":[{
+                        "quantifier":"any",
+                        "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                    }],
+                    "tagsCriteria":[{
+                        "quantifier":"all",
+                        "tags":["test","test2"]
+                    }, {
+                        "quantifier":"none",
+                        "tags":["test3","test4"]
+                    }],
+                    "propertiesCriteria":[
+                        [{
+                            "property":"platform",
+                            "operator":"in",
+                            "value":["iOS","Android"]
+                        }, {
+                            "property":"sdkVersion",
+                            "operator":"gte",
+                            "value":"1.8.0"
+                        }, {
+                            "property":"language",
+                            "operator":"in",
+                            "value":["nl","en","en-US"]
+                        }]
+                    ]
+                },
+                "message":"Dummy Text"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "count":"42"
+        }
+
+
+
+## Test Push to User [/notification/test/push/user/{user}]
+
+### Test Push Message to User [POST]
+Test a message to a user and its push devices.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -4774,8 +5287,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Request (application/json)
 
         {
-                "message":"Hello world!",
-                "type":"re.notifica.notification.Alert"
+                "message":"Hello world!"
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -4784,10 +5296,10 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                 "count":"42"
         }
         
-## Test Notification For Device [/notification/test/device/{device}]
+## Test Push to Device [/notification/test/push/device/{device}]
 
-### Test Notification For Device [POST]
-Test a message to a `device`. 
+### Test Push Message to Device [POST]
+Test a message to a single push device.
 This request must be authenticated with the `applicationKey` and `masterSecret`.
 
 + Parameters
@@ -4797,8 +5309,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Request (application/json)
 
         {
-                "message":"Hello world!",
-                "type":"re.notifica.notification.Alert"
+                "message":"Hello world!"
         }
 
 + Response 201 (application/json; charset=utf-8)
