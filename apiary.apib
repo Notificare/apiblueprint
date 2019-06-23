@@ -1305,16 +1305,17 @@ Methods to manage devices.
 Use these methods to retrieve information about devices for an application, for a specific user, for a specific tag or in a specific location.
 Management of devices is exclusively made by our SDK libraries therefore you only get access to read operations.
 
-## Devices [/device{?limit,skip}]
+## Devices [/device{?limit,skip,medium}]
 
 ### Get Devices [GET]
-Get all the devices for a specific application. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page.
+Get all the devices for a specific application. If skip and limit are not used, there is a default size of 100 devices. Please note that there is a max. size of 1000 devices per page. When the medium property is used we will filter the results by the type of channel your devices were registered for.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
     + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
-    + skip = `0` (optional, number, `0`)...The number of results to skip
+    + skip = `0` (optional, number, `0`)...The number of results to skip.
+    + medium = `push` (optional, string, `push`)...The channel you wish to filter results for.
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -1322,6 +1323,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "devices":[
                               {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1344,6 +1346,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               },
                                {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1386,6 +1389,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "device":{
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1407,6 +1411,74 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                                   "deviceString":"MacIntel"
                               }
 
+
+        }
+
+
+## Device For Subscription [/device/forsubscription/{subscription}{?limit,skip}]
+
+### Get Device For Subscription [GET]
+Get a device by its specific subscription Id. The subscription Id is generated automatically for each device created.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + subscription (required, string, `00a9b9bf-c099-45aa-9278-64d6a3f22476`)...The subscription Id the device is associated with
+    + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
+    + skip = `0` (optional, number, `0`)...The number of results to skip
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "devices":[
+                              {
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
+                                  "appVersion":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdkVersion":"0.0.1",
+                                  "transport":"Websocket",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "deviceString":"MacIntel"
+                              },
+                               {
+                                  "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
+                                  "appVersion":"1.0",
+                                  "application":"52458981394c07916000492c",
+                                  "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
+                                  "osString":"Mac OS X 10.9.2",
+                                  "osVersion":"10.9.2",
+                                  "platform":"Mac OS X",
+                                  "sdkVersion":"0.0.1",
+                                  "transport":"Websocket",
+                                  "userID":"info@notifica.re",
+                                  "timeZoneOffset":-5,
+                                  "lastActive":"2014-03-11T16:20:55.084Z",
+                                  "active":true,
+                                  "tags":[],
+                                  "location":{
+                                               "coordinates":[4.2345,5.6789],
+                                               "type":"Point"
+                                  },
+                                  "language":"en",
+                                  "deviceString":"MacIntel"
+                              }
+                ],
+                "count": 2
 
         }
 
@@ -1469,6 +1541,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "devices":[
                               {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1491,6 +1564,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               },
                                {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1538,6 +1612,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "devices":[
                               {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1560,6 +1635,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               },
                                {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1586,8 +1662,6 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-
-
 ## Devices For Location [/device/bylocation/{latitude}/{longitude}/{distance}{?limit,skip}]
 
 ### Get Devices For Location [GET]
@@ -1610,6 +1684,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "devices":[
                               {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1634,6 +1709,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               },
                                {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1685,6 +1761,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "devices":[
                               {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1709,6 +1786,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               },
                                {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1754,6 +1832,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "devices":[
                               {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1778,6 +1857,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               },
                                {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1833,6 +1913,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 "devices":[
                               {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1857,6 +1938,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                               },
                                {
                                   "_id":"5245bc5b3e66a3b01f0024d4",
+                                  "medium":"push",
                                   "appVersion":"1.0",
                                   "application":"52458981394c07916000492c",
                                   "deviceID":"00a9b9bf-c099-45aa-9278-64d6a3f22476",
@@ -1884,6 +1966,50 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         }
 
+# Group Email
+Create email contacts for you apps.
+
+## Email Contact [/email]
+
+### Create Email Contact [POST]
+Create an email contact for your application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + email (required, string, `joel@notifica.re`)...The email address you wish to subscribe to your app.
+    + tags (optional, array, `[]`)...A list of tags you wish to assign to the email address.
+    + language (optional, string, `1234567890`)...The language you wish to assign the contact to.
+    + region (optional, string, `1234567890`)...The region you wish to assign the contact to.
+    + userID (optional, string, `1234567890`)...The userID your wish to assign the contact to.
+    + userName (optional, string, `Joel`)...The userName your wish to assign the contact to.
+    + verify (optional, boolean, `true`)...If you wish to require verification before activating the email contact set this property to `true`.
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+            "email": "joel@notifica.re",
+            "tags": [],
+            "language": "en",
+            "region": "US",
+            "userID": "1234567890",
+            "userName": "Joel",
+            "verify": false
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "subscription updated"
+        }
+
++ Response 202 (application/json; charset=utf-8)
+
+        {
+                "message": "subscription is being processed"
+        }
 
 
 # Group Event
@@ -8168,6 +8294,52 @@ Retrieve the number of user in your account for a specific day.
                             "year":2014
                           }
                 ]
+        }
+
+
+# Group SMS
+Create sms numbers for you apps.
+
+## SMS Number [/sms]
+
+### Create SMS Number [POST]
+Create a SMS number for your application.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+
++ Parameters
+
+    + phone (required, string, `+351987654321`)...The phone number you wish to subscribe to your app.
+    + tags (optional, array, `[]`)...A list of tags you wish to assign to the email address.
+    + language (optional, string, `1234567890`)...The language you wish to assign the contact to.
+    + region (optional, string, `1234567890`)...The region you wish to assign the contact to.
+    + userID (optional, string, `1234567890`)...The userID your wish to assign the contact to.
+    + userName (optional, string, `Joel`)...The userName your wish to assign the contact to.
+    + verify (optional, boolean, `true`)...If you wish to require verification before activating the email contact set this property to `true`.
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+            "phone": "+351987654321",
+            "tags": [],
+            "language": "en",
+            "region": "US",
+            "userID": "1234567890",
+            "userName": "Joel",
+            "verify": false
+        }
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "message": "subscription updated"
+        }
+
++ Response 202 (application/json; charset=utf-8)
+
+        {
+                "message": "subscription is being processed"
         }
 
 
