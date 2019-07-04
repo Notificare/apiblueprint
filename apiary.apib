@@ -2167,14 +2167,15 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Export Devices [/export/re.notifica.export.Device]
-### Export Devices [POST]
-Export all devices for an application. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+## Export Devices/Contacts/Numbers [/export/re.notifica.export.Device]
+### Export Devices/Contacts/Numbers [POST]
+Export devices, contacts or numbers for an application. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
 
     + all (optional, boolean, `true`)...Specify if export job should include all devices, including inactive ones
+    + medium (optional, string, `all`)...Specify if export job results should include a specific type fo medium (available values are: all, push, email, sms)
     + includeTags (optional, boolean, `true`)...Specify if export job should include all device tags
     + tagsSeparator (optional, string, `-`)...Specify if export jobs should use a different separator for the tags. By default we will use |
 
@@ -2184,6 +2185,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         {
                 "data": {
                     "all": true,
+                    "medium": "push",
                     "includeTags": true,
                     "tagsSeparator": "-"
                 }
@@ -2778,9 +2780,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Import Devices [/import/re.notifica.import.Device]
-### Import Devices [POST]
-Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform`.
+## Import Devices/Contacts/Numbers [/import/re.notifica.import.Device]
+### Import Devices/Contacts/Numbers [POST]
+Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform` for Push devices or `subscriptionId` for Email and SMS devices.
 The device properties can also be defaulted to whatever you put in the `data` field in the request.
 There is one option in this import type, which is `overwrite`, defaults to `false`.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -2788,6 +2790,8 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 Recognized columns in your .csv file are:
 
 + deviceID (should be a valid APNS, FCM or Safari Website Push token)
+
++ subscriptionId (should be a valid email or mobile phone number)
 
 + osVersion
 
