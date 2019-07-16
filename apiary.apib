@@ -1486,7 +1486,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 ## Register User [/device/{deviceID}/user]
 
 ### Register User To Device [PUT]
-Register a userID and userName to a device. If you have the Users & Authentication add-on, you can delegate user registration to you back-end API. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to add a userID and userName to a device.
+Register a userID and userName to a device. For this endpoint to work, you need to set the User Registration to API Level. This can be done from the Settings > Configure App > User Registration or (if you have the Users & Authentication add-on) from the Users & Authentication add-on service page. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to add a userID and userName to a device.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
@@ -1509,7 +1509,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 ## Unregister User [/device/{deviceID}/user]
 
 ### Unregister User From Device [DELETE]
-Unregister a userID and userName from a device. If you have the Users & Authentication add-on, you can delegate user registration to you back-end API. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to remove a userID and userName from a device.
+Unregister a userID and userName from a device. For this endpoint to work, you need to set the User Registration to API Level. This can be done from the Settings > Configure App > User Registration or (if you have the Users & Authentication add-on) from the Users & Authentication add-on service page. This will prevent you apps from registering users with only the app keys and instead you can take care of this at the server side. Use this method to remove a userID and userName from a device.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 + Parameters
