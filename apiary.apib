@@ -1415,7 +1415,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
         }
 
 
-## Device For Subscription [/device/forsubscription/{subscription}{?limit,skip}]
+## Device For Subscription [/device/forsubscription/{subscription}{?medium,limit,skip}]
 
 ### Get Device For Subscription [GET]
 Get a device by its specific subscription Id. The subscription Id is generated automatically for each device created.
@@ -1424,6 +1424,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Parameters
 
     + subscription (required, string, `00a9b9bf-c099-45aa-9278-64d6a3f22476`)...The subscription Id the device is associated with
+    + medium (required, string, `push`)...The medium for the device. Possible values are `push`, `email` or `sms`
     + limit = `100` (optional, number, `10`)...The maximum number of results to retrieve.
     + skip = `0` (optional, number, `0`)...The number of results to skip
 
