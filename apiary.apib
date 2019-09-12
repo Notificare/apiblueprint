@@ -2179,6 +2179,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + medium (optional, string, `all`)...Specify if export job results should include a specific type fo medium (available values are: all, push, email, sms)
     + includeTags (optional, boolean, `true`)...Specify if export job should include all device tags
     + tagsSeparator (optional, string, `-`)...Specify if export jobs should use a different separator for the tags. By default we will use |
+    + criteria (optional, object, `{"segmentsCriteria":[],"tagsCriteria":[],"locationsCriteria":[],"propertiesCriteria":[]}`)...Optionally you can include a criteria object to filter the export results
 
 
 + Request (application/json; charset=utf-8)
@@ -2188,7 +2189,35 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                     "all": true,
                     "medium": "push",
                     "includeTags": true,
-                    "tagsSeparator": "-"
+                    "tagsSeparator": "-",
+                    "criteria":{
+                                    "segmentsCriteria":[{
+                                        "quantifier":"any",
+                                        "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                                    }],
+                                    "tagsCriteria":[{
+                                        "quantifier":"all",
+                                        "tags":["test","test2"]
+                                    }, {
+                                        "quantifier":"none",
+                                        "tags":["test3","test4"]
+                                    }],
+                                    "propertiesCriteria":[
+                                        [{
+                                            "property":"platform",
+                                            "operator":"in",
+                                            "value":["iOS","Android"]
+                                        }, {
+                                            "property":"sdkVersion",
+                                            "operator":"gte",
+                                            "value":"1.8.0"
+                                        }, {
+                                            "property":"language",
+                                            "operator":"in",
+                                            "value":["nl","en","en-US"]
+                                        }]
+                                    ]
+                                }
                 }
         }
 
@@ -2213,7 +2242,9 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + showCombinedSegments (optional, boolean, `true`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should show all segments in one column or in separate columns.
     + useSegmentNames (optional, boolean, `true`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should contain the name of the segments instead of their IDs
     + showPreferences (optional, boolean, `true`)...When showSegments is true or it includes a list of segments, you can specify if export jobs should also contain user selectable segments
-
+    + segmentsCriteria (optional, object, `{"quantifier":"any","segments":["5245bc5b3e66a3b01f0024d5"]}`)...Optionally you can include a segment criteria object to filter the export results
+    + lastActive (optional, object, `{"operator":"gt","value":"2019-09-12"}`)...Optionally you can filter the export results based on the last active date
+    + registrationDate (optional, object, `{"operator":"gt","value":"2019-09-12"}`)...Optionally you can filter the export results based on the registration date
 
 + Request (application/json; charset=utf-8)
 
@@ -2226,7 +2257,20 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                     ],
                     "showCombinedSegments": true
                     "useSegmentNames": true
-                    "showPreferences": false
+                    "showPreferences": false,
+                    "segmentsCriteria":[{
+                                            "quantifier":"any",
+                                            "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                                        }],
+                    "lastActive":{
+                                            "operator":"gt",
+                                            "value": "2019-09-12"
+                                        },
+                    "registrationDate":[{
+                                            "operator":"gt",
+                                            "value": "2019-09-12"
+                                        }],
+
                 }
         }
 
@@ -2366,17 +2410,61 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
     + serial (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is any `re.notifica.event.pass.*`, optionally you can specify the serial of a pass to include only events for that pass
     + group (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is any `re.notifica.event.asset.*`, optionally you can specify the ID of an asset group to include only events for that asset group
     + scannable (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is any `re.notifica.event.scannable.*`, optionally you can specify the ID of a scannable to include only events for that scannable
+    + scannable (optional, string, `5245bc5b3e66a3b01f0024d4`)...If type is any `re.notifica.event.scannable.*`, optionally you can specify the ID of a scannable to include only events for that scannable
+    + criteria (optional, object, `{"segmentsCriteria":[],"tagsCriteria":[],"locationsCriteria":[],"propertiesCriteria":[]}`)...Optionally you can include a criteria object to filter the export results
+    + dataFilter (optional, array, `[[{ "property": "myKey", "type": "String", "operator": "eq", "value": "my value" }]]`)...Optionally you can include data filters to generate fine-grained export results. Only available for custom events.
 
 
 + Request (application/json; charset=utf-8)
 
         {
                 "data": {
-                    "type": "re.notifica.event.notification.Open",
-                    "notification": "5245bc5b3e66a3b01f0024d4",
+                    "type": "re.notifica.event.custom.Something",
                     "since": "2018-01-01",
-                    "before": "2018-12-01"
-                }
+                    "before": "2018-12-02",
+                    "criteria":{
+                                                "segmentsCriteria":[{
+                                                    "quantifier":"any",
+                                                    "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                                                }],
+                                                "tagsCriteria":[{
+                                                    "quantifier":"all",
+                                                    "tags":["test","test2"]
+                                                }, {
+                                                    "quantifier":"none",
+                                                    "tags":["test3","test4"]
+                                                }],
+                                                "propertiesCriteria":[
+                                                    [{
+                                                        "property":"platform",
+                                                        "operator":"in",
+                                                        "value":["iOS","Android"]
+                                                    }, {
+                                                        "property":"sdkVersion",
+                                                        "operator":"gte",
+                                                        "value":"1.8.0"
+                                                    }, {
+                                                        "property":"language",
+                                                        "operator":"in",
+                                                        "value":["nl","en","en-US"]
+                                                    }]
+                                                ]
+                                            },
+                    "dataFilter": [
+                                    [{
+                                        "property": "myKey",
+                                        "type": "String",
+                                        "operator": "eq",
+                                        "value": "my value"
+                                    }],
+                                    [{
+                                        "property": "anotherKey",
+                                        "type": "String",
+                                        "operator": "in",
+                                        "value": ["one", "two"]
+                                    }]
+                                ]
+                 }
         }
 
 + Response 201 (application/json; charset=utf-8)
@@ -3149,7 +3237,35 @@ Recognized columns in your .csv file are:
                         "notificationSchedule": {
                                 "time": "YYYY-MM-DD HH:mm",
                                 "timezone": "Europe/Amsterdam",
-                        }
+                        },
+                        "notificationCriteria":{
+                                        "segmentsCriteria":[{
+                                            "quantifier":"any",
+                                            "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                                        }],
+                                        "tagsCriteria":[{
+                                            "quantifier":"all",
+                                            "tags":["test","test2"]
+                                        }, {
+                                            "quantifier":"none",
+                                            "tags":["test3","test4"]
+                                        }],
+                                        "propertiesCriteria":[
+                                            [{
+                                                "property":"platform",
+                                                "operator":"in",
+                                                "value":["iOS","Android"]
+                                            }, {
+                                                "property":"sdkVersion",
+                                                "operator":"gte",
+                                                "value":"1.8.0"
+                                            }, {
+                                                "property":"language",
+                                                "operator":"in",
+                                                "value":["nl","en","en-US"]
+                                            }]
+                                        ]
+                                    }
                 }
         }
 
@@ -3190,7 +3306,36 @@ Recognized columns in your .csv file are:
                           "time": "YYYY-MM-DD HH:mm"",
                           "timezone": "Europe/Amsterdam",
                           "local": false
-                        }
+                        },
+                         "notificationCriteria":{
+                                         "segmentsCriteria":[{
+                                             "quantifier":"any",
+                                             "segments":["5440d30cd636d7450f5c0032","53bbc7836b354d54e29752e3"]
+                                         }],
+                                         "tagsCriteria":[{
+                                             "quantifier":"all",
+                                             "tags":["test","test2"]
+                                         }, {
+                                             "quantifier":"none",
+                                             "tags":["test3","test4"]
+                                         }],
+                                         "propertiesCriteria":[
+                                             [{
+                                                 "property":"platform",
+                                                 "operator":"in",
+                                                 "value":["iOS","Android"]
+                                             }, {
+                                                 "property":"sdkVersion",
+                                                 "operator":"gte",
+                                                 "value":"1.8.0"
+                                             }, {
+                                                 "property":"language",
+                                                 "operator":"in",
+                                                 "value":["nl","en","en-US"]
+                                             }]
+                                         ]
+                                     }
+
                 }
         }
 
@@ -3217,22 +3362,22 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         }
                 "links":[{
-                                   "_id":"545cc517ff584870b89fb98",
-                                   "account":"50d771ff87e53afff2600001c",
-                                   "hash":"50fUr-56",
-                                   "application":"5354f0bbdddd4452ff4c7c0",
-                                   "name":"Test",
-                                   "type":"re.notifica.link.Redirect",
-                                   "target: {
-                                                 "web": "https://notifica.re/example",
-                                                 "ios": "https://notifica.re/example-ios",
-                                                 "android": "https://notifica.re/example-android"
-                                               },
-                                   "opened": 10,
-                                   "uniqueOpened": 5,
-                                   "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}],
-                                   "customEvents": []
-                              }]
+                               "_id":"545cc517ff584870b89fb98",
+                               "account":"50d771ff87e53afff2600001c",
+                               "hash":"50fUr-56",
+                               "application":"5354f0bbdddd4452ff4c7c0",
+                               "name":"Test",
+                               "type":"re.notifica.link.Redirect",
+                               "target: {
+                                             "web": "https://notifica.re/example",
+                                             "ios": "https://notifica.re/example-ios",
+                                             "android": "https://notifica.re/example-android"
+                                           },
+                               "opened": 10,
+                               "uniqueOpened": 5,
+                               "rules": [{"type":"re.notifica.rule.segment.Remove", "params":["3445bc5b4563b01f0f5"]}],
+                               "customEvents": []
+                          }]
         }
 
 
@@ -5139,7 +5284,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                         }
         }
 
-## Message Log [/notification/log{?limit,skip}]
+## Message Log [/notification/log{?limit,skip,since,order}]
 
 ### Get Message Log [GET]
 Retrieve information about errors related to APNS, FCM, Web Push, Email and SMS feedback service.
@@ -5148,8 +5293,9 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 + Parameters
 
     + limit = `25` (optional, number, `10`)...The maximum number of results to retrieve.
-
     + skip = `0` (optional, number, `0`)...The number of results to skip
+    + since = `2016-01-01T12:00:00` (optional, date, `2016-01-01T12:00:00`)...Use this to retrieve records since a specific date, overrides `If-Modified-Since` HTTP header
+    + order = `asc` (optional, string, `asc`)...The sorter order for your results
 
 + Response 200 (application/json; charset=utf-8)
 
