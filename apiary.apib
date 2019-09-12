@@ -4847,19 +4847,19 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         {
              "notifications":[
                                 {
-                                    "id": "566acc80cbe343d7136ec9bf",
+                                    "_id": "566acc80cbe343d7136ec9bf",
                                     "application": "5489b42ff23e5815132b492a",
                                     "account": "548985629f634350713ec9ee",
                                     "medium": "push",
-                                    "user_id": null,
-                                    "device_id": null,
+                                    "userID": "testuser@example.com",
+                                    "deviceID": null,
                                     "ttl": null,
                                     "title":"This is a title",
                                     "subtitle":"This is a subtitle",
                                     "message": "Ready for beers?",
                                     "sound": "default",
                                     "badge": null,
-                                    "action_category": null,
+                                    "actionCategory": null,
                                     "__v": 0,
                                     "actions": [{
                                         "type": "re.notifica.action.Callback",
@@ -4890,12 +4890,12 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "triggered": false,
                                     "archived": false,
                                     "cleared": false,
-                                    "show_in_list": true,
+                                    "showInList": true,
                                     "scope": "application",
                                     "type": "re.notifica.notification.Alert",
                                     "time": "2015-12-11T13:15:44.298Z",
                                     "tags": [],
-                                    "segments": [],
+                                    "segments": []
                                 }
                           ],
                           "count":2
@@ -4919,19 +4919,19 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         {
              "notifications":[
                                 {
-                                    "id": "566acc80cbe343d7136ec9bf",
+                                    "_id": "566acc80cbe343d7136ec9bf",
                                     "application": "5489b42ff23e5815132b492a",
                                     "account": "548985629f634350713ec9ee",
                                     "medium": "push",
-                                    "user_id": null,
-                                    "device_id": null,
+                                    "userID": "testuser@example.com",
+                                    "deviceID": null,
                                     "ttl": null,
                                     "title":"This is a title",
                                     "subtitle":"This is a subtitle",
                                     "message": "Ready for beers?",
                                     "sound": "default",
                                     "badge": null,
-                                    "action_category": null,
+                                    "actionCategory": null,
                                     "__v": 0,
                                     "actions": [{
                                         "type": "re.notifica.action.Callback",
@@ -4962,12 +4962,12 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "triggered": false,
                                     "archived": false,
                                     "cleared": false,
-                                    "show_in_list": true,
+                                    "showInList": true,
                                     "scope": "application",
                                     "type": "re.notifica.notification.Alert",
                                     "time": "2015-12-11T13:15:44.298Z",
                                     "tags": [],
-                                    "segments": [],
+                                    "segments": []
                                 }
                           ],
                           "count":2
@@ -4990,19 +4990,19 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
         {
              "notifications":[
                                 {
-                                    "id": "566acc80cbe343d7136ec9bf",
+                                    "_id": "566acc80cbe343d7136ec9bf",
                                     "application": "5489b42ff23e5815132b492a",
                                     "account": "548985629f634350713ec9ee",
                                     "medium": "push",
-                                    "user_id": "testuser@example.com",
-                                    "device_id": null,
+                                    "userID": "testuser@example.com",
+                                    "deviceID": null,
                                     "ttl": null,
                                     "title":"This is a title",
                                     "subtitle":"This is a subtitle",
                                     "message": "Ready for beers?",
                                     "sound": "default",
                                     "badge": null,
-                                    "action_category": null,
+                                    "actionCategory": null,
                                     "__v": 0,
                                     "actions": [{
                                         "type": "re.notifica.action.Callback",
@@ -5033,7 +5033,7 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                                     "triggered": false,
                                     "archived": false,
                                     "cleared": false,
-                                    "show_in_list": true,
+                                    "showInList": true,
                                     "scope": "application",
                                     "type": "re.notifica.notification.Alert",
                                     "time": "2015-12-11T13:15:44.298Z",
@@ -5044,6 +5044,71 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
                           "count":2
         }
 
+## Message [/notification/{notification}]
+
+### Get Message [GET]
+Retrieve a specific message object.
+This request must be authenticated with the `applicationKey` and `masterSecret`.
+
++ Parameters
+
+    + notification (required, string, `543d90d0f4e6e1we3ad6576`)...The notification ID given whenever you create a message.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+                "notification":{
+                                    "_id": "566acc80cbe343d7136ec9bf",
+                                    "application": "5489b42ff23e5815132b492a",
+                                    "account": "548985629f634350713ec9ee",
+                                    "medium": "push",
+                                    "userID": "testuser@example.com",
+                                    "deviceID": null,
+                                    "ttl": null,
+                                    "title":"This is a title",
+                                    "subtitle":"This is a subtitle",
+                                    "message": "Ready for beers?",
+                                    "sound": "default",
+                                    "badge": null,
+                                    "actionCategory": null,
+                                    "__v": 0,
+                                    "actions": [{
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "yes",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c1",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }, {
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "no",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c0",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }],
+                                    "rules": [],
+                                    "attachments": [],
+                                    "location": {
+                                        "type": "Point",
+                                        "coordinates": [4.422683699999993, 51.91263190000001],
+                                        "distance": 0.6928425313346089
+                                    },
+                                    "content": [],
+                                    "scheduled": false,
+                                    "triggered": false,
+                                    "archived": false,
+                                    "cleared": false,
+                                    "showInList": true,
+                                    "scope": "application",
+                                    "type": "re.notifica.notification.Alert",
+                                    "time": "2015-12-11T13:15:44.298Z",
+                                    "tags": [],
+                                    "segments": []
+                        }
+        }
 
 ## Message Info [/notification/{notification}/info]
 
@@ -5300,7 +5365,7 @@ List all templates for this app
         {
              "templates":[
                                 {
-                                    "id": "566acc80cbe343d7136ec9bf",
+                                    "_id": "566acc80cbe343d7136ec9bf",
                                     "application": "5489b42ff23e5815132b492a",
                                     "account": "548985629f634350713ec9ee",
                                     "medium": "push",
@@ -5308,7 +5373,7 @@ List all templates for this app
                                     "message": "Ready for beers?",
                                     "sound": "default",
                                     "badge": null,
-                                    "action_category": null,
+                                    "actionCategory": null,
                                     "__v": 0,
                                     "actions": [{
                                         "type": "re.notifica.action.Callback",
@@ -5421,38 +5486,38 @@ This request must be authenticated with the `applicationKey` and `masterSecret`.
 
         {
                 "template": {
-                                "id": "566acc80cbe343d7136ec9bf",
-                                "application": "5489b42ff23e5815132b492a",
-                                "account": "548985629f634350713ec9ee",
-                                "name": "My Push Template",
-                                "medium": "push",
-                                "message": "Ready for beers?",
-                                "sound": "default",
-                                "badge": null,
-                                "action_category": null,
-                                "__v": 0,
-                                "actions": [{
-                                    "type": "re.notifica.action.Callback",
-                                    "label": "yes",
-                                    "target": "",
-                                    "id": "566acc80cbe343d7136ec9c1",
+                                    "_id": "566acc80cbe343d7136ec9bf",
+                                    "application": "5489b42ff23e5815132b492a",
+                                    "account": "548985629f634350713ec9ee",
+                                    "medium": "push",
+                                    "name": My great template",
+                                    "message": "Ready for beers?",
+                                    "sound": "default",
+                                    "badge": null,
+                                    "actionCategory": null,
+                                    "__v": 0,
+                                    "actions": [{
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "yes",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c1",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }, {
+                                        "type": "re.notifica.action.Callback",
+                                        "label": "no",
+                                        "target": "",
+                                        "id": "566acc80cbe343d7136ec9c0",
+                                        "rules": [],
+                                        "camera": false,
+                                        "keyboard": false
+                                    }],
                                     "rules": [],
-                                    "camera": false,
-                                    "keyboard": false
-                                }, {
-                                    "type": "re.notifica.action.Callback",
-                                    "label": "no",
-                                    "target": "",
-                                    "id": "566acc80cbe343d7136ec9c0",
-                                    "rules": [],
-                                    "camera": false,
-                                    "keyboard": false
-                                }],
-                                "rules": [],
-                                "attachments": [],
-                                "content": [],
-                                "type": "re.notifica.notification.Alert",
-                                "time": "2015-12-11T13:15:44.298Z"
+                                    "attachments": [],
+                                    "content": [],
+                                    "type": "re.notifica.notification.Alert",
+                                    "time": "2015-12-11T13:15:44.298Z"
                             }
         }
 
