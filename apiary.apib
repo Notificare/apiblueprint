@@ -1382,6 +1382,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 + Parameters
 
     + deviceID (required, string, `00a9b9bf-xxx9278-64d6a3f22476`)...The deviceID is the unique identifier provided by APNS or GCM.
+    + active (optional, string, `any`)...A property that defines if inactive devices should also be found.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -2871,7 +2872,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
 ## Import Devices/Contacts/Numbers [/import/re.notifica.import.Device]
 ### Import Devices/Contacts/Numbers [POST]
-Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform` for Push devices or `subscriptionId` for Email and SMS devices.
+Used to import a list of devices. Every row in the referenced CSV should include at least a `deviceID`, `osVersion`, `appVersion` and `platform` for Push devices or `subscriptionId` for Email and SMS devices. Make sure you include `data.medium` property to one of the supported channels. It will default to `push` if not present.
 The device properties can also be defaulted to whatever you put in the `data` field in the request.
 There is one option in this import type, which is `overwrite`, defaults to `false`.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -2881,6 +2882,8 @@ Recognized columns in your .csv file are:
 + deviceID (should be a valid APNS, FCM or Safari Website Push token)
 
 + subscriptionId (should be a valid email or mobile phone number)
+
++ medium (one of the available channels: push, email, sms)
 
 + osVersion
 
@@ -2920,6 +2923,7 @@ Recognized columns in your .csv file are:
         {
                 "path":"/imports/647431c4dc3798f2a5ae147411a787e8d52447e365d7972ec4d8535/dfeba0ade92ad65ec8619d4464333facc95f5c2feb55df98a92a78",
                 "data":{
+                        "medium": "push",
                         "overwrite": false,
                         "osVersion": null,
                         "platform": null,
