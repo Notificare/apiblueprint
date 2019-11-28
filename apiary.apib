@@ -2596,6 +2596,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
         }
 
+
 ### Delete Export Job [DELETE]
 Delete an export job. This operation cannot be undone.
 This request is authenticated with the `applicationKey` and  `masterSecret`.
@@ -2669,6 +2670,7 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
 
     + export (required, string, `54fec699beb5cb2f6f9839ed`)...The id of a export job
 
++ Response 200 (text/csv)
 
 ## Export Download Link [/export/download/{export}]
 
@@ -2896,6 +2898,8 @@ Recognized columns in your .csv file are:
 + osString (defaults to platform + osVersion)
 
 + deviceString (defaults to 'unknown')
+
++ language (defaults to 'en')
 
 + tags, by default separated by `|`, if you use something else, don't forget to specify it in `tagsSeparator`
 
@@ -6811,6 +6815,9 @@ This request does not require authentication.
 + Parameters
 
     + serial (required, string, `402ab90b-65b5-4b4f-91fa-9823b2972f85`)...The serial number of an active pass.
+
++ Response 200 (application/vnd.apple.pkpass)
+
 
 ## Generate Barcode By Serial [/pass/barcode/forserial/{serial}]
 
