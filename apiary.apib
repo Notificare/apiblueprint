@@ -2476,6 +2476,32 @@ This request is authenticated with the `applicationKey` and  `masterSecret`.
                 }
         }
 
+## Export Passes [/export/re.notifica.export.Pass]
+### Export Passes [POST]
+Export all the passes for a certain pass template. This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
++ Parameters
+
+    + passbook (required, string, `53bbc7836b354d54e29752e3`)...The ID of an existing pass template
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "data": {
+                    "passbook": "53bbc7836b354d54e29752e3"
+                 }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "exportJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
+
 ## Export Campaigns [/export/re.notifica.export.Campaign]
 ### Export Campaigns [POST]
 Export the results of a specific Location Based Campaign. This will include all the trigger history for the duration of the campaign (if applicable). This job might take some time to finish, check the export result endpoint to obtain information about the status of this export job.
@@ -3199,6 +3225,39 @@ Recognized columns in your .csv file are:
                         "id": "5245bc5b3e66a3b01f0024d4"
                 }
         }
+
+## Import Pass Fields Update [/import/re.notifica.import.PassUpdate]
+### Import Pass Fields Update [POST]
+Used to update one or more fields in one or more passes for a specific pass template. Set `passbook` in `data` to the pass template ID you want to use.
+This request is authenticated with the `applicationKey` and  `masterSecret`.
+
+Recognized columns in your .csv file are:
+
++ pass_barcode (if barcode is unique, can be used for redeem)
+
++ pass_xxx (where xxx is any field defined in the Passbook Template)
+
++ Parameters
+
+    + passbook (required, string, `5245bc5b3e66a3b01fa66355`)...The ID of the pass template you want to use
+
++ Request (application/json; charset=utf-8)
+
+        {
+                "path":"/imports/647431c4dc3798f2a5ae147411a787e8d52447e365d7972ec4d8535/dfeba0ade92ad65ec8619d4464333facc95f5c2feb55df98a92a78",
+                "data":{
+                        "passbook": "5245bc5b3e66a3b01fa66355"
+                }
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+        {
+                "importJob": {
+                        "id": "5245bc5b3e66a3b01f0024d4"
+                }
+        }
+
 
 ## Import Private Messages [/import/re.notifica.import.Notification]
 ### Import Private Messages [POST]
